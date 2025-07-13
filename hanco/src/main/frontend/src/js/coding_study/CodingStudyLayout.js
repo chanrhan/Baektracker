@@ -79,12 +79,12 @@ export function CodingStudyLayout(){
                                 }
                             </div>
                         </div>
-                        <Link className={cm(Study.side_menu_item, `${tab === 0 && Study.active}`)} to="/study">
-                            문제 현황
-                        </Link>
-                        <Link className={cm(Study.side_menu_item, `${tab === 1 && Study.active}`)} to="/study/fine">
-                            벌금 현황
-                        </Link>
+                        {/*<Link className={cm(Study.side_menu_item, `${tab === 0 && Study.active}`)} to="/study">*/}
+                        {/*    문제 현황*/}
+                        {/*</Link>*/}
+                        {/*<Link className={cm(Study.side_menu_item, `${tab === 1 && Study.active}`)} to="/study/fine">*/}
+                        {/*    벌금 현황*/}
+                        {/*</Link>*/}
                     </div>
                     <Outlet/>
                 </div>

@@ -49,6 +49,8 @@ export function CodingStudyMain(){
 
     useEffect(() => {
         setEditMode(false)
+        getSharedProblems();
+
     }, [fromDate, toDate]);
 
     const initLoad = ()=>{

@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanco.hanco.mapper.SolvedAcMapper">
+    <select id="getAllUsers">
+        select id, name,
+               (
+                   select IF(count(*) > 0, true, false)
+                   from tb_mark_problem mp
+                   where mp.user_id=id and week_id=date_format(#{date}, '%Y-%u')
+                   and mp.problem_id in (
+                       select ws.problem_id
+                       from tb_weekly_shared_problem ws
+                       where ws.week_id=date_format(#{date}, '%Y-%u')
+                       )
+                   ) as shared_solved
+        from tb_solved_user
+    </select>
+
+    <select id="getWeeklySharedSolved">
+        with base as (
+            select id,
+                   (
+                       select IF(count(*) > 0, true, false)
+                       from tb_mark_problem mp
+                       where mp.user_id=id and week_id=date_format(#{date}, '%Y-%u')
+                         and mp.problem_id in (
+                           select ws.problem_id
+                           from tb_weekly_shared_problem ws
+                           where ws.week_id=date_format(#{date}, '%Y-%u')
+                       )
+                   ) as shared_solved
+            from tb_solved_user
+        )
+
+        select json_objectagg(id,shared_solved)
+        from base
+    </select>
+
+    <select id="getAllUsersLastRead">
+        select id,
+               last_read
+        from tb_solved_user
+    </select>
+
+    <update id="updateLastRead">
+        update tb_solved_user
+        set last_read=#{lastRead},
+            last_read_time=now()
+        where id=#{id}
+    </update>
+
+    <select id="getContinuousCompleteCount">
+        select id,
+               week_dt
+        from tb_weekly_solved
+        where complete_st=1
+    </select>
+
+    <insert id="insertMarkedProblems">
+        INSERT INTO tb_mark_problem
+        (user_id, problem_id, submit_id, week_id, result_id, err_txt, try_dt)
+        VALUES
+        (
+            <foreach collection="list" item="item" separator="),(">
+                #{item.username},#{item.problemId},#{item.submitId},date_format(#{item.date},'%Y-%u'),#{item.resultId},#{item.errorText},#{item.date}
+            </foreach>
+        )
+    </insert>
+
+    <select id="getBaekjoonProblems">
+        WITH base AS (
+            SELECT
+                us.id,
+                mp.problem_id,
+                bp.title,
+                bp.level,
+                mp.result_id,
+                mp.err_txt,
+                mp.try_dt,
+                mp.submit_id
+            FROM tb_solved_user us
+                     LEFT OUTER JOIN tb_mark_problem mp ON us.id = mp.user_id
+                     LEFT OUTER JOIN tb_baekjoon_problem bp ON mp.problem_id = bp.problem_id
+            WHERE mp.try_dt BETWEEN #{fromDate} AND #{toDate}
+        ),
+             numbered AS (
+                 SELECT
+                     bs.*,
+                     (@rownum := IF(@group = CONCAT(id, problem_id), @rownum + 1, 1)) AS rownum,
+            (@group := CONCAT(id, problem_id)) AS dummy
+        FROM base bs, (SELECT @rownum := 0, @group := '') AS vars
+        ORDER BY id, problem_id, result_id, try_dt
+            ), final as (
+        SELECT *,
+               (
+                   select json_arrayagg(name)
+                   from (
+                            select distinct name
+                            from tb_mark_problem mp
+                             left outer join tb_solved_user su on mp.user_id=su.id
+                            where n.problem_id = mp.problem_id and mp.user_id != n.id and mp.result_id=4
+                        ) tmp
+               ) as co_solvers
+        FROM numbered n
+        where rownum=1
+        ORDER BY result_id, level desc
+            )
+
+       <![CDATA[
+        select id,
+               IFNULL(
+                       (
+                           select
+                               sum(
+                                       case
+                                           when f2.level <= 0 then 10
+                                           when f2.level > 0 and f2.level <=5 then 20
+                                           when f2.level > 5 and level <=10 then 30
+                                           when f2.level > 10 and f2.level <=15 then 50
+                                           when f2.level > 15 then 80
+                                           else 0
+                                           end
+                               )
+                           from final as f2
+                           where f2.id=final.id and f2.result_id=4
+                       ), 0
+               ) as score,
+               json_arrayagg(json_object(
+                           'problem_id', problem_id,
+                            'title', title,
+                            'level', level,
+                            'result_id', result_id,
+                             'err_txt', err_txt,
+                             'try_dt', try_dt,
+                             'co_solvers', co_solvers
+                             )) as problems
+        from final
+        group by id
+        ]]>
+
+    </select>
+
+    <select id="existBaekjoonProblem">
+        SELECT count(*) > 0
+        from tb_baekjoon_problem
+        where problem_id=#{problemId}
+    </select>
+
+    <insert id="insertBaekjoonProblem">
+        INSERT INTO tb_baekjoon_problem
+        (problem_id, title, level)
+        values (#{problemId},#{title},#{level})
+    </insert>
+
+    <insert id="insertWeeklyScore">
+        <![CDATA[
+        set @to_date := (SELECT CURDATE());
+        set @from_date := (SELECT SUBDATE(@to_date, interval 6 day));
+
+        INSERT INTO tb_weekly_solved
+            (week_id, id, score, week_dt, complete_st, fine)
+        select week_id,
+               id,
+               score,
+               week_dt,
+               0 as complete_st,
+               ${fine} as fine
+        from (
+                 select date_format(@to_date, '%Y-%u') as week_id,
+                        u.id as id,
+                        (
+                            select IFNULL(sum(case
+                                                  when level <= 0 then 10
+                                                  when level > 0 and level <=5 then 20
+                                                  when level > 5 and level <=10 then 30
+                                                  when level > 10 and level <=15 then 50
+                                                  when level > 15 then 80
+                                                  else 0
+                                end), 0)
+                            from tb_mark_problem mp
+                                     left outer join tb_baekjoon_problem bp on bp.problem_id=mp.problem_id
+                            where mp.user_id=u.id and mp.try_dt between @from_date and @to_date and mp.result_id=4
+                        ) as score,
+                        DATE_FORMAT(@from_date, '%Y-%m-%d') as week_dt
+                 from tb_solved_user u
+             ) base
+        where score < ${target}
+        ]]>
+    </insert>
+
+    <insert id="insertSharedProblem">
+        INSERT INTO tb_weekly_shared_problem
+        (week_id, problem_id)
+        VALUES
+            <foreach collection="list" item="item" separator=",">
+                (date_format(#{date}, '%Y-%u'), #{item})
+            </foreach>
+    </insert>
+
+    <select id="getSharedProblem">
+        SELECT sp.problem_id,
+               bp.title,
+               bp.level
+        FROM tb_weekly_shared_problem sp
+        LEFT OUTER JOIN tb_baekjoon_problem bp on sp.problem_id=bp.problem_id
+        WHERE week_id=date_format(#{date}, '%Y-%u')
+    </select>
+
+    <delete id="deleteSharedProblemAll">
+        DELETE FROM tb_weekly_shared_problem
+        WHERE week_id=date_format(curdate(), '%Y-%u');
+    </delete>
+
+    <select id="getTotalFine">
+        SELECT id,
+               name,
+               amount,
+               dense_rank() over (order by amount desc ) as ranking
+        FROM (
+                 SELECT u.id,
+                        u.name,
+                        (
+                            select IFNULL(sum(fine), 0)
+                            from tb_weekly_solved ws
+                            where ws.id=u.id
+                        ) as amount
+                 FROM tb_solved_user u
+             ) tmp
+        order by amount desc
+    </select>
+
+    <select id="getMonthFine">
+        SELECT id,
+               name,
+               amount,
+               dense_rank() over (order by amount desc ) as ranking
+        FROM (
+                 SELECT u.id,
+                        u.name,
+                        (
+                            select IFNULL(sum(fine), 0)
+                            from tb_weekly_solved ws
+                            where ws.id=u.id and ws.week_id=date_format(#{date}, '%Y-%u')
+                        ) as amount
+                 FROM tb_solved_user u
+             ) tmp
+        order by amount desc
+    </select>
+</mapper>

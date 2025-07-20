@@ -1,0 +1,613 @@
+/* ===== PAGE LAYOUT STYLES ===== */
+.pageContainer {
+  position: relative;
+  width: 100%;
+  height: 1080px;
+  background-color: #000000;
+  overflow-x: auto;
+  overflow-y: auto;
+}
+
+.mainContainer {
+  width: 100%;
+  height: 100%;
+  background-color: #000000;
+}
+
+.body {
+  background-color: #0c0d10;
+  margin: 0 20px;
+  width: 100%;
+  height: 93%;
+  display: flex;
+  gap: 24px;
+  padding-top: 24px;
+}
+
+/*.contentWrapper {*/
+/*  display: flex;*/
+/*  gap: 24px;*/
+/*  padding-top: 24px;*/
+/*}*/
+
+/* ===== HEADER STYLES ===== */
+.header {
+  top: 20px;
+  left: 20px;
+  width: 100%;
+  height: 7%;
+  background-color: #181a1e;
+  display: flex;
+  align-items: center;
+  padding: 0 26px;
+}
+
+.container {
+  width: 100%;
+  height: 93%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.titleContainer {
+  width: 247px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  color: #ffffff;
+  font-family: Inter;
+  font-size: 34px;
+  font-weight: 600;
+  line-height: 41.15px;
+  margin-left: 24px;
+}
+
+.dateContainer {
+  width: 1287px;
+  height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.dateControls {
+  display: flex;
+  align-items: center;
+  gap: 19px;
+}
+
+.navButton {
+  width: 34px;
+  height: 34px;
+  background-color: #d9d9d9;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+}
+
+.navButton svg {
+  color: #666666;
+}
+
+.dateText {
+  color: #e6e6e6;
+  font-family: Inter;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 31.47px;
+  width: 334px;
+  text-align: center;
+}
+
+.todayButton {
+  background-color: #4d99ff;
+  color: #ffffff;
+  width: 100px;
+  height: 38px;
+  border-radius: 8px;
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16.94px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dateSelectButton {
+  background-color: #33363d;
+  color: #b3b3b3;
+  width: 120px;
+  height: 38px;
+  border-radius: 8px;
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 16.94px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fineDisplay {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
+  width: 214px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 10px;
+}
+
+.fineLabel {
+  color: #ffffff;
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24.2px;
+}
+
+.fineAmount {
+  color: #ffffff;
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24.2px;
+}
+
+/* ===== PUBLIC SECTION STYLES ===== */
+.publicSection {
+  background-color: #181a1e;
+  width: 900px;
+  height: 882px;
+}
+
+.publicContainer {
+  padding: 24px;
+}
+
+.weeklyRankingWrapper {
+  margin-top: 20px;
+}
+
+/* ===== SHARED PROBLEMS SECTION STYLES ===== */
+.sharedProblemsSection {
+  background-color: #25282d;
+  width: 852px;
+  height: 486px;
+}
+
+.sharedProblemsHeaderContainer {
+  padding: 24px;
+}
+
+.sharedProblemsHeader {
+  background-color: #33363d;
+  border-radius: 5px;
+  width: 792px;
+  height: 47px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.sharedProblemsTitle {
+  color: #e6e6e6;
+  font-family: Inter;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 26.625px;
+}
+
+.cardsContainer {
+  padding: 0 24px;
+  margin-top: 14px;
+}
+
+.problemCard {
+  background-color: #33363d;
+  border-radius: 8px;
+  width: 250px;
+  height: 363px;
+}
+
+.infoContainer {
+  padding: 16px;
+}
+
+.infoFrame {
+  background-color: rgba(255, 255, 255, 0.06);
+  border-radius: 10px;
+  width: 218px;
+  height: 88px;
+  position: relative;
+}
+
+.bronzeAccent {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 11px;
+  height: 88px;
+  background-color: #ad5600;
+  border-radius: 10px 0 0 10px;
+}
+
+.content {
+  margin-left: 13px;
+  padding: 8px;
+}
+
+.tierIconContainer {
+  padding-top: 12px;
+}
+
+.tierIcon {
+  width: 17px;
+  height: 22px;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTciIGhlaWdodD0iMjIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNyIgaGVpZ2h0PSIyMiIgZmlsbD0iI2FkNTYwMCIgcng9IjIiLz4KPC9zdmc+');
+  margin-bottom: 8px;
+}
+
+.problemNumber {
+  color: #e6e6e6;
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24.2px;
+  margin-bottom: 4px;
+}
+
+.problemTitle {
+  color: #cccccc;
+  font-family: Inter;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 21.78px;
+}
+
+.tableContainer {
+  padding: 0 16px;
+  margin-top: 24px;
+}
+
+.table {
+  width: 218px;
+}
+
+.tableHeaderContainer {
+  padding: 0 12px;
+  margin-bottom: 8px;
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  color: #999999;
+  font-family: Inter;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 13.31px;
+  height: 20px;
+  align-items: center;
+}
+
+.headerRank {
+  width: 21px;
+}
+
+.headerName {
+  width: 21px;
+}
+
+.headerTime {
+  width: 21px;
+}
+
+.headerMemory {
+  width: 31px;
+}
+
+.tableRows {
+  padding: 0 12px;
+}
+
+.tableRows > div:not(:last-child) {
+  margin-bottom: 8px;
+}
+
+.tableRow {
+  display: flex;
+  justify-content: space-between;
+  font-family: Inter;
+  font-size: 12px;
+  line-height: 14.52px;
+  height: 18px;
+  align-items: center;
+}
+
+.rank {
+  color: #e6e6e6;
+  font-weight: 500;
+  width: 21px;
+}
+
+.name {
+  color: #cccccc;
+  font-weight: 500;
+  width: 34px;
+}
+
+.time {
+  color: #b3b3b3;
+  font-weight: 400;
+  width: 40px;
+}
+
+.memory {
+  color: #b3b3b3;
+  font-weight: 400;
+  width: 46px;
+}
+
+.memory2 {
+  color: #b3b3b3;
+  font-weight: 400;
+  width: 44px;
+}
+
+/* ===== WEEKLY RANKING SECTION STYLES ===== */
+.weeklyRankingSection {
+  background-color: #25282d;
+  width: 852px;
+  height: 328px;
+}
+
+.weeklyRankingHeaderContainer {
+  padding: 24px;
+}
+
+.weeklyRankingHeader {
+  background-color: #33363d;
+  border-radius: 5px;
+  width: 804px;
+  height: 47px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.weeklyRankingTitle {
+  color: #e6e6e6;
+  font-family: Inter;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 26.625px;
+}
+
+.weeklyRankingContent {
+  padding: 0 24px;
+  margin-top: 33px;
+  height: 213px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loadingText {
+  color: #b3b3b3;
+  font-family: Inter;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+/* ===== PRIVATE SECTION STYLES ===== */
+.privateSection {
+  background-color: #181a1e;
+  width: 868px;
+  height: 882px;
+}
+
+.privateContainer {
+  padding: 24px;
+}
+
+.teamStatusSection {
+  background-color: #25282d;
+  width: 820px;
+  height: 834px;
+}
+
+.teamStatusHeaderContainer {
+  padding: 23px 20px 0 20px;
+}
+
+.teamStatusHeader {
+  background-color: #33363d;
+  border-radius: 5px;
+  width: 780px;
+  height: 47px;
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+}
+
+.teamStatusTitle {
+  color: #e6e6e6;
+  font-family: Inter;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 26.625px;
+}
+
+.memberCardContainer {
+  padding: 0 20px;
+  margin-top: 63px;
+}
+
+.memberCard {
+  background-color: #33363d;
+  border-radius: 8px;
+  width: 780px;
+  height: 82px;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.goldAccent {
+  position: absolute;
+  left: 0;
+  top: -3px;
+  width: 11px;
+  height: 88px;
+  background-color: #ec9a00;
+  border-radius: 8px 0 0 8px;
+}
+
+.memberContent {
+  margin-left: 27px;
+  display: flex;
+  align-items: center;
+  height: 70px;
+  gap: 16px;
+}
+
+.memberTierIcon {
+  width: 30px;
+  height: 38px;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzgiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIzMCIgaGVpZ2h0PSIzOCIgZmlsbD0iI2VjOWEwMCIgcng9IjMiLz4KPC9zdmc+');
+  border-radius: 3px;
+}
+
+.memberInfo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.memberName {
+  color: #e6e6e6;
+  font-family: Inter;
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 24.2px;
+}
+
+.streakBadge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.streakIcon {
+  background-color: #ff9689;
+  width: 15px;
+  height: 18px;
+  border-radius: 4px;
+}
+
+.streakNumber {
+  color: #ff5151;
+  font-family: Inter;
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 21.78px;
+}
+
+.progressContainer {
+  width: 224px;
+  height: 26px;
+  margin-left: 16px;
+}
+
+.progressBar {
+  background-color: #404247;
+  border-radius: 10px;
+  height: 12px;
+  margin-bottom: 4px;
+  width: 224px;
+}
+
+.progressFill {
+  background-color: #4d99ff;
+  height: 12px;
+  border-radius: 4px;
+  width: 150px;
+}
+
+.scoreText {
+  color: #cccccc;
+  font-family: Inter;
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 12.1px;
+  text-align: right;
+  width: 224px;
+}
+
+.solvedProblems {
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 4px;
+  width: 348px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+}
+
+.solvedCard {
+  background-color: #4e4e4e;
+  border-radius: 3px;
+  width: 75px;
+  height: 24px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-left: 8px;
+}
+
+.solvedAccent {
+  position: absolute;
+  left: 0;
+  top: -2px;
+  width: 6px;
+  height: 28px;
+  background-color: #7df14f;
+  border-radius: 3px 0 0 3px;
+}
+
+.solvedContent {
+  margin-left: 12px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.solvedIcon {
+  width: 13px;
+  height: 16px;
+  background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTMiIGhlaWdodD0iMTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMyIgaGVpZ2h0PSIxNiIgZmlsbD0iIzdkZjE0ZiIgcng9IjIiLz4KPC9zdmc+');
+}
+
+.solvedNumber {
+  color: #ffffff;
+  font-family: Inter;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 14.52px;
+  text-align: center;
+} 

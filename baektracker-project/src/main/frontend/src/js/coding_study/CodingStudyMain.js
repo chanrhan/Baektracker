@@ -1,7 +1,7 @@
 import Study from "../../css/study.module.css"
 import React, {useEffect, useState} from "react";
 import {CodingStudyProblem} from "./CodingStudyProblem";
-import {CodingStudyUtils} from "./CodingStudyUtils";
+import {DesignUtils} from "./DesignUtils";
 import useApi from "../setup/hook/useApi";
 import useModal from "../setup/hook/useModal";
 import {DateUtils} from "../setup/utils/DateUtils";
@@ -189,7 +189,7 @@ export function CodingStudyMain(){
                             const v = sharedProblems[i];
                             return (
                                 <div className={Study.shared_problem_item} style={{
-                                    backgroundColor: `${CodingStudyUtils.getTierColor(v?.level)}`
+                                    backgroundColor: `${DesignUtils.getTierColor(v?.level)}`
                                 }} onClick={() => {
                                     if (v && !editMode) {
                                         window.open(`https://www.acmicpc.net/problem/${v.problem_id}`, "_blank")
@@ -200,7 +200,7 @@ export function CodingStudyMain(){
                                             <>
                                                 <div className={Study.problem_info_box}>
                                                         <span
-                                                            className={cm(Study.level_icon, CodingStudyUtils.getLevelIconClass(v?.level))}></span>
+                                                            className={cm(Study.level_icon, DesignUtils.getLevelIconClass(v?.level))}></span>
                                                     <span
                                                         className={Study.problem_id_text}>{v?.problem_id ?? ''}</span>
                                                 </div>

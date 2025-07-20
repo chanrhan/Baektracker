@@ -1,8 +1,8 @@
 @charset "UTF-8";
 
 /* layout */
-body,html{position:relative; height:100%;}
-body{position:relative; background-color:#ffff; color:#141218; font-size:16px; font-weight:400; font-family:"Pretendard" ,"Apple SD Gothic Neo","애플 SD 산돌고딕 Neo","Malgun Gothic","맑은 고딕","돋움",Dotum,Helvetica,Tahoma,Dotum,sans-serif; line-height:22px; line-height:24px; overflow-x:hidden;}
+body,html{position:relative; width:100%; height:100%; box-sizing:border-box;}
+body{position:relative; width:100%; background-color:#ffff; color:#141218; font-size:16px; font-weight:400; font-family:"Pretendard" ,"Apple SD Gothic Neo","애플 SD 산돌고딕 Neo","Malgun Gothic","맑은 고딕","돋움",Dotum,Helvetica,Tahoma,Dotum,sans-serif; line-height:22px; line-height:24px; overflow-x:hidden; box-sizing:border-box;}
 header{position:relative; z-index:30; width:100%; background-color:#fff;}
 main{position:relative; z-index:10; width:100%; background-color:#fff;}
 footer{position:relative; z-index:20; width:100%; background-color:#fff;}

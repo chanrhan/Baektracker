@@ -1,6 +1,6 @@
 import Study from "../../css/study.module.css";
 import React, {useEffect, useState} from "react";
-import {CodingStudyUtils} from "./CodingStudyUtils";
+import {DesignUtils} from "./DesignUtils";
 import useApi from "../setup/hook/useApi";
 import {MouseEventUtils} from "../setup/utils/MouseEventUtils";
 import {cm} from "../setup/utils/cm";
@@ -95,12 +95,12 @@ export function CodingStudyProblem({fromDate, toDate, users, setUsers}){
                             return (
                                 <div className={Study.detail_item}>
                                     <div className={Study.user_info_box} style={{
-                                        backgroundColor: `${CodingStudyUtils.getTierColor(user.tier)}`
+                                        backgroundColor: `${DesignUtils.getTierColor(user.tier)}`
                                     }}>
                                         <div className={Study.info_detail_box}>
                                             <span className={Study.fire_icon}></span>
                                             <span
-                                                className={cm(Study.level_icon, CodingStudyUtils.getTierIconClass(user.tier))}></span>
+                                                className={cm(Study.level_icon, DesignUtils.getTierIconClass(user.tier))}></span>
                                             {
                                                 user.shared_solved ?
                                                     <span className={cm(Study.shared_status)}></span> : null
@@ -123,7 +123,7 @@ export function CodingStudyProblem({fromDate, toDate, users, setUsers}){
                                                                     <span className={Study.span}
                                                                           style={{
                                                                               width: `${per}%`,
-                                                                              backgroundColor: `${CodingStudyUtils.getBarColor(per)}`
+                                                                              backgroundColor: `${DesignUtils.getBarColor(per)}`
                                                                           }}></span>
                                                         </>
                                                     )
@@ -139,7 +139,7 @@ export function CodingStudyProblem({fromDate, toDate, users, setUsers}){
                                                     pr && pr.problems && pr.problems.map((p, pi) => {
                                                         return (
                                                             <div className={Study.problem_item} style={{
-                                                                backgroundColor: `${CodingStudyUtils.getResultColor(p.result_id)}`
+                                                                backgroundColor: `${DesignUtils.getResultColor(p.result_id)}`
                                                             }}
                                                                  onMouseMove={e => onBarMouseMove(e, p.title, p.co_solvers)}
                                                                  onMouseLeave={onBarMouseLeave} onClick={() => {
@@ -147,7 +147,7 @@ export function CodingStudyProblem({fromDate, toDate, users, setUsers}){
                                                                 window.open(`https://www.acmicpc.net/problem/${p.problem_id}`, "_blank")
                                                             }}>
                                                                         <span
-                                                                            className={cm(Study.level_icon, CodingStudyUtils.getLevelIconClass(p.level))}></span>
+                                                                            className={cm(Study.level_icon, DesignUtils.getLevelIconClass(p.level))}></span>
                                                                 <span
                                                                     className={Study.problem_num}>{p.problem_id}</span>
                                                             </div>

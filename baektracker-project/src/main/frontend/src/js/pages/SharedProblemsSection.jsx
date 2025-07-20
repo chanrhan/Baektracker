@@ -1,6 +1,88 @@
 import styles from '../../css/styles.module.css'
+import SharedProblemCard from './SharedProblemCard'
+import useApi from "../setup/hook/useApi";
+import useModal from "../setup/hook/useModal";
+import {useEffect, useState} from "react";
+import {DateUtils} from "../setup/utils/DateUtils";
+import {ObjectUtils} from "../setup/utils/ObjectUtil";
+import {ModalType} from "../setup/modal/ModalType";
 
-export default function SharedProblemsSection() {
+export default function SharedProblemsSection({fromDate, toDate}) {
+  const {solvedAcApi} = useApi();
+  const modal = useModal();
+  const today = new Date();
+
+  const [sharedProblems, setSharedProblems] = useState([]);
+  const [editMode, setEditMode] = useState(false)
+
+  const [sharedProblemInputs, setSharedProblemInputs] = useState([-1, -1, -1])
+  const [orgSp, setOrgSp] = useState([-1,-1]);
+
+  useEffect(() => {
+    getSharedProblems();
+  }, [fromDate, toDate]);
+
+  const getSharedProblems = ()=>{
+    solvedAcApi.getSharedProblem(fromDate).then(({status,data})=>{
+      console.table(data)
+      if(data){
+        const copy = [...sharedProblemInputs];
+        for(const i in data){
+          copy[i] = data[i].problem_id
+        }
+        setSharedProblemInputs(copy);
+        setSharedProblems(data);
+        setOrgSp(copy);
+      }
+    })
+  }
+
+  const showEditButton = ()=>{
+    const p = DateUtils.dateDiff(DateUtils.getFirstDateOfWeek(today), new Date(fromDate));
+    // console.log(p)
+    if(p < -7){
+      // setEditMode(false)
+      return false;
+    }
+    return true;
+  }
+
+  const handleEditMode = ()=>{
+    if(!showEditButton()){
+      return;
+    }
+    const curr_state = editMode;
+    setEditMode(!editMode)
+    if(curr_state){
+      const body = []
+      if(sharedProblemInputs[0] != -1 && sharedProblemInputs[0] != orgSp[0]){
+        body.push(sharedProblemInputs[0])
+      }
+      if(sharedProblemInputs[1] != -1 && sharedProblemInputs[1] != orgSp[1]){
+        body.push(sharedProblemInputs[1])
+      }
+      if(sharedProblemInputs[2] != -1 && sharedProblemInputs[2] != orgSp[2]){
+        body.push(sharedProblemInputs[2])
+      }
+      console.table(body)
+      if(ObjectUtils.isEmptyArray(body)){
+        return;
+      }
+      solvedAcApi.updateSharedProblem(fromDate, sharedProblemInputs).then(({data})=>{
+        if(data){
+          modal.openModal(ModalType.SNACKBAR.Info, {
+            msg: "공통문제가 변경되었습니다."
+          })
+        }
+        getSharedProblems()
+        // getAllUsers()
+      })
+
+    }
+  }
+  // 샘플 문제 데이터
+
+
   return (
     <div className={styles.sharedProblemsSection}>
       {/* Header */}
@@ -12,64 +94,9 @@ export default function SharedProblemsSection() {
 
       {/* Problem Cards Container */}
       <div className={styles.cardsContainer}>
-        {/* Problem Card */}
-        <div className={styles.problemCard}>
-          {/* Problem Info Frame */}
-          <div className={styles.infoContainer}>
-            <div className={styles.infoFrame}>
-              {/* Bronze Accent */}
-              <div className={styles.bronzeAccent}></div>
-              
-              {/* Content */}
-              <div className={styles.content}>
-                {/* Tier Icon Container */}
-                <div className={styles.tierIconContainer}>
-                  <div className={styles.tierIcon}></div>
-                  
-                  {/* Problem Number */}
-                  <div className={styles.problemNumber}>2638</div>
-                  
-                  {/* Problem Title */}
-                  <div className={styles.problemTitle}>치즈</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Rankings Table */}
-          <div className={styles.tableContainer}>
-            <div className={styles.table}>
-              {/* Table Header */}
-              <div className={styles.tableHeaderContainer}>
-                <div className={styles.tableHeader}>
-                  <span className={styles.headerRank}>순위</span>
-                  <span className={styles.headerName}>이름</span>
-                  <span className={styles.headerTime}>시간</span>
-                  <span className={styles.headerMemory}>메모리</span>
-                </div>
-              </div>
-              
-              {/* Table Rows */}
-              <div className={styles.tableRows}>
-                {/* Row 1 */}
-                <div className={styles.tableRow}>
-                  <span className={styles.rank}>1</span>
-                  <span className={styles.name}>김개발</span>
-                  <span className={styles.time}>324ms</span>
-                  <span className={styles.memory}>2048KB</span>
-                </div>
-                
-                {/* Row 2 */}
-                <div className={styles.tableRow}>
-                  <span className={styles.rank}>2</span>
-                  <span className={styles.name}>박코딩</span>
-                  <span className={styles.time}>456ms</span>
-                  <span className={styles.memory2}>1800KB</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {sharedProblems && sharedProblems.map((v, index) => (
+          <SharedProblemCard level={v.level} id={v.problem_id} title={v.title}/>
+        ))}
       </div>
     </div>
   )

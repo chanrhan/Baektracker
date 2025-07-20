@@ -1,6 +1,5 @@
-import Study from "../../css/study.module.css";
-
-export const CodingStudyUtils = {
+import styles from "../../css/styles.module.css"
+export const DesignUtils = {
     getTierColor : (lv)=>{
         if(lv <= 0){ // unrated
             return '#c1ea84';
@@ -24,7 +23,7 @@ export const CodingStudyUtils = {
         let tier;
         let num;
         if(lv <= 0){ // unrated
-            return Study.unrated
+            return styles.unrated
         }else if(lv <= 5){ // bronze
             tier = 'bronze'
             num = 6 - lv;
@@ -45,7 +44,7 @@ export const CodingStudyUtils = {
             num = 31 - lv;
         }
         const classname = `${tier}_${num}`;
-        return Study[classname];
+        return styles[classname];
     },
     getBarColor : (per)=>{
         if(per === 0){
@@ -95,6 +94,6 @@ export const CodingStudyUtils = {
             num = 31 - lv;
         }
         const classname = `${tier}_${num}`;
-        return Study[classname];
+        return styles[classname];
     }
 }

@@ -2,7 +2,7 @@ import SolvedAcApi from "../../api/SolvedAcApi";
 
 function useApi(){
     return {
-        solvedAcApi: SolvedAcApi()
+        problemApi: SolvedAcApi()
     }
 }
 

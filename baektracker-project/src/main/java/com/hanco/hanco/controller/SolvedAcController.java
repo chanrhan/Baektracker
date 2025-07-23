@@ -60,4 +60,10 @@ public class SolvedAcController {
         return ResponseEntity.ok(solvedAcService.getTotalFine());
     }
 
+    @GetMapping("/problem/info/list")
+    public ResponseEntity<List<Map<String,Object>>> getProblemInfoList(@RequestParam String keyword){
+        System.out.println("fine total");
+        return ResponseEntity.ok(solvedAcService.getProblemInfoList(keyword));
+    }
+
 }

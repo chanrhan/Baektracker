@@ -38,6 +38,10 @@ public class SolvedAcService {
     private static final String Baekjoon_Problem_Status_Page_URL = "https://www.acmicpc.net/status";
     private static final String Solved_ac_user_show_URL = "https://solved.ac/api/v3/search/user?query=";
 
+    public List<Map<String,Object>> getProblemInfoList(String keyword){
+        return solvedAcMapper.getProblemInfoList(keyword);
+    }
+
     public void insertWeeklyScore(int target, int fine){
         solvedAcMapper.insertWeeklyScore(target, fine);
     }
@@ -234,14 +238,20 @@ public class SolvedAcService {
 
                     String resultText = tds.get(3).text();
                     SolvedAcResultType resultType = null;
+                    int elapsedTime = 0;
+                    int usedMemory = 0;
                     String errorText = null;
                     try{
                         resultType = SolvedAcResultType.of(resultText);
+                        elapsedTime = Integer.parseInt(tds.get(4).text());
+                        usedMemory =  Integer.parseInt(tds.get(5).text());
                     }catch (IllegalArgumentException e){
                         // 일치하는 Enum 이 없을 경우
                         SolvedAcResultType.ErrorType errorType = SolvedAcResultType.getErrorType(resultText);
                         resultType = errorType.getType();
                         errorText = errorType.getErrorText();
+                    }catch (NullPointerException e){
+
                     }
 
                     if(resultType == null){
@@ -252,6 +262,8 @@ public class SolvedAcService {
                             .username(username)
                             .problemId(problemId)
                             .resultId(resultType.getStatus())
+                            .elapsedTm(elapsedTime)
+                            .usedMem(usedMemory)
                             .errorText(errorText)
                             .submitId(submitId)
                             .date(dateTime.format(formatter))

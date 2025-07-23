@@ -60,11 +60,11 @@
 
     <insert id="insertMarkedProblems">
         INSERT INTO tb_mark_problem
-        (user_id, problem_id, submit_id, week_id, result_id, err_txt, try_dt)
+        (user_id, problem_id, submit_id, week_id, result_id, elapsed_tm, used_mem, err_txt, try_dt)
         VALUES
         (
             <foreach collection="list" item="item" separator="),(">
-                #{item.username},#{item.problemId},#{item.submitId},date_format(#{item.date},'%Y-%u'),#{item.resultId},#{item.errorText},#{item.date}
+                #{item.username},#{item.problemId},#{item.submitId},date_format(#{item.date},'%Y-%u'),#{item.resultId},#{item.elapsedTm},#{item.usedMem},#{item.errorText},#{item.date}
             </foreach>
         )
     </insert>
@@ -148,11 +148,18 @@
         where problem_id=#{problemId}
     </select>
 
+    <select id="getProblemInfoList">
+        select problem_id, title, level
+        from tb_baekjoon_problem
+        where title like '%${keyword}%'
+    </select>
+
     <insert id="insertBaekjoonProblem">
         INSERT INTO tb_baekjoon_problem
         (problem_id, title, level)
         values (#{problemId},#{title},#{level})
     </insert>
+
 
     <insert id="insertWeeklyScore">
         <![CDATA[
@@ -165,7 +172,7 @@
                id,
                score,
                week_dt,
-               0 as complete_st,
+               IF(score >= ${target}, 1, 0) as complete_st,
                ${fine} as fine
         from (
                  select date_format(@to_date, '%Y-%u') as week_id,
@@ -186,7 +193,6 @@
                         DATE_FORMAT(@from_date, '%Y-%m-%d') as week_dt
                  from tb_solved_user u
              ) base
-        where score < ${target}
         ]]>
     </insert>
 
@@ -200,12 +206,32 @@
     </insert>
 
     <select id="getSharedProblem">
-        SELECT sp.problem_id,
+        select ws.problem_id,
+               bp.level,
                bp.title,
-               bp.level
-        FROM tb_weekly_shared_problem sp
-        LEFT OUTER JOIN tb_baekjoon_problem bp on sp.problem_id=bp.problem_id
-        WHERE week_id=date_format(#{date}, '%Y-%u')
+               json_arrayagg(json_object(
+                       'rank', mp._rank,
+                       'user_id', mp.user_id,
+                       'user_name', (
+                           select u.name
+                           from tb_solved_user u
+                           where u.id=mp.user_id
+                       ),
+                       'time', mp.elapsed_tm,
+                       'mem', mp.used_mem,
+                       'is_other_week', is_other_week
+                             )) as rank_list
+        from tb_weekly_shared_problem ws
+                 left outer join (
+            select *,
+                   IF(m.week_id!=date_format(curdate(), '%Y-%u'), 1, 0) as is_other_week,
+                   dense_rank() over (order by elapsed_tm) as _rank
+            from tb_mark_problem m
+            order by _rank
+        ) mp on ws.problem_id=mp.problem_id
+                 left outer join tb_baekjoon_problem bp on ws.problem_id=bp.problem_id
+        where ws.week_id=date_format(#{date}, '%Y-%u') and result_id=4
+        group by ws.problem_id, bp.level, bp.title
     </select>
 
     <delete id="deleteSharedProblemAll">

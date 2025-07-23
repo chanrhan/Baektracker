@@ -4,7 +4,7 @@ import PrivateSection from "./PrivateSection";
 import useApi from "../setup/hook/useApi";
 
 export function MainBody({fromDate, toDate}){
-    const {solvedAcApi} = useApi();
+    const {problemApi} = useApi();
 
 
 

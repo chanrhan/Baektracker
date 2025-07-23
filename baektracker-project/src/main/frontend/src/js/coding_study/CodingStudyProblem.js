@@ -1,12 +1,12 @@
 import Study from "../../css/study.module.css";
 import React, {useEffect, useState} from "react";
-import {DesignUtils} from "./DesignUtils";
+import {DesignUtils} from "../utils/DesignUtils";
 import useApi from "../setup/hook/useApi";
 import {MouseEventUtils} from "../setup/utils/MouseEventUtils";
 import {cm} from "../setup/utils/cm";
 
 export function CodingStudyProblem({fromDate, toDate, users, setUsers}){
-    const {solvedAcApi} = useApi();
+    const {problemApi} = useApi();
     const [problems, setProblems] = useState({})
 
 
@@ -29,7 +29,7 @@ export function CodingStudyProblem({fromDate, toDate, users, setUsers}){
             // result_id: -1
         }
         // console.table(body)
-        solvedAcApi.getProblem(body).then(({status, data}) => {
+        problemApi.getProblem(body).then(({status, data}) => {
             const ob = {};
             if(data){
                 for(const detail of data){
@@ -48,7 +48,7 @@ export function CodingStudyProblem({fromDate, toDate, users, setUsers}){
 
 
     const getWeeklySharedSolved = ()=>{
-        solvedAcApi.getWeeklySharedSolved(fromDate).then(({data})=>{
+        problemApi.getWeeklySharedSolved(fromDate).then(({data})=>{
             if(data){
                 if(users){
                     const copy = [...users]

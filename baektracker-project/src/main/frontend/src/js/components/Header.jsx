@@ -6,7 +6,7 @@ import Study from "../../css/study.module.css";
 import {WeekSelectModal} from "../modal/menu/WeekSelectModal";
 
 export default function Header({fromDate, toDate, setFromDate, setToDate}) {
-  const {solvedAcApi} = useApi();
+  const {problemApi} = useApi();
   const today = new Date();
 
 
@@ -17,7 +17,7 @@ export default function Header({fromDate, toDate, setFromDate, setToDate}) {
   }, []);
 
   const getTotalFine = ()=>{
-    solvedAcApi.getTotalFine().then(({data})=>{
+    problemApi.getTotalFine().then(({data})=>{
       if(data){
         // setFineItem(data)
         let sum=0;

@@ -8,7 +8,7 @@ import {ObjectUtils} from "../setup/utils/ObjectUtil";
 import {ModalType} from "../setup/modal/ModalType";
 
 export default function SharedProblemsSection({fromDate, toDate}) {
-  const {solvedAcApi} = useApi();
+  const {problemApi} = useApi();
   const modal = useModal();
   const today = new Date();
 
@@ -23,7 +23,7 @@ export default function SharedProblemsSection({fromDate, toDate}) {
   }, [fromDate, toDate]);
 
   const getSharedProblems = ()=>{
-    solvedAcApi.getSharedProblem(fromDate).then(({status,data})=>{
+    problemApi.getSharedProblem(fromDate).then(({status,data})=>{
       console.table(data)
       if(data){
         const copy = [...sharedProblemInputs];
@@ -68,7 +68,7 @@ export default function SharedProblemsSection({fromDate, toDate}) {
       if(ObjectUtils.isEmptyArray(body)){
         return;
       }
-      solvedAcApi.updateSharedProblem(fromDate, sharedProblemInputs).then(({data})=>{
+      problemApi.updateSharedProblem(fromDate, sharedProblemInputs).then(({data})=>{
         if(data){
           modal.openModal(ModalType.SNACKBAR.Info, {
             msg: "공통문제가 변경되었습니다."
@@ -80,8 +80,15 @@ export default function SharedProblemsSection({fromDate, toDate}) {
 
     }
   }
-  // 샘플 문제 데이터
 
+  const openSharedProblemModal = ()=>{
+      modal.openModal(ModalType.LAYER.SharedProblemDetail, {
+        problems: sharedProblems,
+        onSubmit: ()=>{
+
+        }
+      })
+  }
 
   return (
     <div className={styles.sharedProblemsSection}>
@@ -89,14 +96,18 @@ export default function SharedProblemsSection({fromDate, toDate}) {
       <div className={styles.sharedProblemsHeaderContainer}>
         <div className={styles.sharedProblemsHeader}>
           <h2 className={styles.sharedProblemsTitle}>주간 공통 문제</h2>
+          <button type='button' className={styles.btn_edit_shared_problem} onClick={openSharedProblemModal}></button>
         </div>
       </div>
 
       {/* Problem Cards Container */}
       <div className={styles.cardsContainer}>
-        {sharedProblems && sharedProblems.map((v, index) => (
-          <SharedProblemCard level={v.level} id={v.problem_id} title={v.title}/>
-        ))}
+        {[1,2,3].map((v, index) => {
+          const sp = sharedProblems[index];
+          const rankList = sp?.rank_list && JSON.parse(sp.rank_list);
+          // console.table(JSON.parse(sp.rank_list))
+          return <SharedProblemCard key={index} level={sp?.level} id={sp?.problem_id} title={sp?.title} rankList={rankList}/>
+        })}
       </div>
     </div>
   )

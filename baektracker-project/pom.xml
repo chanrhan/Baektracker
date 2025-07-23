@@ -8,12 +8,12 @@
         <version>3.2.1</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.hanco</groupId>
-    <artifactId>hanco</artifactId>
+    <groupId>com.baektracker</groupId>
+    <artifactId>baektracker</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>hanco</name>
-    <description>hanco</description>
+    <name>baektracker</name>
+    <description>baektracker</description>
     <url/>
     <licenses>
         <license/>

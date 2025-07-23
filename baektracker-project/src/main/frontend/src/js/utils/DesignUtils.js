@@ -4,11 +4,11 @@ export const DesignUtils = {
         if(lv <= 0){ // unrated
             return '#c1ea84';
         }else if(lv <= 5){ // bronze
-            return '#b6897f';
+            return '#704131';
         }else if(lv > 5 && lv <= 10){ // silver
-            return '#e5e5e5';
+            return '#a2a2a2';
         }else if(lv > 10 && lv <= 15){ // gold
-            return '#ffd634';
+            return '#ffd116';
         }else if(lv > 15 && lv <= 20){ // platinum
             return '#89ffd2';
         }else if(lv > 20 && lv <= 25){ // diamond

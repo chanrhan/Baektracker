@@ -25,6 +25,8 @@ public interface SolvedAcMapper {
 
     public void insertBaekjoonProblem(int problemId, String title, int level);
 
+    public List<Map<String,Object>> getProblemInfoList(String keyword);
+
     // weekly
     public void insertWeeklyScore(int target, int fine);
 

@@ -6,7 +6,7 @@ import Study from "../../css/study.module.css";
 import {UserStatusCard} from "./UserStatusCard";
 
 export default function PrivateSection({fromDate, toDate}) {
-  const {solvedAcApi} = useApi();
+  const {problemApi} = useApi();
   const [problems, setProblems] = useState({})
   const [users, setUsers] = useState([])
 
@@ -22,15 +22,17 @@ export default function PrivateSection({fromDate, toDate}) {
 
   useEffect(() => {
     getProblem();
+    getWeeklySharedSolved()
   }, [fromDate, toDate]);
+
   const initLoad = ()=>{
-    solvedAcApi.loadBaekjoon().then(({data})=>{
+    problemApi.loadBaekjoon().then(({data})=>{
       // getAllUsers()
     })
   }
 
   const getAllUsers = ()=>{
-    solvedAcApi.getAllUsers(fromDate).then(({data})=>{
+    problemApi.getAllUsers(fromDate).then(({data})=>{
       if(data){
         // console.table(data)
         setUsers(data);
@@ -49,7 +51,7 @@ export default function PrivateSection({fromDate, toDate}) {
       // result_id: -1
     }
     // console.table(body)
-    solvedAcApi.getProblem(body).then(({status, data}) => {
+    problemApi.getProblem(body).then(({status, data}) => {
       const ob = {};
       if(data){
         for(const detail of data){
@@ -63,6 +65,20 @@ export default function PrivateSection({fromDate, toDate}) {
       }
       // console.table(data)
       // setIsLoading(false)
+    })
+  }
+
+  const getWeeklySharedSolved = ()=>{
+    problemApi.getWeeklySharedSolved(fromDate).then(({data})=>{
+      if(data){
+        if(users){
+          const copy = [...users]
+          for(const user of copy){
+            user.shared_solved = data[user.id]
+          }
+          setUsers(copy)
+        }
+      }
     })
   }
 
@@ -95,18 +111,20 @@ export default function PrivateSection({fromDate, toDate}) {
           </div>
 
           {/* Member Card */}
-          {
-            users && users.map((v,i)=>{
-                const id = v.id;
-                // console.log(id)
-                const pr = problems[id];
-                console.table(pr)
+          <div className={styles.memberCardContainer}>
+            {
+                users && users.map((v,i)=>{
+                  const id = v.id;
+                  // console.log(id)
+                  const pr = problems[id];
 
-                const score = pr ? pr.score : 0;
-              return <UserStatusCard id={id} level={v.tier} name={v.name}
-                                     score={score} solvedList={pr && pr.problems}/>
-              })
-          }
+                  const score = pr ? pr.score : 0;
+                  return <UserStatusCard key={i} id={id} level={v.tier} name={v.name} streak={v.streak}
+                                         score={score} solvedList={pr && pr.problems} sharedSolved={v.shared_solved}/>
+                })
+            }
+          </div>
+
         </div>
       </div>
       <Tooltip {...tooltip} />

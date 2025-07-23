@@ -5,7 +5,7 @@ import useApi from "../setup/hook/useApi";
 import {cm} from "../setup/utils/cm";
 
 export function CodingStudyLayout(){
-    const {solvedAcApi} = useApi();
+    const {problemApi} = useApi();
     const pathname = window.location.pathname
     const [tab, setTab] = useState(0)
     const [fineItem, setFineItem] = useState([])
@@ -24,7 +24,7 @@ export function CodingStudyLayout(){
     }, []);
 
     const getTotalFine = ()=>{
-        solvedAcApi.getTotalFine().then(({data})=>{
+        problemApi.getTotalFine().then(({data})=>{
             if(data){
                 setFineItem(data)
                 let sum=0;

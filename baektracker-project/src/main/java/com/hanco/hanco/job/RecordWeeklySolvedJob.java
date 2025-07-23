@@ -11,11 +11,11 @@ import org.springframework.stereotype.Component;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
-// 휴면 회원 관리
+// 주차별 달성 기록 Job
 @RequiredArgsConstructor
 @Slf4j
 @Component
-public class CodingStudyWeeklyJob implements Job {
+public class RecordWeeklySolvedJob implements Job {
 	private final SolvedAcMapper solvedAcMapper;
 
 	@Override

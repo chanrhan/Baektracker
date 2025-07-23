@@ -3,7 +3,7 @@ import './App.css';
 import {Helmet} from "react-helmet-async";
 import ModalContainer from "./js/setup/modal/ModalContainer";
 import {Route, Routes} from "react-router-dom";
-import {Main} from "./js/pages/main";
+import {Main} from "./js/components/main";
 
 function App() {
   return (

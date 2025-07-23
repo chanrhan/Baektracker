@@ -4,6 +4,9 @@ export const ModalType = {
         Image_Preview: 'ImagePreview',
 
         Confirm: 'Confirm',
+
+        SolvedDetail: 'SolvedDetail',
+        SharedProblemDetail: 'SharedProblemDetail'
     },
     MENU: {
         Test: 'MenuModalTest',

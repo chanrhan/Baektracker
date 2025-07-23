@@ -1,7 +1,7 @@
 import Study from "../../css/study.module.css"
 import React, {useEffect, useState} from "react";
 import {CodingStudyProblem} from "./CodingStudyProblem";
-import {DesignUtils} from "./DesignUtils";
+import {DesignUtils} from "../utils/DesignUtils";
 import useApi from "../setup/hook/useApi";
 import useModal from "../setup/hook/useModal";
 import {DateUtils} from "../setup/utils/DateUtils";
@@ -22,7 +22,7 @@ const RESULT_COLOR = [
 ]
 
 export function CodingStudyMain(){
-    const {solvedAcApi} = useApi();
+    const {problemApi} = useApi();
     const modal = useModal();
     const [tab, setTab] = useState(0)
 
@@ -54,13 +54,13 @@ export function CodingStudyMain(){
     }, [fromDate, toDate]);
 
     const initLoad = ()=>{
-        solvedAcApi.loadBaekjoon().then(({data})=>{
+        problemApi.loadBaekjoon().then(({data})=>{
             // getAllUsers()
         })
     }
 
     const getSharedProblems = ()=>{
-        solvedAcApi.getSharedProblem(fromDate).then(({status,data})=>{
+        problemApi.getSharedProblem(fromDate).then(({status,data})=>{
             if(data){
                 const copy = [...sharedProblemInputs];
                 for(const i in data){
@@ -75,7 +75,7 @@ export function CodingStudyMain(){
 
 
     const getAllUsers = ()=>{
-        solvedAcApi.getAllUsers(fromDate).then(({data})=>{
+        problemApi.getAllUsers(fromDate).then(({data})=>{
             if(data){
                 // console.table(data)
                 setUsers(data);
@@ -146,7 +146,7 @@ export function CodingStudyMain(){
             if(ObjectUtils.isEmptyArray(body)){
                 return;
             }
-            solvedAcApi.updateSharedProblem(fromDate, sharedProblemInputs).then(({data})=>{
+            problemApi.updateSharedProblem(fromDate, sharedProblemInputs).then(({data})=>{
                 if(data){
                     modal.openModal(ModalType.SNACKBAR.Info, {
                         msg: "공통문제가 변경되었습니다."

@@ -1,9 +1,13 @@
-import Popup from "../../../css/popup.module.css"
-import {cm, cmc} from "../../utils/cm";
+import Popup from "../../css/popup.module.css"
 import {useEffect, useRef, useState} from "react";
-import {ScrollUtils} from "../../utils/ScrollUtils";
+import {cm} from "../setup/utils/cm";
+import {ScrollUtils} from "../utils/ScrollUtils";
 
-export const LayerModal = ({modalRef, scrollable, children, top, left, width,
+/*
+Usage
+ex) <LayerModal {...props} maxWidth={1045} top={45}>
+ */
+export const LayerModal = ({modalRef, scrollable, children, top, left, width, backgroundColor,
                                height, windowBlocked, minWidth, maxWidth, minHeight, maxHeight, paddingBottom}) => {
     const [fadeIn, setFadeIn] = useState(false);
 
@@ -58,7 +62,8 @@ export const LayerModal = ({modalRef, scrollable, children, top, left, width,
                         maxWidth: `${maxWidth}px`,
                         minHeight: `${minHeight}px`,
                         maxHeight: `${maxHeight}px`,
-                        paddingBottom: `${paddingBottom}px`
+                        paddingBottom: `${paddingBottom}px`,
+                        backgroundColor: backgroundColor
                     }
                 }>
                     {children}

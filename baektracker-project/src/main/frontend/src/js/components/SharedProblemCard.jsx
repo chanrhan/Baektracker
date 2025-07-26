@@ -90,9 +90,8 @@ export default function SharedProblemCard({id, level, title, rankList}){
                   </thead>
                   <tbody className={styles.tableBody}>
                   {rankList && rankList.map((ranking, index) => {
-                    // console.table(ranking)
                     return (
-                        <tr key={index} className={styles.tableRow} onClick={openSolvedDetailModal}>
+                        <tr key={index} className={cm(styles.tableRow, `${ranking.is_other_week === 1 && styles.prev_week}`)} onClick={openSolvedDetailModal}>
                           <td className={styles.rank}>{ranking.rank}</td>
                           <td className={styles.name}>{ranking.user_name}</td>
                           <td className={styles.time}>{ranking.time}</td>

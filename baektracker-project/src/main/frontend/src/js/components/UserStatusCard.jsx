@@ -3,9 +3,11 @@ import React from "react";
 import {SolvedProblemCard} from "./SolvedProblemCard";
 import {DesignUtils} from "../utils/DesignUtils";
 import {cm} from "../setup/utils/cm";
+import {useTooltipHandlers} from "../setup/utils/TooltipUtils";
 
 export function UserStatusCard({level, id, name, streak, score, solvedList, sharedSolved}){
     const per = (score >= 60) ? 100 : Math.floor((Number)(score / 60) * 100);
+    const tooltip = useTooltipHandlers();
 
     return (
         <div className={styles.memberCard}>
@@ -23,8 +25,10 @@ export function UserStatusCard({level, id, name, streak, score, solvedList, shar
                         }}>{name}</span>
 
                     <div className={styles.streakBadge}>
-                        <span className={cm(styles.streakIcon, `${!streak && styles.cold}`)}></span>
-                        <span className={styles.streakNumber}>{streak}</span>
+                        <span className={cm(styles.streakIcon, `${streak === 0 && styles.cold}`)}></span>
+                        {
+                            streak > 0 && <span className={styles.streakNumber}>{streak}</span>
+                        }
                     </div>
                 </div>
 
@@ -46,7 +50,10 @@ export function UserStatusCard({level, id, name, streak, score, solvedList, shar
                     {/* Solved Card */}
                     {
                         solvedList && solvedList.map((v, i) => {
-                            return <SolvedProblemCard key={i} level={v.level} id={v.problem_id} resultId={v.result_id}/>
+                            return <SolvedProblemCard key={i} level={v.level}
+                                                      title={v.title}
+                                                      solvedList={v.co_solvers}
+                                                      id={v.problem_id} resultId={v.result_id}/>
                         })
                     }
                 </div>

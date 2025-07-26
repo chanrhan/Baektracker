@@ -11,7 +11,7 @@ import java.util.Map;
 public interface SolvedAcMapper {
     public List<Map<String, Object>> getAllUsers(String date);
 
-    public List<Map<String, String>> getContinuousCompleteCount();
+    public List<Map<String, Object>> getContinuousCompleteCount();
 
     public List<Map<String, Object>> getAllUsersLastRead();
 
@@ -31,7 +31,7 @@ public interface SolvedAcMapper {
     public void insertWeeklyScore(int target, int fine);
 
     public void insertSharedProblem(String date, List<Integer> list);
-    public int deleteSharedProblemAll();
+    public int deleteSharedProblemAll(String date);
 
     public List<Map<String,Object>> getSharedProblem(String date);
     public String getWeeklySharedSolved(String date);
@@ -39,4 +39,5 @@ public interface SolvedAcMapper {
     // Fine
     public List<Map<String,Object>> getTotalFine();
     public List<Map<String,Object>> getMonthFine(String date);
+    public List<Map<String,Object>> getWeeklyResult(String date);
 }

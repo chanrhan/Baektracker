@@ -27,8 +27,18 @@ export function SharedProblemDetailModal(props){
 
     const addProblem = (index, id)=>{
         if(items.length >= 3){
-
+            modal.openModal(ModalType.SNACKBAR.Alert, {
+                msg: "더 이상 추가할 수 없습니다!"
+            })
             return;
+        }
+        for(const it of items){
+            if(it.id === id){
+                modal.openModal(ModalType.SNACKBAR.Alert, {
+                    msg: "중복된 문제입니다!"
+                })
+                return;
+            }
         }
         const item = {
             problem_id: id,
@@ -48,10 +58,20 @@ export function SharedProblemDetailModal(props){
 
 
     const submit = ()=>{
-        if(props.onSubmit){
+        const body = items.map((v,i)=>{
+            return v.problem_id
+        })
+        problemApi.updateSharedProblem(props.date, body).then(({data})=>{
+            let msg = "문제가 발생했습니다. 다시 시도해주세요";
+            if(data){
+                msg = "주간 공통 문제를 수정했습니다!"
+            }
+            modal.openModal(ModalType.SNACKBAR.Alert, {
+                msg: msg
+            })
             props.onSubmit();
-        }
-        modal.closeModal(ModalType.LAYER.SharedProblemDetail)
+            modal.closeModal(ModalType.LAYER.SharedProblemDetail)
+        })
     }
 
     const cancel = ()=>{

@@ -524,6 +524,309 @@
     overflow-y: auto;
 }
 
+/* 월별 영수증 모달창 */
+/* ===== RECIPE MODAL STYLES ===== */
+.recipeModal {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(255, 255, 255, 0);
+    border-radius: 8px;
+    padding: 26px;
+    overflow: hidden;
+}
+
+.recipeModal .recipeModalMainFrame {
+    width: 100%;
+    height: 100%;
+    background-color: #25282d;
+    border-radius: 8px;
+    padding: 24px;
+    overflow: hidden;
+}
+
+.recipeModal .recipeModalHeaderSection {
+    width: 100%;
+    height: 8%;
+    background-color: #323539;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.recipeModal .recipeModalHeaderContent {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 90%;
+    padding: 0 12px;
+}
+
+.recipeModal .recipeModalNavButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 23px;
+    height: 23px;
+}
+
+.recipeModal .recipeModalPolygon {
+    width: 100%;
+    height: 100%;
+    background-color: #d9d9d9;
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    transform: rotate(-90deg);
+}
+
+.recipeModal .recipeModalNavButton:disabled .recipeModalPolygon{
+    background-color: rgba(217, 217, 217, 0.22);
+}
+
+
+.recipeModal .recipeModalNavButton:last-child .recipeModalPolygon {
+    transform: rotate(90deg);
+}
+
+.recipeModal .recipeModalMonthTitle {
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 38.73px;
+    text-align: center;
+}
+
+.recipeModal .recipeModalBodySection {
+    background-color: #323539;
+    border-radius: 8px;
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    overflow: hidden;
+    height: 89%;
+}
+
+.recipeModal .recipeModalWeeklyRecipesSection {
+    display: flex;
+    flex: 1;
+    background-color: #3e4247;
+    border-radius: 8px;
+    padding: 12px;
+    width: 70%;
+    overflow: hidden;
+    height: 100%;
+}
+
+.recipeModal .recipeModalWeeklyRecipesContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 50%;
+}
+
+.recipeModal .recipeModalRecipeCard {
+    background-color: #4d5157;
+    border-radius: 8px;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    width: 90%;
+    display: flex;
+    flex-shrink: 0;
+    min-height: 100px;
+    height: fit-content;
+    align-items: center;
+}
+
+.recipeModal .recipeModalCardHeader {
+    width: 30%;
+    margin-bottom: 8px;
+    text-align: center;
+    padding-left: 4px;
+}
+
+.recipeModal .recipeModalWeekTitle {
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+}
+
+.recipeModal .recipeModalCardBody {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 70%;
+    text-align: end;
+}
+
+.recipeModal .recipeModalWeeklyCard {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 2px 0;
+}
+
+.recipeModal .recipeModalMemberName {
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 14px;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-right: 8px;
+}
+
+.recipeModal .recipeModalMemberScore {
+    color: #ff2b2e;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 14px;
+    min-width: 15%;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.recipeModal .recipeModalMonthlySection {
+    width: 50%;
+    background-color: #3e4247;
+    border-radius: 8px;
+    padding: 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    flex-shrink: 0;
+    height: 100%;
+}
+
+.recipeModal .recipeModalMonthlyTitle {
+    color: #acacac;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    margin-bottom: 12px;
+}
+
+.recipeModal .recipeModalMonthlyTotal {
+    color: #4d88f5;
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 34px;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.recipeModal .recipeModalMonthlyList {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.recipeModal .recipeModalMonthlyItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+}
+
+.recipeModal .recipeModalTotalSection {
+    width: 30%;
+    background-color: #3e4247;
+    border-radius: 8px;
+    padding: 28px 32px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    height: 100%;
+    align-items: end;
+}
+
+.recipeModal .recipeModalTotalTitle {
+    color: #acacac;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.recipeModal .recipeModalTotalAmount {
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    margin-bottom: 22px;
+}
+
+.recipeModal .recipeModalTotalList {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.recipeModal .recipeModalTotalItem {
+    display: flex;
+    /*justify-content: space-between;*/
+    align-items: center;
+    padding: 4px 0;
+}
+
+.recipeModal .recipeModalItemName {
+    color: #bcbcbc;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 27px;
+    text-align: center;
+    flex: 1;
+    min-width: 0;
+    margin-right: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.recipeModal .recipeModalItemAmount {
+    color: #bcbcbc;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 27px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.recipeModal .recipeModalTotalItem .recipeModalItemName,
+.recipeModal .recipeModalTotalItem .recipeModalItemAmount {
+    font-size: 18px;
+    line-height: 22px;
+}
 
 /*반응형*/
 @media all and (max-width:1000px){

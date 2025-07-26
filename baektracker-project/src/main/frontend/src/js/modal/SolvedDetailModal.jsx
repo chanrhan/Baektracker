@@ -5,6 +5,7 @@ import styles from "../../css/styles.module.css"
 import {cm} from "../setup/utils/cm";
 import {DesignUtils} from "../utils/DesignUtils";
 
+
 export function SolvedDetailModal(props){
     const modal = useModal();
 

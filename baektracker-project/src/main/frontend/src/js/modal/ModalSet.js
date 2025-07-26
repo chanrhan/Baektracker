@@ -7,6 +7,7 @@ import {MoreOptionModal} from "./menu/MoreOptionModal";
 import {DateSelectModule} from "./menu/DateSelectModule";
 import {SolvedDetailModal} from "./SolvedDetailModal";
 import {SharedProblemDetailModal} from "./SharedProblemDetailModal";
+import {RecipeModal} from "./RecipeModal";
 
 export const ModalSet = {
     // common
@@ -23,5 +24,6 @@ export const ModalSet = {
 
     Confirm: ConfirmModal,
     SolvedDetail: SolvedDetailModal,
-    SharedProblemDetail : SharedProblemDetailModal
+    SharedProblemDetail : SharedProblemDetailModal,
+    Recipe: RecipeModal
 }

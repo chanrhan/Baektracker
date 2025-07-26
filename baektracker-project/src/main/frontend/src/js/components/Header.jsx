@@ -4,11 +4,13 @@ import useApi from "../setup/hook/useApi";
 import {DateUtils} from "../setup/utils/DateUtils";
 import Study from "../../css/study.module.css";
 import {WeekSelectModal} from "../modal/menu/WeekSelectModal";
+import useModal from "../setup/hook/useModal";
+import {ModalType} from "../setup/modal/ModalType";
 
 export default function Header({fromDate, toDate, setFromDate, setToDate}) {
   const {problemApi} = useApi();
   const today = new Date();
-
+  const modal = useModal();
 
   const [totalFine, setTotalFine] = useState(0)
 
@@ -55,6 +57,12 @@ export default function Header({fromDate, toDate, setFromDate, setToDate}) {
     setWeekDates(dt);
   }
 
+  const openRecipeModal = ()=>{
+    modal.openModal(ModalType.LAYER.Recipe, {
+
+    })
+  }
+
   return (
     <header className={styles.header}>
       <div className={styles.container}>
@@ -69,10 +77,10 @@ export default function Header({fromDate, toDate, setFromDate, setToDate}) {
         <div className={styles.dateContainer}>
           <div className={styles.dateControls}>
             {/* Previous Button */}
-            <button type='button' className={styles.navButton} onClick={handlePrevWeek}>
-              <svg width="12" height="12" fill="currentColor">
-                <path d="M8 10l-3-3 3-3"/>
-              </svg>
+            <button type='button' className={styles.btn_prev} onClick={handlePrevWeek}>
+              {/*<svg width="12" height="12" fill="currentColor">*/}
+              {/*  <path d="M8 10l-3-3 3-3"/>*/}
+              {/*</svg>*/}
             </button>
 
             {/* Date Text */}
@@ -81,10 +89,10 @@ export default function Header({fromDate, toDate, setFromDate, setToDate}) {
             </div>
 
             {/* Next Button */}
-            <button type='button'  className={styles.navButton} onClick={handleNextWeek}>
-              <svg width="12" height="12" fill="currentColor">
-                <path d="M4 10l3-3-3-3"/>
-              </svg>
+            <button type='button'  className={styles.btn_next} onClick={handleNextWeek}>
+              {/*<svg width="12" height="12" fill="currentColor">*/}
+              {/*  <path d="M4 10l3-3-3-3"/>*/}
+              {/*</svg>*/}
             </button>
           </div>
 
@@ -102,7 +110,7 @@ export default function Header({fromDate, toDate, setFromDate, setToDate}) {
         </div>
 
         {/* Fine Display */}
-        <div className={styles.fineDisplay}>
+        <div className={styles.fineDisplay} onClick={openRecipeModal}>
           <span className={styles.fineLabel}>누적 벌금 :</span>
           <span className={styles.fineAmount}>{totalFine.toLocaleString()}원</span>
         </div>

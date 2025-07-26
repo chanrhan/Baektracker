@@ -63,7 +63,7 @@ export const DesignUtils = {
     },
     getResultColor : (result)=>{
         if(result === 4){
-            return '#09d000'
+            // return '#09d000'
         }else{
             return '#ff4a4a'
         }

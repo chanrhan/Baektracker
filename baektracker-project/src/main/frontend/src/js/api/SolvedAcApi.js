@@ -27,6 +27,9 @@ function SolvedAcApi(){
         getMonthFine: async (date)=>{
             return axiosApi.get(`/api/v1/solved-ac/fine/month?date=${date}`, null);
         },
+        getWeeklyResult: async (date)=>{
+            return axiosApi.get(`/api/v1/solved-ac/fine/week?date=${date}`, null);
+        },
         getProblemInfoList: async (keyword)=>{
             return axiosApi.get(`/api/v1/solved-ac/problem/info/list?keyword=${keyword}`, null);
         }

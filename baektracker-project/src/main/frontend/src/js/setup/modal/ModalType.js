@@ -6,7 +6,8 @@ export const ModalType = {
         Confirm: 'Confirm',
 
         SolvedDetail: 'SolvedDetail',
-        SharedProblemDetail: 'SharedProblemDetail'
+        SharedProblemDetail: 'SharedProblemDetail',
+        Recipe: 'Recipe'
     },
     MENU: {
         Test: 'MenuModalTest',

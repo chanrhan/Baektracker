@@ -6,6 +6,8 @@ import {useEffect, useState} from "react";
 import {DateUtils} from "../setup/utils/DateUtils";
 import {ObjectUtils} from "../setup/utils/ObjectUtil";
 import {ModalType} from "../setup/modal/ModalType";
+import solvedAcApi from "../api/SolvedAcApi";
+import {get} from "axios";
 
 export default function SharedProblemsSection({fromDate, toDate}) {
   const {problemApi} = useApi();
@@ -24,7 +26,7 @@ export default function SharedProblemsSection({fromDate, toDate}) {
 
   const getSharedProblems = ()=>{
     problemApi.getSharedProblem(fromDate).then(({status,data})=>{
-      console.table(data)
+      // console.table(data)
       if(data){
         const copy = [...sharedProblemInputs];
         for(const i in data){
@@ -84,8 +86,9 @@ export default function SharedProblemsSection({fromDate, toDate}) {
   const openSharedProblemModal = ()=>{
       modal.openModal(ModalType.LAYER.SharedProblemDetail, {
         problems: sharedProblems,
+        date: fromDate,
         onSubmit: ()=>{
-
+          getSharedProblems()
         }
       })
   }

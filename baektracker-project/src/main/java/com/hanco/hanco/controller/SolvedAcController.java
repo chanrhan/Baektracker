@@ -35,8 +35,7 @@ public class SolvedAcController {
 
     @PostMapping("/shared-problem")
     public ResponseEntity<Boolean> updateSharedProblem(@RequestParam String date, @RequestBody List<Integer> list){
-        solvedAcService.updateSharedProblem(date, list);
-        return ResponseEntity.ok(true);
+        return ResponseEntity.ok(solvedAcService.updateSharedProblem(date, list) > 0);
     }
 
     @GetMapping("/shared-problem")
@@ -47,6 +46,11 @@ public class SolvedAcController {
     @GetMapping("/shared-problem/weekly-solved")
     public ResponseEntity<String> getWeeklySharedSolved(@RequestParam String date){
         return ResponseEntity.ok(solvedAcService.getWeeklySharedSolved(date));
+    }
+
+    @GetMapping("/fine/week")
+    public ResponseEntity<List<Map<String,Object>>> getWeeklyResult(@RequestParam String date){
+        return ResponseEntity.ok(solvedAcService.getWeeklyResult(date));
     }
 
     @GetMapping("/fine/month")

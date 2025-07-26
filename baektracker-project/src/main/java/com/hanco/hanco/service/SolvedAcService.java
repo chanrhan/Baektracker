@@ -58,10 +58,15 @@ public class SolvedAcService {
         return solvedAcMapper.getMonthFine(date);
     }
 
+    public List<Map<String,Object>> getWeeklyResult(String date){
+        return solvedAcMapper.getWeeklyResult(date);
+    }
+
     @Transactional
-    public void updateSharedProblem(String date, List<Integer> list){
-        solvedAcMapper.deleteSharedProblemAll();
+    public int updateSharedProblem(String date, List<Integer> list){
+        int rst = solvedAcMapper.deleteSharedProblemAll(date);
         solvedAcMapper.insertSharedProblem(date, list);
+        return rst;
     }
 
     @Transactional

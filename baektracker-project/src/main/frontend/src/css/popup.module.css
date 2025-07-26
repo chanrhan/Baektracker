@@ -489,6 +489,49 @@
     color: white;
 }
 
+.solved_detail_cont .top_cont .option_header_group .select_section .btn_reload{
+    width: 36px;
+    height: 36px;
+    background: url(../images/reload_code_icon.png) no-repeat center / 100%;
+    margin-left: 12px;
+    transition: all 0.1s ease-in-out;
+}
+.solved_detail_cont .top_cont .option_header_group .select_section .btn_reload:active{
+    transform: scale(85%);
+}
+
+.solved_detail_cont .menu_bg{
+    position: absolute;
+    margin-top: 5px;
+    opacity: 0;
+    width: 150px;
+    min-height: 20px;
+    max-height: 200px;
+    height: fit-content;
+    background-color: #414141;
+    border-radius: 8px;
+    padding: 4px 0;
+    overflow: hidden;
+    overflow-y: auto;
+    transition: opacity 0.1s ease-in-out;
+}
+.solved_detail_cont .menu_bg.active{
+    opacity: 1;
+}
+
+.solved_detail_cont .menu_bg .menu_list{
+
+}
+
+.solved_detail_cont .menu_bg .menu_item{
+    color: white;
+    padding: 6px 24px;
+    cursor: pointer;
+}
+.solved_detail_cont .menu_bg .menu_item:hover{
+    background-color: #4f4f4f;
+}
+
 .solved_detail_cont .top_cont .option_header_group .info_section{
     background-color: #a0b1b6;
     width: 40%;

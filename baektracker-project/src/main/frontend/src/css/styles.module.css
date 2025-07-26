@@ -525,6 +525,7 @@
 
 .tableRow.prev_week .rank,
 .tableRow.prev_week .name,
+.tableRow.prev_week .lang,
 .tableRow.prev_week .time
 {
   color: rgba(119, 119, 119, 0.61);
@@ -577,6 +578,12 @@
 .name {
   color: #cccccc;
   font-weight: 500;
+}
+
+.lang {
+  color: #cccccc;
+  font-weight: 400;
+  font-size: 12px !important;
 }
 
 .time {

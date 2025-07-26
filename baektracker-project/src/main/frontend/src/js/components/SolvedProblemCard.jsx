@@ -4,7 +4,7 @@ import {DesignUtils} from "../utils/DesignUtils";
 import {cm} from "../setup/utils/cm";
 import {useTooltipHandlers} from "../setup/utils/TooltipUtils";
 
-export function SolvedProblemCard({level, id, resultId, title, solvedList}){
+export function SolvedProblemCard({level, id, submitId, resultId, title, solvedList}){
     const tooltip = useTooltipHandlers(
         <div>
             <div style={{
@@ -28,7 +28,7 @@ export function SolvedProblemCard({level, id, resultId, title, solvedList}){
     return (
         <div className={styles.solvedCard} {...tooltip} onClick={e=>{
             e.preventDefault();
-            window.open(`https://www.acmicpc.net/problem/${id}`, "_blank")
+            window.open(`https://www.acmicpc.net/source/${submitId}`, "_blank")
         }} >
             <div className={styles.solvedAccent} style={{
                 backgroundColor: `${DesignUtils.getTierColor(level)}`

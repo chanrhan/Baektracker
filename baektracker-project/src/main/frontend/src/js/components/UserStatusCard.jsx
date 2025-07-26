@@ -7,7 +7,12 @@ import {useTooltipHandlers} from "../setup/utils/TooltipUtils";
 
 export function UserStatusCard({level, id, name, streak, score, solvedList, sharedSolved}){
     const per = (score >= 60) ? 100 : Math.floor((Number)(score / 60) * 100);
-    const tooltip = useTooltipHandlers();
+
+    const fireTooltip = useTooltipHandlers(
+        <div>
+
+        </div>
+    );
 
     return (
         <div className={styles.memberCard}>
@@ -53,7 +58,8 @@ export function UserStatusCard({level, id, name, streak, score, solvedList, shar
                             return <SolvedProblemCard key={i} level={v.level}
                                                       title={v.title}
                                                       solvedList={v.co_solvers}
-                                                      id={v.problem_id} resultId={v.result_id}/>
+                                                      id={v.problem_id} submitId={v.submit_id}
+                                                      resultId={v.result_id}/>
                         })
                     }
                 </div>

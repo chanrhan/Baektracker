@@ -17,6 +17,7 @@ public class SolvedAcResponseVO {
     private int submitId;
     private int elapsedTm;
     private int usedMem;
+    private String lang;
 
 
 //    public SolvedAcResponseVO(SolvedAcResultType resultType, LocalDate dateTime) {

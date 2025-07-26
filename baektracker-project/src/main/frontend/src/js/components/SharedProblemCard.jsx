@@ -27,12 +27,14 @@ export default function SharedProblemCard({id, level, title, rankList}){
     calculateFontSize();
   }, [title]);
 
-    const openSolvedDetailModal = ()=>{
+    const openSolvedDetailModal = (user_id, submit_id)=>{
         // modal.openModal(ModalType.SNACKBAR.Alert, {
         //   msg: '뭐 임마?'
         // })
       modal.openModal(ModalType.LAYER.SolvedDetail, {
+          user_id: user_id,
           problem_id: id,
+          submit_id: submit_id,
           level: level,
           title: title,
       })
@@ -83,18 +85,25 @@ export default function SharedProblemCard({id, level, title, rankList}){
                   <thead>
                   <tr className={styles.tableHeaderRow}>
                     <th className={styles.headerRank}>순위</th>
+                    <th className={styles.headerRank}>언어</th>
                     <th className={styles.headerName}>이름</th>
                     <th className={styles.headerTime}>시간</th>
                     {/* <th className={styles.headerMemory}>메모리</th> */}
                   </tr>
                   </thead>
                   <tbody className={styles.tableBody}>
-                  {rankList && rankList.map((ranking, index) => {
+                  {rankList && rankList.map((v, index) => {
                     return (
-                        <tr key={index} className={cm(styles.tableRow, `${ranking.is_other_week === 1 && styles.prev_week}`)} onClick={openSolvedDetailModal}>
-                          <td className={styles.rank}>{ranking.rank}</td>
-                          <td className={styles.name}>{ranking.user_name}</td>
-                          <td className={styles.time}>{ranking.time}</td>
+                        <tr key={index} className={cm(styles.tableRow, `${v.is_other_week === 1 && styles.prev_week}`)}
+                            onClick={(e)=>{
+                                // openSolvedDetailModal(v.id, v.submit_id)
+                                e.preventDefault();
+                                window.open(`https://www.acmicpc.net/source/${v.submit_id}`, "_blank")
+                            }}>
+                          <td className={styles.rank}>{v.rank}</td>
+                          <td className={styles.lang}>{v.lang}</td>
+                          <td className={styles.name}>{v.name}</td>
+                          <td className={styles.time}>{v.time}</td>
                           {/* <td className={styles.memory}>{ranking.mem}</td> */}
                         </tr>
                     )

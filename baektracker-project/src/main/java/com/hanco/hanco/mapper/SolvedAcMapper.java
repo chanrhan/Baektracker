@@ -9,14 +9,14 @@ import java.util.Map;
 
 @Mapper
 public interface SolvedAcMapper {
+    // user
     public List<Map<String, Object>> getAllUsers(String date);
-
     public List<Map<String, Object>> getContinuousCompleteCount();
-
     public List<Map<String, Object>> getAllUsersLastRead();
-
     public void updateLastRead(String id, Integer lastRead);
+    public List<Map<String,Object>> getUsersByProblem(Integer id);
 
+    // problem
     public void insertMarkedProblems(List<SolvedAcResponseVO> list);
 
     public List<Map<String, Object>> getBaekjoonProblems(SolvedAcRequestVO vo);
@@ -29,7 +29,9 @@ public interface SolvedAcMapper {
 
     // weekly
     public void insertWeeklyScore(int target, int fine);
+    public List<Map<String,Object>> getWeeklyResult(String date);
 
+    // Shared
     public void insertSharedProblem(String date, List<Integer> list);
     public int deleteSharedProblemAll(String date);
 
@@ -39,5 +41,4 @@ public interface SolvedAcMapper {
     // Fine
     public List<Map<String,Object>> getTotalFine();
     public List<Map<String,Object>> getMonthFine(String date);
-    public List<Map<String,Object>> getWeeklyResult(String date);
 }

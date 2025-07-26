@@ -60,14 +60,22 @@ public class SolvedAcController {
 
     @GetMapping("/fine/total")
     public ResponseEntity<List<Map<String,Object>>> getTotalFine(){
-        System.out.println("fine total");
         return ResponseEntity.ok(solvedAcService.getTotalFine());
     }
 
     @GetMapping("/problem/info/list")
     public ResponseEntity<List<Map<String,Object>>> getProblemInfoList(@RequestParam String keyword){
-        System.out.println("fine total");
         return ResponseEntity.ok(solvedAcService.getProblemInfoList(keyword));
+    }
+
+    @GetMapping("/users/solved")
+    public ResponseEntity<List<Map<String,Object>>> getUsersByProblem(@RequestParam Integer problemId){
+        return ResponseEntity.ok(solvedAcService.getUsersByProblem(problemId));
+    }
+
+    @GetMapping("/problem/source")
+    public ResponseEntity<List<Map<String,Object>>> getProblemSource(@RequestParam Integer submitId){
+        return ResponseEntity.ok(solvedAcService.getProblemSource(submitId));
     }
 
 }

@@ -32,6 +32,12 @@ function SolvedAcApi(){
         },
         getProblemInfoList: async (keyword)=>{
             return axiosApi.get(`/api/v1/solved-ac/problem/info/list?keyword=${keyword}`, null);
+        },
+        getUsersByProblem: async (problemId)=>{
+            return axiosApi.get(`/api/v1/solved-ac/users/solved?problemId=${problemId}`, null);
+        },
+        getProblemSource: async (submitId)=>{
+            return axiosApi.get(`/api/v1/solved-ac/problem/source?submitId=${submitId}`, null);
         }
     }
 }

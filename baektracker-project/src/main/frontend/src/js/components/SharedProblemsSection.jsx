@@ -108,7 +108,6 @@ export default function SharedProblemsSection({fromDate, toDate}) {
         {[1,2,3].map((v, index) => {
           const sp = sharedProblems[index];
           const rankList = sp?.rank_list && JSON.parse(sp.rank_list);
-          // console.table(JSON.parse(sp.rank_list))
           return <SharedProblemCard key={index} level={sp?.level} id={sp?.problem_id} title={sp?.title} rankList={rankList}/>
         })}
       </div>

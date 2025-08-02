@@ -147,6 +147,11 @@
             ), final as (
         SELECT *,
                (
+                   select IF(count(*)> 0, 1, 0)
+                   from tb_weekly_shared_problem wsp
+                   where week_id=date_format(#{fromDate},'%Y-%u') and wsp.problem_id = n.problem_id
+                   ) as is_shared_problem,
+               (
                    select json_arrayagg(name)
                    from (
                             select distinct name
@@ -187,6 +192,7 @@
                             'submit_id', submit_id,
                              'err_txt', err_txt,
                              'try_dt', try_dt,
+                            'is_shared_problem', is_shared_problem,
                              'co_solvers', co_solvers
                              )) as problems
         from final
@@ -202,9 +208,20 @@
     </select>
 
     <select id="getProblemInfoList">
-        select problem_id, title, level
-        from tb_baekjoon_problem
-        where title like '%${keyword}%' or problem_id=${keyword}
+        select problem_id, title, level,
+               (
+                   select count(mp.submit_id)
+                   from (
+                       select m.problem_id,
+                              m.submit_id,
+                              row_number() over (partition by m.user_id, m.problem_id order by submit_id) as rownum
+                       from tb_mark_problem m
+                       where result_id=4
+                        ) mp
+                   where mp.problem_id=bp.problem_id and rownum=1
+                   ) as solved_cnt
+        from tb_baekjoon_problem bp
+        where title like '%${keyword}%' or problem_id=#{keyword}
     </select>
 
     <insert id="insertBaekjoonProblem">
@@ -244,7 +261,7 @@
                                             mp.problem_id,
                                             min(elapsed_tm) as time
                                      from tb_mark_problem mp
-                                     where mp.user_id=@user_id and date_format(mp.try_dt, '%Y-%u')=date_format(@to_date, '%Y-%u') and result_id=4
+                                     where mp.user_id=u.id and date_format(mp.try_dt, '%Y-%u')=date_format(@to_date, '%Y-%u') and result_id=4
                                      group by mp.user_id, mp.problem_id
                                  ) mp2
                                      left outer join tb_baekjoon_problem bp on bp.problem_id=mp2.problem_id
@@ -265,47 +282,22 @@
     </insert>
 
     <select id="getSharedProblem">
-        with min_time_grouped as (
-            select *,
-                   row_number() over (partition by user_id, problem_id order by elapsed_tm) as _rank
-            from tb_mark_problem
-            where result_id=4 and problem_id in (
-                select ws.problem_id
-                from tb_weekly_shared_problem ws
-                where ws.week_id=date_format(#{date}, '%Y-%u')
-            )
-        ), ranked as (
-            select user_id,
-                   problem_id,
-                   submit_id,
-                   elapsed_tm,
-                   used_mem,
-                   lang,
-                   IF(date_format(try_dt, '%Y-%u')!=date_format(#{date}, '%Y-%u'), 1, 0) as is_other_week,
-                   dense_rank() over (partition by problem_id order by elapsed_tm) as rnk
-            from min_time_grouped
-            where _rank=1
-        )
-        select ranked.problem_id,
+        select ws.problem_id,
                bp.title,
                bp.level,
-               json_arrayagg(json_object(
-                       'rank',rnk,
-                       'id',user_id,
-                        'submit_id', submit_id,
-                        'name', (
-                            select name
-                            from tb_solved_user u
-                            where u.id = user_id
-                           ),
-                       'time',elapsed_tm,
-                       'mem', used_mem,
-                        'lang', lang,
-                       'is_other_week', is_other_week
-                             )) as rank_list
-        from ranked
-                 left outer join tb_baekjoon_problem bp on bp.problem_id=ranked.problem_id
-        group by problem_id
+               (
+                   select count(submit_id)
+                   from (
+                       select *,
+                              row_number() over (partition by m.user_id, m.problem_id order by submit_id) as rownum
+                       from tb_mark_problem m
+                       where result_id=4
+                        ) mp
+                   where mp.problem_id=ws.problem_id and rownum=1
+                   ) as solved_cnt
+        from tb_weekly_shared_problem ws
+        left outer join tb_baekjoon_problem bp on bp.problem_id=ws.problem_id
+        where week_id=date_format(#{date},'%Y-%u')
     </select>
 
     <delete id="deleteSharedProblemAll">
@@ -314,39 +306,63 @@
     </delete>
 
     <select id="getTotalFine">
-        SELECT id,
-               name,
-               amount,
-               dense_rank() over (order by amount desc ) as ranking
-        FROM (
-                 SELECT u.id,
-                        u.name,
-                        (
-                            select IFNULL(sum(fine), 0)
-                            from tb_weekly_solved ws
-                            where ws.id=u.id
-                        ) as amount
-                 FROM tb_solved_user u
-             ) tmp
-        order by amount desc
+        with base as (
+            SELECT id,
+                   name,
+                   amount,
+                   dense_rank() over (order by amount desc ) as ranking
+            FROM (
+                     SELECT u.id,
+                            u.name,
+                            (
+                                select IFNULL(sum(fine), 0)
+                                from tb_weekly_solved ws
+                                where ws.id=u.id
+                            ) as amount
+                     FROM tb_solved_user u
+                 ) tmp
+            order by amount desc
+        )
+        select sum(amount) as sum,
+               json_arrayagg(json_object(
+                             'id',id,
+                             'name',name,
+                             'amount',amount
+                             )) as user_list
+        from base
     </select>
 
     <select id="getMonthFine">
-        SELECT id,
-               name,
-               amount,
-               dense_rank() over (order by amount desc ) as ranking
-        FROM (
-                 SELECT u.id,
-                        u.name,
-                        (
-                            select IFNULL(sum(fine), 0)
-                            from tb_weekly_solved ws
-                            where ws.id=u.id and ws.week_dt like '${date}%'
-                        ) as amount
-                 FROM tb_solved_user u
-             ) tmp
-        order by amount desc
+        with month_weeks as (
+            select id,
+                   fine,
+                   row_number() over (partition by id order by week_dt) as rownum
+            from tb_weekly_solved
+            where week_dt like '${date}%'
+            order by rownum
+        ), sum as (
+            select id,
+                   IFNULL(sum(fine) , 0) as amount,
+                   json_arrayagg(IF(fine > 0, rownum, -1)) as week_list
+            from month_weeks
+            group by id
+        ), final as (
+            SELECT u.id,
+                   u.name,
+                   s.amount,
+                   s.week_list
+            FROM tb_solved_user u
+                     left outer join sum s on s.id=u.id
+        )
+        select IFNULL(sum(amount), 0) as sum,
+               json_arrayagg(json_object(
+                             'id', id,
+                             'name', name,
+                             'amount', amount,
+                             'week_list', week_list
+                             )) as user_list
+        from final
+        order by amount
     </select>
 
     <select id="getWeeklyResult">

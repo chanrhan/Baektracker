@@ -1,4 +1,4 @@
-import styles from "../../css/styles.module.css"
+import styles from "../../css/styles_old.module.css"
 export const DesignUtils = {
     getTierColor : (lv)=>{
         if(lv <= 0){ // unrated

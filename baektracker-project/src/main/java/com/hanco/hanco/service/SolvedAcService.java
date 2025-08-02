@@ -57,11 +57,11 @@ public class SolvedAcService {
         return solvedAcMapper.getWeeklySharedSolved(date);
     }
 
-    public List<Map<String,Object>> getTotalFine(){
+    public Map<String,Object> getTotalFine(){
         return solvedAcMapper.getTotalFine();
     }
 
-    public List<Map<String,Object>> getMonthFine(String date){
+    public Map<String,Object> getMonthFine(String date){
         return solvedAcMapper.getMonthFine(date);
     }
 

@@ -1,120 +1,118 @@
-import React, {useEffect, useState} from 'react'
-import styles from "../../css/styles.module.css"
+import styles from "../../css/styles.module.css";
+import React, {useEffect, useState} from "react";
 import useApi from "../setup/hook/useApi";
-import {DateUtils} from "../setup/utils/DateUtils";
-import Study from "../../css/study.module.css";
-import {WeekSelectModal} from "../modal/menu/WeekSelectModal";
 import useModal from "../setup/hook/useModal";
+import {DateUtils} from "../setup/utils/DateUtils";
 import {ModalType} from "../setup/modal/ModalType";
+import {NumberUtils} from "../setup/utils/NumberUtils";
+import {WeekSelectModal} from "../modal/menu/WeekSelectModal";
 
-export default function Header({fromDate, toDate, setFromDate, setToDate}) {
-  const {problemApi} = useApi();
-  const today = new Date();
-  const modal = useModal();
+export function Header({fromDate, toDate, setFromDate, setToDate}){
+    const {problemApi} = useApi();
+    const today = new Date();
 
-  const [totalFine, setTotalFine] = useState(0)
+    const modal = useModal();
 
-  useEffect(() => {
-    getTotalFine()
-  }, []);
+    const [totalFine, setTotalFine] = useState(0)
+    useEffect(() => {
+        getTotalFine()
+    }, []);
 
-  const getTotalFine = ()=>{
-    problemApi.getTotalFine().then(({data})=>{
-      if(data){
-        // setFineItem(data)
-        let sum=0;
-        for(const i of data){
-          sum += i.amount;
-        }
-        // console.log(sum)
-        setTotalFine(sum)
-      }
-    })
-  }
+    const getTotalFine = ()=>{
+        problemApi.getTotalFine().then(({data})=>{
+            if(data){
+                setTotalFine(data.sum)
+            }
+        })
+    }
 
-  const setWeekDates = (date: Date)=>{
-    const fd = DateUtils.getFirstDateOfWeek(date);
-    const td = DateUtils.getLastDateOfWeek(date);
-    setFromDate(DateUtils.dateToStringYYMMdd(fd))
-    setToDate(DateUtils.dateToStringYYMMdd(td))
-  }
+    const setWeekDates = (date: Date)=>{
+        const fd = DateUtils.getFirstDateOfWeek(date);
+        const td = DateUtils.getLastDateOfWeek(date);
+        setFromDate(DateUtils.dateToStringYYMMdd(fd))
+        setToDate(DateUtils.dateToStringYYMMdd(td))
+    }
 
-  const handlePrevWeek = ()=>{
-    const newDate = new Date(fromDate);
-    DateUtils.subDate(newDate, 7);
-    setWeekDates(newDate);
-  }
+    const handlePrevWeek = ()=>{
+        const newDate = new Date(fromDate);
+        DateUtils.subDate(newDate, 7);
+        setWeekDates(newDate);
+    }
 
-  const handleNextWeek = ()=>{
-    const newDate = new Date(fromDate);
-    DateUtils.addDate(newDate, 7);
+    const handleNextWeek = ()=>{
+        const newDate = new Date(fromDate);
+        DateUtils.addDate(newDate, 7);
 
-    setWeekDates(newDate);
-  }
+        setWeekDates(newDate);
+    }
 
-  const handleWeek = (year, month, day)=>{
-    const dt = new Date(year, month, day);
-    setWeekDates(dt);
-  }
+    const handleWeek = (year, month, day)=>{
+        const dt = new Date(year, month, day);
+        setWeekDates(dt);
+    }
 
-  const openRecipeModal = ()=>{
-    modal.openModal(ModalType.LAYER.Recipe, {
+    const openRecipeModal = ()=>{
+        modal.openModal(ModalType.LAYER.Recipe, {
 
-    })
-  }
+        })
+    }
+    const openWeekCalendarModal = ()=>{
 
-  return (
-    <header className={styles.header}>
-      <div className={styles.container}>
-        {/* Title Container */}
-        <div className={styles.titleContainer}>
-          <h1 className={styles.title}>
-            Baektracker
-          </h1>
-        </div>
+    }
 
-        {/* Date Container */}
-        <div className={styles.dateContainer}>
-          <div className={styles.dateControls}>
-            {/* Previous Button */}
-            <button type='button' className={styles.btn_prev} onClick={handlePrevWeek}>
-              {/*<svg width="12" height="12" fill="currentColor">*/}
-              {/*  <path d="M8 10l-3-3 3-3"/>*/}
-              {/*</svg>*/}
-            </button>
-
-            {/* Date Text */}
-            <div className={styles.dateText}>
-              {fromDate} ~ {toDate}
+    return (
+        <header className={styles.header}>
+            <span className={styles.title}>Baektracker</span>
+            <div className={styles.weekSelectorContainer}>
+                <div className={styles.weekSelectorNavigation}>
+                    <button className={styles.weekSelectorNavButton} onClick={handlePrevWeek}>
+                        ←
+                    </button>
+                    <WeekSelectModal rootClassName={styles.weekSelectorWeekButton} date={fromDate}
+                                     onSelect={handleWeek}>
+                        {fromDate} ~ {toDate}
+                    </WeekSelectModal>
+                    {/*<button className={styles.weekSelectorWeekButton} onClick={openWeekCalendarModal}>*/}
+                    {/*    */}
+                    {/*</button>*/}
+                    <button className={styles.weekSelectorNavButton} onClick={handleNextWeek}>
+                        →
+                    </button>
+                </div>
+                <button className={styles.weekSelectorTodayButton} onClick={()=>{
+                    setWeekDates(today)
+                }}>
+                    오늘
+                </button>
             </div>
+            <div className={`${styles.fineInfoContainer}`}>
+                <div className={styles.fineInfoAmount}>
+                    <span className={styles.fineInfoLabel}>누적 벌금</span>
+                    <span className={styles.fineInfoAmountText}>{NumberUtils.toPrice(totalFine)}원</span>
+                </div>
+                <button className={styles.fineInfoReceiptButton} onClick={openRecipeModal}>
+                    영수증 보기
+                </button>
+            </div>
+        </header>
+    )
+}
 
-            {/* Next Button */}
-            <button type='button'  className={styles.btn_next} onClick={handleNextWeek}>
-              {/*<svg width="12" height="12" fill="currentColor">*/}
-              {/*  <path d="M4 10l3-3-3-3"/>*/}
-              {/*</svg>*/}
+// FineInfo 컴포넌트
+const FineInfo = ({totalFine, onShowReceipt, className}) => {
+    const formatCurrency = (amount) => {
+        return new Intl.NumberFormat("ko-KR").format(amount)
+    }
+
+    return (
+        <div className={`${styles.fineInfoContainer} ${className || ""}`}>
+            <div className={styles.fineInfoAmount}>
+                <span className={styles.fineInfoLabel}>누적 벌금</span>
+                <span className={styles.fineInfoAmountText}>₩{formatCurrency(totalFine)}</span>
+            </div>
+            <button className={styles.fineInfoReceiptButton} onClick={onShowReceipt}>
+                영수증 보기
             </button>
-          </div>
-
-          {/* Buttons */}
-          <button className={styles.todayButton} onClick={()=>{
-            setWeekDates(today)
-          }}>
-            오늘
-          </button>
-          <WeekSelectModal rootClassName={styles.dateSelectButton}
-                           date={fromDate}
-                           onSelect={handleWeek}>
-            날짜 선택
-          </WeekSelectModal>
         </div>
-
-        {/* Fine Display */}
-        <div className={styles.fineDisplay} onClick={openRecipeModal}>
-          <span className={styles.fineLabel}>누적 벌금 :</span>
-          <span className={styles.fineAmount}>{totalFine.toLocaleString()}원</span>
-        </div>
-      </div>
-    </header>
-  )
-} 
+    )
+}

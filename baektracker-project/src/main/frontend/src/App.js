@@ -6,7 +6,7 @@ import ModalContainer from "./js/setup/modal/ModalContainer";
 import {TooltipContainer} from "./js/setup/modal/tooltip/TooltipContainer";
 import {registerGlobalTooltip} from "./js/setup/utils/TooltipUtils";
 import {Route, Routes} from "react-router-dom";
-import {Main} from "./js/components/main";
+import MainPage from "./js/components/MainPage";
 
 function App() {
   // 전역 툴팁 함수들 등록
@@ -24,7 +24,7 @@ function App() {
       <TooltipContainer/>
       <Routes>
         <Route path='/'>
-            <Route path='' element={<Main/>}>
+            <Route path='' element={<MainPage/>}>
 
             </Route>
         </Route>

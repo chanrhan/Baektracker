@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../../../../css/styles.module.css';
+import styles from '../../../../css/styles_old.module.css';
 
 let tooltipInstance = null;
 

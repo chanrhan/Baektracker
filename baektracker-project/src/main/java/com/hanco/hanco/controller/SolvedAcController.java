@@ -54,12 +54,12 @@ public class SolvedAcController {
     }
 
     @GetMapping("/fine/month")
-    public ResponseEntity<List<Map<String,Object>>> getMonthFine(@RequestParam String date){
+    public ResponseEntity<Map<String,Object>> getMonthFine(@RequestParam String date){
         return ResponseEntity.ok(solvedAcService.getMonthFine(date));
     }
 
     @GetMapping("/fine/total")
-    public ResponseEntity<List<Map<String,Object>>> getTotalFine(){
+    public ResponseEntity<Map<String,Object>> getTotalFine(){
         return ResponseEntity.ok(solvedAcService.getTotalFine());
     }
 

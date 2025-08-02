@@ -39,6 +39,6 @@ public interface SolvedAcMapper {
     public String getWeeklySharedSolved(String date);
 
     // Fine
-    public List<Map<String,Object>> getTotalFine();
-    public List<Map<String,Object>> getMonthFine(String date);
+    public Map<String,Object> getTotalFine();
+    public Map<String,Object> getMonthFine(String date);
 }

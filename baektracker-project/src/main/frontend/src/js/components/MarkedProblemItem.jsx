@@ -1,8 +1,9 @@
 import {cm} from "../setup/utils/cm";
 import styles from "../../css/styles.module.css";
 import {DesignUtils} from "../utils/DesignUtils";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {useTooltipHandlers} from "../setup/utils/TooltipUtils";
+
 
 export function MarkedProblemItem({problem, index}){
     const tooltip = useTooltipHandlers(<div>
@@ -18,9 +19,15 @@ export function MarkedProblemItem({problem, index}){
             }
         </div>
     </div>)
+
+    const result_id = problem.result_id;
+
+
+
+
     return (
-        <div key={index} onClick={() => {
-            window.open(`https://www.acmicpc.net/source/${problem.submit_id}`, "_blank")
+        <div key={index} onClick={()=>{
+            window.open(`https://www.acmicpc.net/problem/${problem.problem_id}`, "_blank")
         }}
              className={cm(`${styles.userProgressProblemItem} ${problem.solved ? styles.userProgressSolved : styles.userProgressUnsolved}`,
                  `${problem.is_shared_problem == 1 && styles.is_shared_problem}`)}
@@ -33,10 +40,7 @@ export function MarkedProblemItem({problem, index}){
             />
             <div className={styles.userProgressProblemContent}>
                 <span className={cm(styles.tierIcon, `${DesignUtils.getTierIconClass(problem.level)}`)}></span>
-                {/*<TierIcon tier={problem?.level} size="small"/>*/}
-                <span className={styles.userProgressProblemNumber} style={{
-                    color: `${problem.result_id !== 4 && 'red'}`
-                }}>{problem.problem_id}</span>
+                <span className={cm(styles.userProgressProblemNumber, `${result_id !== 4 && styles.red_text}`)}>{problem.problem_id}</span>
             </div>
         </div>
     )

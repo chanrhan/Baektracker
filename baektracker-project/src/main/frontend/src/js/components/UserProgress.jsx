@@ -1,10 +1,8 @@
 import styles from "../../css/styles.module.css";
 import React, {useEffect, useState} from "react";
-import {TierIcon} from "./TierIcon";
 import useApi from "../setup/hook/useApi";
 import {DesignUtils} from "../utils/DesignUtils";
-import {cm} from "../setup/utils/cm";
-import {useTooltipHandlers} from "../setup/utils/TooltipUtils";
+import {cm} from "../setup/utils/cm"
 import {MarkedProblemItem} from "./MarkedProblemItem";
 
 export function UserProgress({fromDate, toDate}){
@@ -13,11 +11,10 @@ export function UserProgress({fromDate, toDate}){
     const [users, setUsers] = useState([])
     const [problems, setProblems] = useState({})
 
-
-
     useEffect(() => {
         getAllUsers()
     }, []);
+
     useEffect(() => {
         getProblem();
         getWeeklySharedSolved()
@@ -32,17 +29,22 @@ export function UserProgress({fromDate, toDate}){
             initLoad();
         })
     }
+
     const initLoad = ()=>{
         problemApi.loadBaekjoon().then(({data})=>{
-            // getAllUsers()
+            if(data){
+                getProblem()
+            }
         })
     }
+
     const getProblem = ()=> {
         const body = {
             from_date: fromDate,
             to_date: toDate,
             problem_id: -1,
         }
+
         problemApi.getProblem(body).then(({status, data}) => {
             const ob = {};
             // console.table(data)
@@ -57,6 +59,7 @@ export function UserProgress({fromDate, toDate}){
             }
         })
     }
+
     const getWeeklySharedSolved = ()=>{
         problemApi.getWeeklySharedSolved(fromDate).then(({data})=>{
             if(data){
@@ -131,6 +134,12 @@ export function UserProgress({fromDate, toDate}){
                                 </div>
                                 <span className={styles.userProgressText}>
                                 {score} / 60
+                                    {
+                                        problemList && <span style={{
+                                            marginLeft: '6px',
+                                            color: '#ababab'
+                                        }}>({problemList.length}개)</span>
+                                    }
                                 </span>
                             </div>
 

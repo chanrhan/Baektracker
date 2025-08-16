@@ -607,6 +607,9 @@
   line-height: 1;
   white-space: nowrap;
 }
+.userProgressProblemNumber.red_text{
+  color: red;
+}
 
 /* 모달 스타일 */
 .modalOverlay {

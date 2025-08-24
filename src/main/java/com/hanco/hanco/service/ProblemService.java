@@ -56,7 +56,7 @@ public class ProblemService {
                 return -1;
             }
         }).toList();
-        List<Integer> counts = problemMapper.getUserProblemSolved(list);
+        List<Integer> counts = problemMapper.countUsersProblemSolved(list);
         for(int i=0;i<items.size();++i){
             items.get(i).put("solved_count", counts.get(i));
         }
@@ -71,7 +71,9 @@ public class ProblemService {
     @Transactional
     public int updateWeeklyProblem(String date, List<Integer> list){
         int rst = problemMapper.deleteWeeklyProblemAll(date);
-        problemMapper.insertWeeklyProblem(date, list);
+        if(!list.isEmpty()){
+            problemMapper.insertWeeklyProblem(date, list);
+        }
         return rst;
     }
 

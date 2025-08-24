@@ -45,7 +45,7 @@ export function WeekProblemAddModal(props){
       return;
     }
     for(const it of items){
-      if(it.id === id){
+      if(it.problem_id === id){
         modal.openModal(ModalType.SNACKBAR.Alert, {
           msg: "중복된 문제입니다!"
         })
@@ -73,7 +73,7 @@ export function WeekProblemAddModal(props){
     const body = items.map((v,i)=>{
       return v.problem_id
     })
-    problemApi.updateWeeklyProblem(props.date, body).then(({data})=>{
+    problemApi.updateWeeklyProblem(props.fromDate, body).then(({data})=>{
       if(!data){
         modal.openModal(ModalType.SNACKBAR.Alert, {
           msg: "문제가 발생했습니다. 다시 시도해주세요"

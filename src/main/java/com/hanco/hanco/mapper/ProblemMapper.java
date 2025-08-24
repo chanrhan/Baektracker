@@ -15,7 +15,7 @@ public interface ProblemMapper {
     public boolean existBaekjoonProblem(int problemId);
     public void insertBaekjoonProblem(int problemId, String title, int level);
     public List<Map<String,Object>> getProblemInfoList(String keyword);
-    public List<Integer> getUserProblemSolved(List<Integer> list);
+    public List<Integer> countUsersProblemSolved(List<Integer> list);
 
     public List<Map<String,Object>> getUsersByProblem(Integer id);
 

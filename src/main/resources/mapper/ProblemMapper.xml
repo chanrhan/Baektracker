@@ -224,8 +224,8 @@
         where title like '%${keyword}%' or problem_id=#{keyword}
     </select>
 
-    <select id="getUserProblemSolved">
-        select count(*)
+    <select id="countUsersProblemSolved">
+        select count(mp.problem_id)
         from (
             <foreach collection="list" item="item" separator="union all">
                 select #{item} as id from dual

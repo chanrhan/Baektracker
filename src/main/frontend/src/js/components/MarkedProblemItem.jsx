@@ -7,7 +7,9 @@ import {useTooltipHandlers} from "../setup/utils/TooltipUtils";
 
 export function MarkedProblemItem({problem, index}){
     const tooltip = useTooltipHandlers(<div>
-        <span>{problem.title}</span>
+        <span style={{
+            fontWeight: '600'
+        }}>{problem.title}</span>
         <div>
             {
                 problem.co_solvers && problem.co_solvers.map((v,i)=>{

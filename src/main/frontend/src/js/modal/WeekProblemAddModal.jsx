@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React, {useEffect, useState} from "react"
 import styles from "../../css/styles.module.css"
 import {LayerModal} from "./LayerModal";
 import useModal from "../setup/hook/useModal";
@@ -6,6 +6,7 @@ import {ModalType} from "../setup/modal/ModalType";
 import {DesignUtils} from "../utils/DesignUtils";
 import {cm} from "../setup/utils/cm";
 import {useApi} from "../api/useApi";
+import {ObjectUtils} from "../setup/utils/ObjectUtil";
 
 export function WeekProblemAddModal(props){
   const modal = useModal();
@@ -15,9 +16,21 @@ export function WeekProblemAddModal(props){
   const [keyword, setKeyword] = useState('')
   const [searchResults, setSearchResults] = useState([])
 
+  useEffect(() => {
+    const delayDebounceTimer = setTimeout(()=>{
+      searchProblems()
+    }, 500)
+    return ()=>{
+      clearTimeout(delayDebounceTimer)
+    }
+  }, [keyword]);
+
   const searchProblems = ()=>{
+    if(ObjectUtils.isEmpty(keyword)){
+        setSearchResults(null)
+        return
+    }
     problemApi.searchProblems(keyword).then(({data})=>{
-      console.table(data)
       if(data){
         setSearchResults(data);
       }
@@ -42,7 +55,7 @@ export function WeekProblemAddModal(props){
     const item = {
       problem_id: id,
       level: searchResults[index].level,
-      title: searchResults[index].title
+      title: searchResults[index].titleKo
     }
     const copy = [...items];
     copy.push(item)
@@ -84,7 +97,11 @@ export function WeekProblemAddModal(props){
   return (
       <LayerModal {...props} maxWidth={800} minWidth={600} top={25}>
         <div className={styles.problemModalHeader}>
-          <h2 className={styles.problemModalTitle}>문제 출제</h2>
+          <h2 className={styles.problemModalTitle}>
+            <div className={styles.select_date_text}>
+              {props.fromDate} ~ {props.toDate}
+            </div>
+            문제 출제</h2>
           <div style={{
             display: 'flex'
           }}>
@@ -109,7 +126,7 @@ export function WeekProblemAddModal(props){
                   onChange={(e) => setKeyword(e.target.value)}
                   onKeyPress={(e) => e.key === "Enter" && searchProblems()}
               />
-              <button onClick={searchProblems}>검색</button>
+              {/*<button onClick={searchProblems}>검색</button>*/}
             </div>
           </div>
           <div className={styles.selectedProblemSection}>
@@ -145,7 +162,7 @@ export function WeekProblemAddModal(props){
             {
               searchResults && searchResults.length > 0 && (
                     <>
-                      <h3 className={styles.problemModalResultsTitle}>검색 결과</h3>
+                      <h3 className={styles.problemModalResultsTitle}>검색 결과 ({searchResults ? searchResults.length : 0}개)</h3>
                       <div className={styles.problemModalProblemList}>
                         {searchResults.map((v, index) => (
                             <div key={index} className={styles.problemModalProblemItem}>
@@ -161,7 +178,7 @@ export function WeekProblemAddModal(props){
                                 <button
                                     className={styles.problemModalAddButton}
                                     onClick={() => {
-                                      addProblem(index, v.problem_id)
+                                      addProblem(index, v.problemId)
                                     }}>
                                   추가
                                 </button>

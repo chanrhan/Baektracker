@@ -10,13 +10,10 @@ import {useApi} from "../api/useApi";
 export function WeekProblems({fromDate, toDate}){
     const {problemApi} = useApi();
     const modal = useModal();
-    const today = new Date();
 
     const [weeklyProblems, setWeeklyProblems] = useState([]);
-    const [editMode, setEditMode] = useState(false)
 
     const [weeklyProblemInputs, setWeeklyProblemInputs] = useState([-1, -1, -1])
-    const [orgSp, setOrgSp] = useState([-1,-1]);
 
     useEffect(() => {
         getWeeklyProblems();
@@ -32,7 +29,6 @@ export function WeekProblems({fromDate, toDate}){
                 }
                 setWeeklyProblemInputs(copy);
                 setWeeklyProblems(data);
-                setOrgSp(copy);
             }
         })
     }
@@ -40,7 +36,8 @@ export function WeekProblems({fromDate, toDate}){
     const openWeeklyProblemModal = ()=>{
         modal.openModal(ModalType.LAYER.WeeklyProblemDetail, {
             problems: weeklyProblems,
-            date: fromDate,
+            fromDate: fromDate,
+            toDate: toDate,
             onSubmit: ()=>{
                 getWeeklyProblems()
             }

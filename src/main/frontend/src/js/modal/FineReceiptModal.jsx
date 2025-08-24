@@ -9,7 +9,7 @@ import {useApi} from "../api/useApi";
 
 export function FineReceiptModal(props){
   const modal = useModal()
-  const {problemApi} = useApi()
+  const {weeklyResultApi} = useApi()
   const today = new Date();
   const [date, setDate] = useState(today)
   const [weeklyData, setWeeklyData] = useState([])
@@ -29,7 +29,7 @@ export function FineReceiptModal(props){
   }, [date]);
 
   const getTotalFine = ()=>{
-    problemApi.getTotalFine().then(({data})=>{
+    weeklyResultApi.getTotalFine().then(({data})=>{
       if(data){
         setTotalSum(data.sum)
         if(data.user_list){
@@ -43,7 +43,7 @@ export function FineReceiptModal(props){
 
   const getMonthFine = ()=>{
     const date_str = DateUtils.dateToStringYYMM(date)
-    problemApi.getMonthFine(date_str).then(({data})=>{
+    weeklyResultApi.getMonthFine(date_str).then(({data})=>{
       if(data){
         setMonthlySum(data.sum)
         if(data.user_list){
@@ -56,7 +56,7 @@ export function FineReceiptModal(props){
 
   const getWeeklyResult = ()=>{
     const date_str = DateUtils.dateToStringYYMM(date)
-    problemApi.getWeeklyResult(date_str).then(({data})=>{
+    weeklyResultApi.getWeeklyResult(date_str).then(({data})=>{
       // console.table(data)
       if(data){
         setWeeklyData(data)

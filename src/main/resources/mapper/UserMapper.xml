@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hanco.hanco.mapper.UserMapper">
+    <select id="getAllUsers">
+        select id, name,
+               (
+                   select IF(count(*) > 0, true, false)
+                   from tb_mark_problem mp
+                   where mp.user_id=id and week_id=date_format(#{date}, '%Y-%u')
+                   and mp.problem_id in (
+                       select ws.problem_id
+                       from tb_weekly_shared_problem ws
+                       where ws.week_id=date_format(#{date}, '%Y-%u')
+                       )
+                   ) as shared_solved,
+               (
+                   with recursive base as (
+                       select (
+                                  select max(week_dt)
+                                  from tb_weekly_solved
+                              ) as dt, 0 as cnt
+                       union all
+                       select date_sub(dt, interval 1 week ) as dt,
+                              cnt+1 as cnt
+                       from base
+                                left outer join tb_weekly_solved ws on date_format(dt, '%Y-%u')=ws.week_id and ws.id=u.id
+                       where ws.complete_st=1
+                   )
+                   select max(cnt)
+                   from base
+               ) as streak
+        from tb_solved_user u
+    </select>
+
+    <select id="getAllUsersLastRead">
+        select id,
+               last_read
+        from tb_solved_user
+    </select>
+
+    <update id="updateLastRead">
+        update tb_solved_user
+        set last_read=#{lastRead},
+            last_read_time=now()
+        where id=#{id}
+    </update>
+
+    <select id="getUsersByProblem">
+        with base as (
+            select user_id,
+                   lang,
+                   elapsed_tm,
+                   used_mem,
+                   row_number() over (partition by user_id, lang order by elapsed_tm) as rownum
+            from tb_mark_problem
+            where problem_id=#{id} and result_id=4
+        )
+        select user_id,(
+            select name
+            from tb_solved_user u
+            where u.id=base.user_id
+                   ) as name,
+            lang,
+            elapsed_tm,
+            used_mem
+        from base
+        where rownum=1
+    </select>
+
+    <select id="getContinuousCompleteCount">
+        select u.id,
+               (
+                   with recursive base as (
+                       select (
+                                  select max(week_dt)
+                                  from tb_weekly_solved
+                              ) as dt, 0 as cnt
+                       union all
+                       select date_sub(dt, interval 1 week ) as dt,
+                              cnt+1 as cnt
+                       from base
+                                left outer join tb_weekly_solved ws on date_format(dt, '%Y-%u')=ws.week_id and ws.id=u.id
+                       where ws.complete_st=1
+                   )
+                   select max(cnt)
+                   from base
+               ) as cnt
+        from tb_solved_user u
+    </select>
+
+
+    <select id="getUserProblemSolved">
+        select count(*)
+        from (
+            <foreach collection="list" item="item" separator="union all">
+                select #{item} as id from dual
+            </foreach>
+        ) ids
+        left outer join tb_mark_problem mp on ids.id=mp.problem_id and mp.result_id=4
+        group by id
+        order by id
+    </select>
+
+</mapper>

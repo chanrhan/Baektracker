@@ -1,6 +1,6 @@
 package com.hanco.hanco.config;
 
-import com.hanco.hanco.job.RecordWeeklySolvedJob;
+import com.hanco.hanco.job.RecordWeeklyResultJob;
 import jakarta.annotation.PostConstruct;
 import lombok.*;
 import org.quartz.*;
@@ -16,7 +16,7 @@ public class JobConfig {
 
 	@PostConstruct // '의존성 주입이 완료 된 후 실행되는 메소드'를 지정하는 어노테이션
 	public void run(){
-		JobDetail codingStudyWeeklyJob = getJobDetail(RecordWeeklySolvedJob.class, new HashMap());
+		JobDetail codingStudyWeeklyJob = getJobDetail(RecordWeeklyResultJob.class, new HashMap());
 
 		try{
 			scheduler.scheduleJob(codingStudyWeeklyJob, getCronTrigger("0 59 23 ? * SUN")); // 매주 일요일 23:59

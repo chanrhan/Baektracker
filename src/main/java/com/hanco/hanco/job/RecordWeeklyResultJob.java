@@ -1,5 +1,6 @@
 package com.hanco.hanco.job;
 
+import com.hanco.hanco.service.ProblemService;
 import com.hanco.hanco.service.WeeklyResultService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,8 @@ import java.time.LocalDate;
 @RequiredArgsConstructor
 @Slf4j
 @Component
-public class RecordWeeklySolvedJob implements Job {
+public class RecordWeeklyResultJob implements Job {
+	private final ProblemService problemService;
 	private final WeeklyResultService weeklyResultService;
 
 	@Override
@@ -27,6 +29,8 @@ public class RecordWeeklySolvedJob implements Job {
 			log.error("Weekly Job must have run at Sunday!");
 			return;
 		}
+		problemService.loadBaekjoonProblemStatus();
+
 		weeklyResultService.insertWeeklyScore(60, 3000);
 	}
 }

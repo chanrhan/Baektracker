@@ -197,16 +197,19 @@ public class ProblemService {
                     }
 
                     String resultText = tds.get(3).text();
+                    String result = tds.get(3).child(0).attr("data-color");
+
                     SolvedAcResultType resultType = null;
                     int elapsedTime = 0;
                     int usedMemory = 0;
                     String errorText = null;
                     String lang = null;
                     try{
-                        resultType = SolvedAcResultType.of(resultText);
+//                        resultType = SolvedAcResultType.of(resultText);
+                        resultType = result.equals("ac") ? SolvedAcResultType.CORRECT : SolvedAcResultType.WRONG;
                         usedMemory =  Integer.parseInt(tds.get(4).text());
                         elapsedTime = Integer.parseInt(tds.get(5).text());
-                        System.out.println(tds.get(6));
+//                        System.out.println(tds.get(6));
                         lang = tds.get(6).select("td").text();
                     }catch (IllegalArgumentException e){
                         // 일치하는 Enum 이 없을 경우

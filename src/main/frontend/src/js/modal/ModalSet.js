@@ -7,6 +7,7 @@ import {MoreOptionModal} from "./menu/MoreOptionModal";
 import {DateSelectModule} from "./menu/DateSelectModule";
 import {FineReceiptModal} from "./FineReceiptModal";
 import {WeekProblemAddModal} from "./WeekProblemAddModal";
+import {GrantPassMenuModal} from "./menu/GrantPassMenuModal";
 
 export const ModalSet = {
     // common
@@ -16,7 +17,10 @@ export const ModalSet = {
     // tooltip
     Hint: HintModal,
 
+    // Menu
     SelectDate: DateSelectModule,
+    GrantPass : GrantPassMenuModal,
+
     // error
     Warning: WarningModal,
     Info: InfoModal,

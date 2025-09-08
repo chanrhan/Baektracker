@@ -23,4 +23,9 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers(date));
     }
 
+    @PostMapping("/pass/{id}/{state}")
+    public ResponseEntity<Boolean> grantPassThisWeek(@PathVariable String id, @PathVariable int state, @RequestBody String password){
+        return ResponseEntity.ok(userService.grantPassThisWeek(id, state, password));
+    }
+
 }

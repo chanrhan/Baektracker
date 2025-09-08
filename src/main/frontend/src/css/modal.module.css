@@ -157,7 +157,33 @@
     animation: fade-Out 0.5s;
 }
 
+.grant_pass{
+    width: 250px;
+    height: 120px;
+    background: white;
+    border: 1px solid black;
+    padding: 12px;
+}
 
+.grant_pass .inp_password{
+    border: 1px solid black;
+}
+
+.grant_pass .inp_password.error{
+    border: 2px solid red;
+}
+
+.grant_pass .btn_submit{
+    margin-top: 6px;
+    border: 1px solid #4781ff;
+    color: #4781ff;
+    padding: 1px 6px;
+    border-radius: 6px;
+}
+
+.grant_pass .btn_submit:active{
+    background-color: #abc5ff;
+}
 
 @keyframes fade-In {
     from{

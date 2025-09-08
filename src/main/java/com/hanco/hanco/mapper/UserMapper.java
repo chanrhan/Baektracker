@@ -12,4 +12,5 @@ public interface UserMapper {
     public List<Map<String, Object>> getContinuousCompleteCount();
     public List<Map<String, Object>> getAllUsersLastRead();
     public void updateLastRead(String id, Integer lastRead);
+    public int grantPassThisWeek(String userId, int state);
 }

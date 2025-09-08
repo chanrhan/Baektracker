@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hanco.hanco.mapper.WeeklyResultMapper">
-    <insert id="insertWeeklyResult">
+    <update id="insertWeeklyResult">
         <![CDATA[
         set @to_date := (SELECT CURDATE());
         set @from_date := (SELECT SUBDATE(@to_date, interval 6 day));
@@ -14,8 +14,12 @@
                id,
                score,
                week_dt,
-               IF(score >= ${target}, 1, 0) as complete_st,
-               IF(score < ${target}, ${fine}, 0)as fine
+               case
+                   when pass = 1 then 2
+                    when pass = 0 and score >= ${target} then 1
+                    else 0
+                end as complete_st,
+               IF(score < ${target} and pass = false, ${fine}, 0) as fine
         from (
                  select date_format(@to_date, '%Y-%u') as week_id,
                         u.id as id,
@@ -38,11 +42,16 @@
                                  ) mp2
                                      left outer join tb_baekjoon_problem bp on bp.problem_id=mp2.problem_id
                         ) as score,
-                        DATE_FORMAT(@from_date, '%Y-%m-%d') as week_dt
+                        DATE_FORMAT(@from_date, '%Y-%m-%d') as week_dt,
+                        pass_this_week as pass
                  from tb_solved_user u
-             ) base
+             ) base;
         ]]>
-    </insert>
+
+        update tb_solved_user
+        set pass_this_week=0
+        where 1=1;
+    </update>
 
 
     <select id="getTotalFine">

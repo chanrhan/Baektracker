@@ -3,6 +3,12 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hanco.hanco.mapper.UserMapper">
+    <update id="grantPassThisWeek">
+        update tb_solved_user
+        set pass_this_week=#{state}
+        where id=#{userId}
+    </update>
+
     <select id="getAllUsers">
         select id, name,
                (
@@ -30,9 +36,15 @@
                    )
                    select max(cnt)
                    from base
-               ) as streak
+               ) as streak,
+                pass_this_week as pass
         from tb_solved_user u
     </select>
+<!--    #                 IF(pass_this_week=1 or (-->
+<!--    #                     select IF(complete_st=2, true, false)-->
+<!--    #                     from tb_weekly_solved tws-->
+<!--    #                     where tws.week_id=date_format(#{date}, '%Y-%u') and tws.id=u.id-->
+<!--    #                 ), true, false) as pass-->
 
     <select id="getAllUsersLastRead">
         select id,
@@ -46,28 +58,6 @@
             last_read_time=now()
         where id=#{id}
     </update>
-
-    <select id="getUsersByProblem">
-        with base as (
-            select user_id,
-                   lang,
-                   elapsed_tm,
-                   used_mem,
-                   row_number() over (partition by user_id, lang order by elapsed_tm) as rownum
-            from tb_mark_problem
-            where problem_id=#{id} and result_id=4
-        )
-        select user_id,(
-            select name
-            from tb_solved_user u
-            where u.id=base.user_id
-                   ) as name,
-            lang,
-            elapsed_tm,
-            used_mem
-        from base
-        where rownum=1
-    </select>
 
     <select id="getContinuousCompleteCount">
         select u.id,
@@ -90,17 +80,5 @@
         from tb_solved_user u
     </select>
 
-
-    <select id="getUserProblemSolved">
-        select count(*)
-        from (
-            <foreach collection="list" item="item" separator="union all">
-                select #{item} as id from dual
-            </foreach>
-        ) ids
-        left outer join tb_mark_problem mp on ids.id=mp.problem_id and mp.result_id=4
-        group by id
-        order by id
-    </select>
 
 </mapper>

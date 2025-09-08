@@ -13,7 +13,18 @@ import java.util.Map;
 public class UserService {
     private final SolvedAcService solvedAcService;
     private final UserMapper userMapper;
+    private static final String PASS_PWD = "\"091504\"";
 //    private static final String Solved_ac_user_show_URL = "https://solved.ac/api/v3/search/user?query=";
+
+    public Boolean grantPassThisWeek(String userId, int state, String password){
+        System.out.println("pwd: "+ password);
+        System.out.println("pwd2: "+ PASS_PWD);
+        if(password.equals(PASS_PWD)){
+            System.out.println("success");
+            return userMapper.grantPassThisWeek(userId, state) > 0;
+        }
+        return false;
+    }
 
     public List<Map<String,Object>> getAllUsers(String date){
         List<Map<String,Object>> users = userMapper.getAllUsers(date);

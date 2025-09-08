@@ -4,8 +4,14 @@ import {DesignUtils} from "../utils/DesignUtils";
 import {cm} from "../setup/utils/cm"
 import {MarkedProblemItem} from "./MarkedProblemItem";
 import {useApi} from "../api/useApi";
+import useModal from "../setup/hook/useModal";
+import {getWindowFromNode} from "@testing-library/dom/dist/helpers";
+import {ModalType} from "../setup/modal/ModalType";
+import {MouseEventUtils} from "../setup/utils/MouseEventUtils";
+import {DateUtils} from "../setup/utils/DateUtils";
 
 export function UserProgress({fromDate, toDate}){
+    const modal = useModal()
     const {userApi, problemApi} = useApi();
 
     const [users, setUsers] = useState([])
@@ -95,6 +101,20 @@ export function UserProgress({fromDate, toDate}){
         }
     }
 
+    const grantPassThisWeek = (e, id)=>{
+        const {top, left} = MouseEventUtils.getAbsolutePos(e);
+        modal.openModal(ModalType.MENU.Grant_Pass, {
+            id: id,
+            top: top + e.currentTarget.offsetHeight,
+            left: left,
+            width: e.currentTarget.offsetWidth,
+            height: e.currentTarget.offsetHeight,
+            onSubmit: ()=>{
+
+            }
+        })
+    }
+
     return (
         <section className={styles.progressSection}>
             <h2 className={styles.sectionTitle}>개별 진행 현황</h2>
@@ -114,7 +134,10 @@ export function UserProgress({fromDate, toDate}){
                                 <div className={styles.userProgressInfo}>
                                     <span className={cm(styles.tierIcon, `${DesignUtils.getTierIconClass(user.tier)}`)}></span>
                                     {/*<TierIcon tier={user.tier} size="small"/>*/}
-                                    <span className={styles.userProgressName}>{user.name}</span>
+                                    <span className={styles.userProgressName} onDoubleClick={(e)=>{
+                                        grantPassThisWeek(e, user.id);
+                                    }}>{user.name} {(user.pass && DateUtils.isBeforeDate(fromDate, new Date()) && DateUtils.isAfterDate(toDate, new Date()))
+                                        && <span className={styles.pass_text}>이번주 패스</span>}</span>
                                 </div>
                                 <span className={cm(styles.userProgressHotStreak, `${user.streak <= 0 && styles.cold}`)}></span>
                                 <span className={cm(styles.userProgressHotStreakNumber)}>{user.streak > 0 && user.streak}</span>

@@ -32,7 +32,7 @@
                               cnt+1 as cnt
                        from base
                                 left outer join tb_weekly_solved ws on date_format(dt, '%Y-%u')=ws.week_id and ws.id=u.id
-                       where ws.complete_st=1
+                       where ws.complete_st=1 or ws.complete_st=2
                    )
                    select max(cnt)
                    from base

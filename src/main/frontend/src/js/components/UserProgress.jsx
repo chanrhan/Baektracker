@@ -137,7 +137,7 @@ export function UserProgress({fromDate, toDate}){
                                     <span className={styles.userProgressName} onDoubleClick={(e)=>{
                                         grantPassThisWeek(e, user.id);
                                     }}>{user.name} {(user.pass && DateUtils.isBeforeDate(fromDate, new Date()) && DateUtils.isAfterDate(toDate, new Date()))
-                                        && <span className={styles.pass_text}>이번주 패스</span>}</span>
+                                        ? <span className={styles.pass_text}>이번주 패스</span> : ''}</span>
                                 </div>
                                 <span className={cm(styles.userProgressHotStreak, `${user.streak <= 0 && styles.cold}`)}></span>
                                 <span className={cm(styles.userProgressHotStreakNumber)}>{user.streak > 0 && user.streak}</span>

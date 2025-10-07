@@ -59,7 +59,7 @@ export function Header({fromDate, toDate, setFromDate, setToDate}){
 
     return (
         <header className={styles.header}>
-            <span className={styles.title}>Baektracker</span>
+            <div className={styles.title}>Baektracker</div>
             <div className={styles.weekSelectorContainer}>
                 <div className={styles.weekSelectorNavigation}>
                     <button className={styles.weekSelectorNavButton} onClick={handlePrevWeek}>

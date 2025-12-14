@@ -1,7 +1,7 @@
 package com.hanco.hanco.mapper;
 
-import com.hanco.hanco.dto.request.UpdatePasswordRequestDto;
-import com.hanco.hanco.dto.request.WeekPassRequestDto;
+import com.hanco.hanco.user.dto.request.UpdatePasswordRequestDto;
+import com.hanco.hanco.user.dto.request.WeekPassRequestDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

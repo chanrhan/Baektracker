@@ -1,7 +1,7 @@
 package com.hanco.hanco.mapper;
 
-import com.hanco.hanco.vo.SolvedAcRequestVO;
-import com.hanco.hanco.vo.SolvedAcResponseVO;
+import com.hanco.hanco.problem.vo.SolvedAcRequestVO;
+import com.hanco.hanco.problem.vo.SolvedAcResponseVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

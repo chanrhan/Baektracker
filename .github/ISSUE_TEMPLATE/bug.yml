@@ -1,0 +1,78 @@
+name: "🐞 Bug"
+description: "버그 또는 오류 제보"
+labels: [ "bug" ]
+title: "[Bug] "
+body:
+  - type: textarea
+    attributes:
+      label: 🐛 버그 설명
+      description: 어떤 문제가 발생했는지 명확하게 설명해 주세요.
+      placeholder: >
+        예) 지도 확대 시 클러스터가 정상적으로 재계산되지 않고,
+        이전 확대 레벨의 핀들이 그대로 표시됩니다.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 🔄 재현 방법 (Steps to Reproduce)
+      description: 버그를 재현할 수 있는 구체적인 단계를 작성해 주세요.
+      placeholder: |
+        1. 지도 화면 접속
+        2. 확대 버튼 3회 클릭
+        3. 클러스터가 갱신되지 않은 것을 확인
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 📸 예상 결과(Expected)
+      description: 원래 기대했던 동작을 작성해 주세요.
+      placeholder: |
+        - 확대 후 해당 레벨에 맞는 클러스터가 다시 계산되어 화면에 표시됨
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 🧪 실제 결과(Actual)
+      description: 실제로 발생한 동작을 작성해 주세요.
+      placeholder: |
+        - 확대해도 클러스터가 갱신되지 않음
+        - 오래된 클러스터가 남아있어 UX가 저하됨
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 💻 환경(Environment)
+      description: 문제가 발생한 환경 정보를 작성해 주세요.
+      placeholder: |
+        - OS: Windows 11 / macOS  
+        - Browser: Chrome 120 / Safari  
+        - App Version: v0.3.1  
+        - API Base URL: https://api.example.com
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 📄 추가 로그 또는 스크린샷
+      description: 로그, 콘솔 에러, 스크린샷 등이 있다면 첨부해 주세요.
+      placeholder: |
+        - 콘솔 에러 메시지
+        - API 응답 값
+        - 화면 캡처 이미지
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: 🙋🏻 참고 자료
+      description: 관련 문서나 참고 링크가 있다면 작성해 주세요.
+      placeholder: |
+        - 관련 API 명세서 링크
+        - 관련 PR 또는 커밋
+        - 관련 이슈 번호 (#123)
+    validations:
+      required: false

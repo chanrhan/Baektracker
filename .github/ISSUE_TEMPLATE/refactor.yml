@@ -1,0 +1,35 @@
+name: "🛠 Refactor"
+description: "코드 구조 개선 및 리팩토링 요청"
+labels: [ "refactor" ]
+title: "[Refactor] "
+body:
+  - type: textarea
+    attributes:
+      label: 📝 리팩토링 개요
+      description: 어떤 부분을 어떻게 개선하려는지 간단히 적어주세요.
+      placeholder: >
+        예) PhotoService의 조회 로직과 변환 로직이 섞여 있어 모듈 분리가 필요합니다.
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 🔧 작업 내용
+      description: 필요한 작업을 체크박스 형식으로 직접 작성해 주세요.
+      placeholder: |
+        [ ] 조회 로직 Service 분리
+        [ ] Mapper 역할 분리
+        [ ] 중복 코드 제거
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: 📌 참고 사항
+      description: 관련 코드나 참고 링크를 적어주세요.
+      placeholder: |
+        - 관련 PR 링크
+        - 관련 파일 경로
+        - 이슈 #123
+    validations:
+      required: false

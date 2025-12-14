@@ -7,7 +7,7 @@ function userApi(){
             return axiosApi.get(`/api/v1/user?date=${date}`);
         },
         grantPassThisWeek: async (id, state, pwd)=> {
-            return axiosApi.post(`/api/v1/user/pass/${id}/${state}`, pwd);
+            return axiosApi.post(`/api/v1/user/week-pass/${id}/${state}`, pwd);
         },
     }
 }

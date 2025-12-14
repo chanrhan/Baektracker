@@ -1,8 +1,11 @@
 package com.hanco.hanco.service;
 
+import com.hanco.hanco.dto.request.UpdatePasswordRequestDto;
+import com.hanco.hanco.dto.request.WeekPassRequestDto;
 import com.hanco.hanco.mapper.UserMapper;
-import com.hanco.hanco.util.ExternalApiUtils;
+import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,16 +17,23 @@ public class UserService {
     private final SolvedAcService solvedAcService;
     private final UserMapper userMapper;
     private static final String PASS_PWD = "\"091504\"";
-//    private static final String Solved_ac_user_show_URL = "https://solved.ac/api/v3/search/user?query=";
+    private final PasswordEncoder passwordEncoder;
 
-    public Boolean grantPassThisWeek(String userId, int state, String password){
-        System.out.println("pwd: "+ password);
-        System.out.println("pwd2: "+ PASS_PWD);
-        if(password.equals(PASS_PWD)){
-            System.out.println("success");
-            return userMapper.grantPassThisWeek(userId, state) > 0;
+    public void updateUserPassword(UpdatePasswordRequestDto dto){
+        String password = userMapper.findPassword(dto.id());
+        if(passwordEncoder.matches(password, dto.newPwd())){
+            userMapper.updatePassword(dto);
         }
-        return false;
+    }
+
+    public void updateWeekPass(WeekPassRequestDto dto){
+        if(LocalDate.now().getDayOfWeek().getValue() >= 6){
+            return;
+        }
+        String password = userMapper.findPassword(dto.id());
+        if(passwordEncoder.matches(password, dto.password())){
+            userMapper.updatePass(dto);
+        }
     }
 
     public List<Map<String,Object>> getAllUsers(String date){

@@ -17,7 +17,7 @@ function App() {
   return (
     <div className="App">
       <Helmet>
-        <title>코테스터디</title>
+        <title>Baektracker</title>
         <meta name='viewport' content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
       </Helmet>
       <ModalContainer/>

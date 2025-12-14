@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,21 +46,24 @@ public class ProblemService {
 
     public List<Map<String,Object>> searchProblems(String keyword){
         Map<String, Object> result = solvedAcService.searchProblem(keyword);
+        if(result == null || result.isEmpty()){
+            return null;
+        }
+
         List<Map<String,Object>> items = (List<Map<String, Object>>)result.get("items");
         if(items.size() > 50){
             items = items.subList(0, 50);
         }
-        List<Integer> list = items.stream().map(v->{
-            try {
-                return Integer.parseInt(v.get("problemId").toString());
-            }catch (Exception e){
-                return -1;
-            }
-        }).toList();
+        List<Integer> list = items.stream()
+                .map(it->Integer.parseInt(it.get("problem_id").toString()))
+                .collect(Collectors.toList());
+
         List<Integer> counts = problemMapper.countUsersProblemSolved(list);
+
         for(int i=0;i<items.size();++i){
             items.get(i).put("solved_count", counts.get(i));
         }
+
         return items;
     }
 

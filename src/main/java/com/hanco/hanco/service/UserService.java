@@ -21,7 +21,7 @@ public class UserService {
 
     public void updateUserPassword(UpdatePasswordRequestDto dto){
         String password = userMapper.findPassword(dto.id());
-        if(passwordEncoder.matches(password, dto.newPwd())){
+        if(passwordEncoder.matches(password, dto.orgPwd())){
             userMapper.updatePassword(dto);
         }
     }

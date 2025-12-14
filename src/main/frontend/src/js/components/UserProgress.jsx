@@ -1,5 +1,5 @@
 import styles from "../../css/styles.module.css";
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import {DesignUtils} from "../utils/DesignUtils";
 import {cm} from "../setup/utils/cm"
 import {MarkedProblemItem} from "./MarkedProblemItem";
@@ -9,6 +9,7 @@ import {getWindowFromNode} from "@testing-library/dom/dist/helpers";
 import {ModalType} from "../setup/modal/ModalType";
 import {MouseEventUtils} from "../setup/utils/MouseEventUtils";
 import {DateUtils} from "../setup/utils/DateUtils";
+import Popup from "../../css/popup.module.css";
 
 export function UserProgress({fromDate, toDate}){
     const modal = useModal()
@@ -16,6 +17,10 @@ export function UserProgress({fromDate, toDate}){
 
     const [users, setUsers] = useState([])
     const [problems, setProblems] = useState({})
+    const [openDropdownId, setOpenDropdownId] = useState(null)
+    const dropdownRefs = useRef({})
+    const threeDotsRefs = useRef({})
+    const longPressTimer = useRef(null)
 
     useEffect(() => {
         getAllUsers()
@@ -101,19 +106,89 @@ export function UserProgress({fromDate, toDate}){
         }
     }
 
-    const grantPassThisWeek = (e, id)=>{
-        const {top, left} = MouseEventUtils.getAbsolutePos(e);
-        modal.openModal(ModalType.MENU.Grant_Pass, {
-            id: id,
-            top: top + e.currentTarget.offsetHeight,
-            left: left,
-            width: e.currentTarget.offsetWidth,
-            height: e.currentTarget.offsetHeight,
-            onSubmit: ()=>{
-
-            }
-        })
+    const getElementPosition = (element) => {
+        if(!element) return null
+        const rect = element.getBoundingClientRect()
+        return {
+            top: window.pageYOffset + rect.top,
+            left: window.pageXOffset + rect.left
+        }
     }
+
+    const openGrantPassModal = (e, id)=>{
+        e.stopPropagation()
+        const threeDotsButton = threeDotsRefs.current[id]
+        if(threeDotsButton){
+            const pos = getElementPosition(threeDotsButton)
+            if(pos){
+                modal.openModal(ModalType.MENU.Grant_Pass, {
+                    id: id,
+                    top: pos.top + threeDotsButton.offsetHeight + 4,
+                    left: pos.left,
+                    width: threeDotsButton.offsetWidth,
+                    height: threeDotsButton.offsetHeight,
+                    onSubmit: ()=>{
+                        getAllUsers()
+                    }
+                })
+            }
+        }
+        setOpenDropdownId(null)
+    }
+
+    const openUpdatePasswordModal = (e, id)=>{
+        e.stopPropagation()
+        const threeDotsButton = threeDotsRefs.current[id]
+        if(threeDotsButton){
+            const pos = getElementPosition(threeDotsButton)
+            if(pos){
+                modal.openModal(ModalType.MENU.Update_Password, {
+                    id: id,
+                    top: pos.top + threeDotsButton.offsetHeight + 4,
+                    left: pos.left,
+                    width: threeDotsButton.offsetWidth,
+                    height: threeDotsButton.offsetHeight
+                })
+            }
+        }
+        setOpenDropdownId(null)
+    }
+
+    const handleThreeDotsClick = (e, userId)=>{
+        e.stopPropagation()
+        if(openDropdownId === userId){
+            setOpenDropdownId(null)
+        } else {
+            setOpenDropdownId(userId)
+        }
+    }
+
+    const handleLongPressStart = (e, userId)=>{
+        longPressTimer.current = setTimeout(() => {
+            setOpenDropdownId(userId)
+        }, 500)
+    }
+
+    const handleLongPressEnd = ()=>{
+        if(longPressTimer.current){
+            clearTimeout(longPressTimer.current)
+            longPressTimer.current = null
+        }
+    }
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if(openDropdownId && !event.target.closest(`[data-dropdown="${openDropdownId}"]`)){
+                setOpenDropdownId(null)
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside)
+        document.addEventListener('touchstart', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+            document.removeEventListener('touchstart', handleClickOutside)
+        }
+    }, [openDropdownId])
 
     return (
         <section className={styles.progressSection}>
@@ -134,10 +209,38 @@ export function UserProgress({fromDate, toDate}){
                                 <div className={styles.userProgressInfo}>
                                     <span className={cm(styles.tierIcon, `${DesignUtils.getTierIconClass(user.tier)}`)}></span>
                                     {/*<TierIcon tier={user.tier} size="small"/>*/}
-                                    <span className={styles.userProgressName} onDoubleClick={(e)=>{
-                                        grantPassThisWeek(e, user.id);
-                                    }}>{user.name} {(user.pass && DateUtils.isBeforeDate(fromDate, new Date()) && DateUtils.isAfterDate(toDate, new Date()))
-                                        ? <span className={styles.pass_text}>이번주 패스</span> : ''}</span>
+                                    <span className={styles.userProgressName}>
+                                        {user.name} {(user.pass && DateUtils.isBeforeDate(fromDate, new Date()) && DateUtils.isAfterDate(toDate, new Date()))
+                                            ? <span className={styles.pass_text}>이번주 패스</span> : ''}
+                                    </span>
+                                    <div className={styles.userProgressMenuContainer} data-dropdown={user.id}>
+                                        <button 
+                                            ref={(el) => threeDotsRefs.current[user.id] = el}
+                                            className={styles.userProgressThreeDots}
+                                            onClick={(e)=>handleThreeDotsClick(e, user.id)}
+                                            onTouchStart={(e)=>handleLongPressStart(e, user.id)}
+                                            onTouchEnd={handleLongPressEnd}
+                                            onMouseDown={(e)=>e.preventDefault()}
+                                        >
+                                            ⋯
+                                        </button>
+                                        {openDropdownId === user.id && (
+                                            <div className={styles.userProgressDropdown}>
+                                                <button 
+                                                    className={styles.userProgressDropdownItem}
+                                                    onClick={(e)=>openGrantPassModal(e, user.id)}
+                                                >
+                                                    패스
+                                                </button>
+                                                <button 
+                                                    className={styles.userProgressDropdownItem}
+                                                    onClick={(e)=>openUpdatePasswordModal(e, user.id)}
+                                                >
+                                                    비밀번호 수정
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
                                 <span className={cm(styles.userProgressHotStreak, `${user.streak <= 0 && styles.cold}`)}></span>
                                 <span className={cm(styles.userProgressHotStreakNumber)}>{user.streak > 0 && user.streak}</span>

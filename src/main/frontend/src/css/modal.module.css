@@ -158,31 +158,144 @@
 }
 
 .grant_pass{
-    width: 250px;
-    height: 120px;
+    width: 260px;
     background: white;
-    border: 1px solid black;
-    padding: 12px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 14px 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.grant_pass_label{
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 2px;
 }
 
 .grant_pass .inp_password{
-    border: 1px solid black;
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 13px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+.grant_pass .inp_password:focus{
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
 }
 
 .grant_pass .inp_password.error{
-    border: 2px solid red;
+    border: 2px solid #dc2626;
 }
 
-.grant_pass .btn_submit{
-    margin-top: 6px;
-    border: 1px solid #4781ff;
-    color: #4781ff;
-    padding: 1px 6px;
+.grant_pass .inp_password::placeholder{
+    color: #9ca3af;
+}
+
+.grant_pass_buttons{
+    display: flex;
+    gap: 6px;
+    margin-top: 2px;
+}
+
+.btn_weekpass_set,
+.btn_weekpass_cancel{
+    flex: 1;
+    padding: 8px 12px;
+    border: none;
     border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
-.grant_pass .btn_submit:active{
-    background-color: #abc5ff;
+.btn_weekpass_set{
+    background: #2563eb;
+    color: white;
+}
+
+.btn_weekpass_set:hover{
+    background: #1d4ed8;
+}
+
+.btn_weekpass_cancel{
+    background: #f3f4f6;
+    color: #374151;
+    border: 1px solid #d1d5db;
+}
+
+.btn_weekpass_cancel:hover{
+    background: #e5e7eb;
+}
+
+.update_password{
+    width: 260px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 14px 16px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.update_password_label{
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+    margin-bottom: 2px;
+}
+
+.update_password .inp_password{
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 13px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    box-sizing: border-box;
+}
+
+.update_password .inp_password:focus{
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
+}
+
+.update_password .inp_password.error{
+    border: 2px solid #dc2626;
+}
+
+.update_password .inp_password::placeholder{
+    color: #9ca3af;
+}
+
+.btn_password_update{
+    width: 100%;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    background: #10b981;
+    color: white;
+    margin-top: 2px;
+}
+
+.btn_password_update:hover{
+    background: #059669;
 }
 
 @keyframes fade-In {

@@ -9,15 +9,16 @@ import {cm} from "../../setup/utils/cm";
 export function GrantPassMenuModal(props){
     const modal = useModal()
     const [password, setPassword] = useState("")
-    const [checked, setChecked] = useState(false)
     const [error, setError] = useState(false)
     const {userApi} = useApi();
 
-    const onSubmit = (e)=>{
-        console.log(checked)
-        userApi.grantPassThisWeek(props.id, checked ? 0 : 1, password).then(({data})=>{
-            console.log(data)
-            if(data){
+    const onGrantPass = (state)=>{
+        if(!password){
+            setError(true);
+            return;
+        }
+        userApi.grantPassThisWeek(props.id, state, password).then(({status})=>{
+            if(status === 302 || status === 200){
                 if(props.onSubmit){
                     props.onSubmit();
                 }
@@ -25,22 +26,37 @@ export function GrantPassMenuModal(props){
             }else{
                 setError(true);
             }
+        }).catch(()=>{
+            setError(true);
         })
     }
 
     return (
         <MenuModal {...props}>
             <div className={Modal.grant_pass}>
-                <div>
-                    <div>이번주 패스 (<input type="checkbox" checked={checked} onClick={()=>{
-                        setChecked(!checked)
-                    }}/> 체크하면 패스 취소) </div>
-                    <input type="text" className={cm(Modal.inp_password, `${error && Modal.error}`)}
-                           value={password} onChange={e=>{
-                               setPassword(e.target.value)
-                    }}/>
+                <div className={Modal.grant_pass_label}>Week-Pass 설정</div>
+                <input 
+                    type="password" 
+                    className={cm(Modal.inp_password, `${error && Modal.error}`)}
+                    placeholder="비밀번호를 입력하세요."
+                    value={password} 
+                    onChange={e=>{
+                        setPassword(e.target.value)
+                        setError(false)
+                    }}
+                />
+                <div className={Modal.grant_pass_buttons}>
+                    <button className={Modal.btn_weekpass_set}
+                        onClick={()=>onGrantPass(1)}
+                    >
+                        설정
+                    </button>
+                    <button className={Modal.btn_weekpass_cancel}
+                        onClick={()=>onGrantPass(0)}
+                    >
+                        해제
+                    </button>
                 </div>
-                <button type="button" className={Modal.btn_submit} onClick={onSubmit}>확인</button>
             </div>
         </MenuModal>
     )

@@ -15,7 +15,8 @@ export const ModalType = {
         Dynamic_Select: 'DynamicSelect',
         More_Option: 'MoreOption',
         Confirm: 'Confirm',
-        Grant_Pass: 'GrantPass'
+        Grant_Pass: 'GrantPass',
+        Update_Password: 'UpdatePassword'
     },
     SNACKBAR: {
         Alert: 'Alert',

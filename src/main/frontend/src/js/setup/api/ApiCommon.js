@@ -19,7 +19,7 @@ export const AxiosApi = ()=> {
             return error.response;
         }
         const status = error.response.status;
-        if(status >= 300){
+        if(status >= 400){
             let msg = "문제가 발생했습니다. 다시 한번 시도해 주세요.";
             if(error.code === 'ERR_NETWORK'){
                 msg =  '서버 연결이 원활하지 않습니다. 잠시 후 다시 시도해주세요.'
@@ -54,11 +54,16 @@ export const AxiosApi = ()=> {
         return await axiosInstance.put(url, data, option);
     }
 
+    const patch = async (url, data, option)=>{
+        return await axiosInstance.patch(url, data, option);
+    }
+
     return {
         post,
         get,
         del,
-        put
+        put,
+        patch
     }
 }
 

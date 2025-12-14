@@ -442,6 +442,8 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  border-radius: 6px;
+  padding: 1px 5px;
 }
 
 .userProgressName .pass_text{
@@ -449,6 +451,70 @@
   font-weight: 600;
   margin-left: 2px;
   color: rgb(71, 123, 255);
+}
+
+.userProgressMenuContainer{
+  position: relative;
+  margin-left: auto;
+}
+
+.userProgressThreeDots{
+  width: 24px;
+  height: 24px;
+  border: none;
+  background: none;
+  color: #6b7280;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  padding: 0;
+  line-height: 1;
+  transition: background-color 0.2s;
+}
+
+.userProgressThreeDots:hover{
+  background-color: rgba(183, 183, 183, 0.44);
+}
+
+.userProgressDropdown{
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 140px;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.userProgressDropdownItem{
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: none;
+  text-align: left;
+  font-size: 14px;
+  color: #374151;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.userProgressDropdownItem:hover{
+  background-color: #f3f4f6;
+}
+
+.userProgressDropdownItem:first-child{
+  border-radius: 8px 8px 0 0;
+}
+
+.userProgressDropdownItem:last-child{
+  border-radius: 0 0 8px 8px;
 }
 
 .userProgressHotStreak {

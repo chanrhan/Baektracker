@@ -27,13 +27,13 @@ public class UserController {
     @PostMapping("/week-pass")
     public ResponseEntity<Void> updatePass(@RequestBody WeekPassRequestDto dto){
         userService.updateWeekPass(dto);
-        return ResponseEntity.status(HttpStatus.FOUND).build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping("/pwd")
     public ResponseEntity<Void> updateUserPassword(@RequestBody UpdatePasswordRequestDto dto){
         userService.updateUserPassword(dto);
-        return ResponseEntity.status(HttpStatus.FOUND).build();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
 }

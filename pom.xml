@@ -155,6 +155,10 @@
             <version>4.1.110.Final</version>
             <!--            <classifier>osx-aarch_64</classifier> Apple Silicon M1/M2/M3 전용-->
         </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-mysql</artifactId>
+        </dependency>
 
     </dependencies>
 

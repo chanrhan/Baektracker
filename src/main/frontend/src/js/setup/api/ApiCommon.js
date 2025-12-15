@@ -1,26 +1,19 @@
 import axiosInstance from "./axiosInstance";
 import useModal from "../hook/useModal";
 import {ModalType} from "../modal/ModalType";
-// import {authActions} from "../store/slices/authSlice";
-// import {useSelector} from "react-redux";
 
 export const AxiosApi = ()=> {
     const modal = useModal();
-    // const {authenticated, accessToken, expireTime} = useSelector(s=>s.authReducer);
 
     axiosInstance.interceptors.response.use((response)=>{
-        return {
-            status: response.status,
-            data: response.data,
-            headers: response.headers
-        }
+        return response
     }, (error)=>{
         if(!error){
             return error.response;
         }
         const status = error.response.status;
-        if(status >= 400){
-            let msg = "문제가 발생했습니다. 다시 한번 시도해 주세요.";
+        if(status >= 300){
+            let msg = null
             if(error.code === 'ERR_NETWORK'){
                 msg =  '서버 연결이 원활하지 않습니다. 잠시 후 다시 시도해주세요.'
             }else if(error.response && error.response.data){
@@ -31,11 +24,7 @@ export const AxiosApi = ()=> {
             })
         }
 
-        // throw msg;
-        return  {
-            status: status,
-            data: error.response.data
-        }
+        return Promise.reject(error);
     })
 
     const post = async(url, data, option)=>{

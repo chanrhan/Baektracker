@@ -18,8 +18,6 @@ export function UpdatePasswordModal(props){
             setError(true);
             return;
         }
-        console.log(props.id)
-        console.log(newPassword)
         userApi.updatePassword(props.id, orgPassword, newPassword).then(({status})=>{
             if(status === 302 || status === 200){
                 modal.openModal(ModalType.SNACKBAR.Info, {
@@ -30,9 +28,6 @@ export function UpdatePasswordModal(props){
                 setError(false);
                 modal.closeModal(ModalType.MENU.Update_Password);
             }else{
-                modal.openModal(ModalType.SNACKBAR.Alert, {
-                    msg: "비밀번호가 일치하지 않습니다."
-                })
                 setError(true);
             }
         }).catch(()=>{

@@ -22,7 +22,7 @@ public class RecordWeeklyResultJob implements Job {
 
 	@Override
 	public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-		log.info("Coding Study Weekly Job is processing!");
+		log.info("[Job] Weekly Job is processing!");
 
 		LocalDate today = LocalDate.now();
 		if(today.getDayOfWeek() != DayOfWeek.SUNDAY){

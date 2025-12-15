@@ -1,7 +1,7 @@
 package com.hanco.hanco.user.controller;
 
 import com.hanco.hanco.user.dto.request.UpdatePasswordRequestDto;
-import com.hanco.hanco.user.dto.request.WeekPassRequestDto;
+import com.hanco.hanco.user.model.UserProfile;
 import com.hanco.hanco.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @Slf4j
@@ -20,19 +19,14 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("")
-    public ResponseEntity<List<Map<String,Object>>> getAllUsers(@RequestParam String date){
-        return ResponseEntity.ok(userService.getAllUsers(date));
+    public ResponseEntity<List<UserProfile>> getAllUsers() {
+        return ResponseEntity.ok(userService.getUsers());
     }
 
-    @PostMapping("/week-pass")
-    public ResponseEntity<Void> updatePass(@RequestBody WeekPassRequestDto dto){
-        userService.updateWeekPass(dto);
-        return ResponseEntity.status(HttpStatus.OK).build();
-    }
 
     @PatchMapping("/pwd")
-    public ResponseEntity<Void> updateUserPassword(@RequestBody UpdatePasswordRequestDto dto){
-        userService.updateUserPassword(dto);
+    public ResponseEntity<Void> updateUserPassword(@RequestBody UpdatePasswordRequestDto dto) {
+        userService.updatePassword(dto);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 

@@ -3,18 +3,13 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hanco.hanco.mapper.UserMapper">
-    <update id="updatePass">
-        update tb_solved_user
-        set pass_this_week=#{activate}
-        where id=#{id}
-    </update>
 
     <select id="getAllUsers">
-        select id, name,
+        select u.id, name,
                (
                    select IF(count(*) > 0, true, false)
                    from tb_mark_problem mp
-                   where mp.user_id=id and week_id=date_format(#{date}, '%Y-%u')
+                   where mp.user_id=u.id and week_id=date_format(#{date}, '%Y-%u')
                    and mp.problem_id in (
                        select ws.problem_id
                        from tb_weekly_shared_problem ws
@@ -32,12 +27,11 @@
                               cnt+1 as cnt
                        from base
                                 left outer join tb_weekly_solved ws on date_format(dt, '%Y-%u')=ws.week_id and ws.id=u.id
-                       where ws.complete_st=1 or ws.complete_st=2
+                       where ws.state=1 or ws.state=2
                    )
                    select max(cnt)
                    from base
-               ) as streak,
-                pass_this_week as pass
+               ) as streak
         from tb_solved_user u
     </select>
 <!--    #                 IF(pass_this_week=1 or (-->

@@ -10,14 +10,14 @@ export function GrantPassMenuModal(props){
     const modal = useModal()
     const [password, setPassword] = useState("")
     const [error, setError] = useState(false)
-    const {userApi} = useApi();
+    const {weeklyResultApi} = useApi();
 
     const onGrantPass = (state)=>{
         if(!password){
             setError(true);
             return;
         }
-        userApi.grantPassThisWeek(props.id, state, password).then(({status})=>{
+        weeklyResultApi.updateWeekPass(props.id, state, password).then(({status})=>{
             if(status === 302 || status === 200){
                 if(props.onSubmit){
                     props.onSubmit();

@@ -10,13 +10,19 @@ import {ModalType} from "../setup/modal/ModalType";
 import {MouseEventUtils} from "../setup/utils/MouseEventUtils";
 import {DateUtils} from "../setup/utils/DateUtils";
 import Popup from "../../css/popup.module.css";
+import weeklyResultApi from "../api/weeklyResultApi";
 
-export function UserProgress({fromDate, toDate}){
+export function UserProgress({fromDate, toDate}) {
     const modal = useModal()
-    const {userApi, problemApi} = useApi();
+    const {
+        userApi,
+        problemApi,
+        weeklyResultApi
+    } = useApi();
 
     const [users, setUsers] = useState([])
     const [problems, setProblems] = useState({})
+    const [weeklyResults, setWeeklyResults] = useState({})
     const [openDropdownId, setOpenDropdownId] = useState(null)
     const dropdownRefs = useRef({})
     const threeDotsRefs = useRef({})
@@ -28,12 +34,13 @@ export function UserProgress({fromDate, toDate}){
 
     useEffect(() => {
         getProblem();
+        getWeekPass()
         getWeeklyProblemSolved()
     }, [fromDate, toDate]);
 
-    const getAllUsers = ()=>{
-        userApi.getAllUsers(fromDate).then(({data})=>{
-            if(data){
+    const getAllUsers = () => {
+        userApi.getUsers().then(({data}) => {
+            if (data) {
                 // console.table(data)
                 setUsers(data);
             }
@@ -41,15 +48,32 @@ export function UserProgress({fromDate, toDate}){
         })
     }
 
-    const initLoad = ()=>{
-        problemApi.loadBaekjoon().then(({data})=>{
-            if(data){
+    const getWeekPass = () => {
+        weeklyResultApi.getWeeklyResult(fromDate).then(({data}) => {
+            const ob = {};
+
+            if (data) {
+                for (const item of data) {
+                    if (item) {
+                        ob[item.id] = {
+                            state: Number(item.state)
+                        }
+                    }
+                }
+            }
+            setWeeklyResults(ob)
+        })
+    }
+
+    const initLoad = () => {
+        problemApi.loadBaekjoon().then(({data}) => {
+            if (data) {
                 getProblem()
             }
         })
     }
 
-    const getProblem = ()=> {
+    const getProblem = () => {
         const body = {
             from_date: fromDate,
             to_date: toDate,
@@ -59,8 +83,8 @@ export function UserProgress({fromDate, toDate}){
         problemApi.getProblem(body).then(({status, data}) => {
             const ob = {};
             // console.table(data)
-            if(data){
-                for(const detail of data){
+            if (data) {
+                for (const detail of data) {
                     ob[detail.id] = {
                         score: detail.score,
                         problems: JSON.parse(detail.problems)
@@ -71,12 +95,12 @@ export function UserProgress({fromDate, toDate}){
         })
     }
 
-    const getWeeklyProblemSolved = ()=>{
-        problemApi.getWeeklyProblemSolved(fromDate).then(({data})=>{
-            if(data){
-                if(users){
+    const getWeeklyProblemSolved = () => {
+        problemApi.getWeeklyProblemSolved(fromDate).then(({data}) => {
+            if (data) {
+                if (users) {
                     const copy = [...users]
-                    for(const user of copy){
+                    for (const user of copy) {
                         user.shared_solved = data[user.id]
                     }
                     setUsers(copy)
@@ -85,29 +109,29 @@ export function UserProgress({fromDate, toDate}){
         })
     }
     const getProgressPercentage = (current, target) => {
-        if(current > target * 2){
+        if (current > target * 2) {
             return 110
         }
         return Math.min((current / target) * 100, 100)
     }
 
-    const getProgressBarColor = (current, target)=>{
+    const getProgressBarColor = (current, target) => {
         const per = getProgressPercentage(current, target)
-        if(per > 100){
+        if (per > 100) {
             return styles.p_over
-        }else if(per === 100){
+        } else if (per === 100) {
             return styles.p100
-        }else if(per > 70){
+        } else if (per > 70) {
             return styles.p70
-        }else if(per > 30){
+        } else if (per > 30) {
             return styles.p30
-        }else if(per > 0){
+        } else if (per > 0) {
             return styles.p10
         }
     }
 
     const getElementPosition = (element) => {
-        if(!element) return null
+        if (!element) return null
         const rect = element.getBoundingClientRect()
         return {
             top: window.pageYOffset + rect.top,
@@ -115,19 +139,19 @@ export function UserProgress({fromDate, toDate}){
         }
     }
 
-    const openGrantPassModal = (e, id)=>{
+    const openGrantPassModal = (e, id) => {
         e.stopPropagation()
         const threeDotsButton = threeDotsRefs.current[id]
-        if(threeDotsButton){
+        if (threeDotsButton) {
             const pos = getElementPosition(threeDotsButton)
-            if(pos){
+            if (pos) {
                 modal.openModal(ModalType.MENU.Grant_Pass, {
                     id: id,
                     top: pos.top + threeDotsButton.offsetHeight + 4,
                     left: pos.left,
                     width: threeDotsButton.offsetWidth,
                     height: threeDotsButton.offsetHeight,
-                    onSubmit: ()=>{
+                    onSubmit: () => {
                         getAllUsers()
                     }
                 })
@@ -136,12 +160,12 @@ export function UserProgress({fromDate, toDate}){
         setOpenDropdownId(null)
     }
 
-    const openUpdatePasswordModal = (e, id)=>{
+    const openUpdatePasswordModal = (e, id) => {
         e.stopPropagation()
         const threeDotsButton = threeDotsRefs.current[id]
-        if(threeDotsButton){
+        if (threeDotsButton) {
             const pos = getElementPosition(threeDotsButton)
-            if(pos){
+            if (pos) {
                 modal.openModal(ModalType.MENU.Update_Password, {
                     id: id,
                     top: pos.top + threeDotsButton.offsetHeight + 4,
@@ -154,23 +178,23 @@ export function UserProgress({fromDate, toDate}){
         setOpenDropdownId(null)
     }
 
-    const handleThreeDotsClick = (e, userId)=>{
+    const handleThreeDotsClick = (e, userId) => {
         e.stopPropagation()
-        if(openDropdownId === userId){
+        if (openDropdownId === userId) {
             setOpenDropdownId(null)
         } else {
             setOpenDropdownId(userId)
         }
     }
 
-    const handleLongPressStart = (e, userId)=>{
+    const handleLongPressStart = (e, userId) => {
         longPressTimer.current = setTimeout(() => {
             setOpenDropdownId(userId)
         }, 500)
     }
 
-    const handleLongPressEnd = ()=>{
-        if(longPressTimer.current){
+    const handleLongPressEnd = () => {
+        if (longPressTimer.current) {
             clearTimeout(longPressTimer.current)
             longPressTimer.current = null
         }
@@ -178,7 +202,7 @@ export function UserProgress({fromDate, toDate}){
 
     useEffect(() => {
         const handleClickOutside = (event) => {
-            if(openDropdownId && !event.target.closest(`[data-dropdown="${openDropdownId}"]`)){
+            if (openDropdownId && !event.target.closest(`[data-dropdown="${openDropdownId}"]`)) {
                 setOpenDropdownId(null)
             }
         }
@@ -198,43 +222,45 @@ export function UserProgress({fromDate, toDate}){
                     const problem = problems[user.id];
                     // console.table(problem)
                     const score = problem ? problem.score : 0;
+                    const weeklyState = weeklyResults[user.id]?.state
 
                     const problemList = problem?.problems;
                     return (
                         <div key={i} className={cm(styles.userProgressCard, `${score >= 60 && styles.completed}`)}>
                             <div className={styles.userProgressAccent}
-                                style={{backgroundColor: DesignUtils.getTierColor(user.tier)}}
+                                 style={{backgroundColor: DesignUtils.getTierColor(user.tier)}}
                             />
                             <div className={styles.userProgressHeader}>
                                 <div className={styles.userProgressInfo}>
-                                    <span className={cm(styles.tierIcon, `${DesignUtils.getTierIconClass(user.tier)}`)}></span>
+                                    <span
+                                        className={cm(styles.tierIcon, `${DesignUtils.getTierIconClass(user.tier)}`)}></span>
                                     {/*<TierIcon tier={user.tier} size="small"/>*/}
                                     <span className={styles.userProgressName}>
-                                        {user.name} {(user.pass && DateUtils.isBeforeDate(fromDate, new Date()) && DateUtils.isAfterDate(toDate, new Date()))
-                                            ? <span className={styles.pass_text}>이번주 패스</span> : ''}
+                                        {user.name} {weeklyState === 2 ?
+                                        <span className={styles.pass_text}>이번주 패스</span> : ''}
                                     </span>
                                     <div className={styles.userProgressMenuContainer} data-dropdown={user.id}>
-                                        <button 
+                                        <button
                                             ref={(el) => threeDotsRefs.current[user.id] = el}
                                             className={styles.userProgressThreeDots}
-                                            onClick={(e)=>handleThreeDotsClick(e, user.id)}
-                                            onTouchStart={(e)=>handleLongPressStart(e, user.id)}
+                                            onClick={(e) => handleThreeDotsClick(e, user.id)}
+                                            onTouchStart={(e) => handleLongPressStart(e, user.id)}
                                             onTouchEnd={handleLongPressEnd}
-                                            onMouseDown={(e)=>e.preventDefault()}
+                                            onMouseDown={(e) => e.preventDefault()}
                                         >
                                             ⋯
                                         </button>
                                         {openDropdownId === user.id && (
                                             <div className={styles.userProgressDropdown}>
-                                                <button 
+                                                <button
                                                     className={styles.userProgressDropdownItem}
-                                                    onClick={(e)=>openGrantPassModal(e, user.id)}
+                                                    onClick={(e) => openGrantPassModal(e, user.id)}
                                                 >
                                                     패스
                                                 </button>
-                                                <button 
+                                                <button
                                                     className={styles.userProgressDropdownItem}
-                                                    onClick={(e)=>openUpdatePasswordModal(e, user.id)}
+                                                    onClick={(e) => openUpdatePasswordModal(e, user.id)}
                                                 >
                                                     비밀번호 수정
                                                 </button>
@@ -242,8 +268,10 @@ export function UserProgress({fromDate, toDate}){
                                         )}
                                     </div>
                                 </div>
-                                <span className={cm(styles.userProgressHotStreak, `${user.streak <= 0 && styles.cold}`)}></span>
-                                <span className={cm(styles.userProgressHotStreakNumber)}>{user.streak > 0 && user.streak}</span>
+                                <span
+                                    className={cm(styles.userProgressHotStreak, `${user.streak <= 0 && styles.cold}`)}></span>
+                                <span
+                                    className={cm(styles.userProgressHotStreakNumber)}>{user.streak > 0 && user.streak}</span>
                                 {/*{renderStreakIcon(user.streak, user.lastWeekFailed)}*/}
                             </div>
 
@@ -255,7 +283,7 @@ export function UserProgress({fromDate, toDate}){
                                             {
                                                 width: `${getProgressPercentage(score, 60)}%`
                                             }
-                                    }
+                                        }
                                     />
                                 </div>
                                 <span className={styles.userProgressText}>

@@ -1,7 +1,7 @@
 package com.hanco.hanco.user.dto.request;
 
 public record UpdatePasswordRequestDto(
-        String id,
+        Long id,
         String orgPwd,
         String newPwd
 ) {

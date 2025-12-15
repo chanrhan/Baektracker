@@ -12,7 +12,7 @@ export function FineReceiptModal(props){
   const {weeklyResultApi} = useApi()
   const today = new Date();
   const [date, setDate] = useState(today)
-  const [weeklyData, setWeeklyData] = useState([])
+  // const [weeklyData, setWeeklyData] = useState([])
   const [monthlyData, setMonthlyData] = useState([])
   const [monthlySum, setMonthlySum] = useState(0)
   const [totalData, setTotalData] = useState([])
@@ -25,7 +25,7 @@ export function FineReceiptModal(props){
 
   useEffect(() => {
     getMonthFine()
-    getWeeklyResult();
+    // getWeeklyResult();
   }, [date]);
 
   const getTotalFine = ()=>{
@@ -54,15 +54,15 @@ export function FineReceiptModal(props){
     })
   }
 
-  const getWeeklyResult = ()=>{
-    const date_str = DateUtils.dateToStringYYMM(date)
-    weeklyResultApi.getWeeklyResult(date_str).then(({data})=>{
-      // console.table(data)
-      if(data){
-        setWeeklyData(data)
-      }
-    })
-  }
+  // const getWeeklyResult = ()=>{
+  //   const date_str = DateUtils.dateToStringYYMM(date)
+  //   weeklyResultApi.getWeeklyResult(date_str).then(({data})=>{
+  //     // console.table(data)
+  //     if(data){
+  //       setWeeklyData(data)
+  //     }
+  //   })
+  // }
 
 
   const handlePrevMonth = ()=>{

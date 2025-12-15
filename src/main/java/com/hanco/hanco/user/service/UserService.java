@@ -1,76 +1,48 @@
 package com.hanco.hanco.user.service;
 
+import com.hanco.hanco.common.util.ApiUtil;
+import com.hanco.hanco.global.code.ApiResponseCode;
+import com.hanco.hanco.global.exception.CustomException;
 import com.hanco.hanco.user.dto.request.UpdatePasswordRequestDto;
-import com.hanco.hanco.user.dto.request.WeekPassRequestDto;
 import com.hanco.hanco.mapper.UserMapper;
 import com.hanco.hanco.problem.service.SolvedAcService;
-import java.time.LocalDate;
+import com.hanco.hanco.user.model.User;
+import com.hanco.hanco.user.model.UserProfile;
+import com.hanco.hanco.user.repository.UserRepository;
+import com.hanco.hanco.weekly_result.dto.SolvedAcUser;
+import java.util.ArrayList;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
+import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final SolvedAcService solvedAcService;
-    private final UserMapper userMapper;
-    private static final String PASS_PWD = "\"091504\"";
     private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
 
-    public void updateUserPassword(UpdatePasswordRequestDto dto){
-        String password = userMapper.findPassword(dto.id());
-        if(passwordEncoder.matches(password, dto.orgPwd())){
-            userMapper.updatePassword(dto);
+    public void updatePassword(UpdatePasswordRequestDto dto) {
+        User user = userRepository.findUserById(dto.id())
+                .orElseThrow(() -> CustomException.of(ApiResponseCode.NOT_FOUND_USER));
+        if (!passwordEncoder.matches(dto.orgPwd(), user.getPassword())) {
+            throw CustomException.of(ApiResponseCode.INVALID_PASSWORD);
         }
+        user.updatePassword(passwordEncoder.encode(dto.newPwd()));
     }
 
-    public void updateWeekPass(WeekPassRequestDto dto){
-        if(LocalDate.now().getDayOfWeek().getValue() >= 6){
-            return;
+    public List<UserProfile> getUsers() {
+        List<User> users = userRepository.findAll();
+        List<UserProfile> userProfiles = new ArrayList<>();
+        for (User user : users) {
+            SolvedAcUser solvedAcUser = solvedAcService.searchUser(user.getUsername());
+            userProfiles.add(UserProfile.of(user, solvedAcUser));
         }
-        String password = userMapper.findPassword(dto.id());
-        if(passwordEncoder.matches(password, dto.password())){
-            userMapper.updatePass(dto);
-        }
+        userProfiles.sort((u1, u2) -> u2.tier() - u1.tier());
+        return userProfiles;
     }
 
-    public List<Map<String,Object>> getAllUsers(String date){
-        List<Map<String,Object>> users = userMapper.getAllUsers(date);
-        for (Map<String,Object> user : users){
-//            String uri = Solved_ac_user_show_URL + user.get("id").toString();
-            try {
-//                System.out.println("aaa request : " + uri);
-                Map<String,Object> res = solvedAcService.searchUsers(user.get("id").toString());
-//                System.out.println(res);
-                Map<String,Object> item = ((List<Map<String, Object>>)res.get("items")).get(0);
-                if(item != null && !item.isEmpty()){
-                    user.put("solved_count", item.get("solvedCount"));
-                    user.put("tier", item.get("tier"));
-                }else{
-                    user.put("solved_count", 0);
-                    user.put("tier", 0);
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        users.sort((m1, m2)->{
-            try{
-                int tier1 = m1.containsKey("tier") ? Integer.parseInt(m1.get("tier").toString()) : - 100;
-                int tier2 = m2.containsKey("tier") ? Integer.parseInt(m2.get("tier").toString()) : -100;
-                return Integer.compare(tier2, tier1);
-            }catch (NumberFormatException | NullPointerException e){
-                e.printStackTrace();
-                return 0;
-            }
-        });
-//        System.out.println("after sort : " + users);
-
-
-        return users;
-    }
 }

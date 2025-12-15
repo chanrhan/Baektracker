@@ -3,13 +3,67 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hanco.hanco.mapper.WeeklyResultMapper">
-    <update id="insertWeeklyResult">
+    <update id="updateWeekPass">
+        update tb_weekly_solved
+        set state=#{state}
+        where id=#{id} and
+              week_id=date_format(#{date}, '%Y-%u')
+    </update>
+
+    <insert id="insertWeeklyResult">
         <![CDATA[
         set @to_date := (SELECT CURDATE());
         set @from_date := (SELECT SUBDATE(@to_date, interval 6 day));
 
         INSERT INTO tb_weekly_solved
-            (week_id, id, score, week_dt, complete_st, fine)
+            (week_id, id, score, week_dt, state, fine)
+        select week_id,
+               id,
+               0 as score,
+               week_dt,
+               state,
+               0
+        from (
+                 select date_format(@to_date, '%Y-%u') as week_id,
+                        u.id as id,
+                        DATE_FORMAT(@from_date, '%Y-%m-%d') as week_dt,
+                        0 as state
+                 from tb_solved_user u
+             ) base;
+        ]]>
+    </insert>
+
+    <update id="updateWeeklyResult">
+        <![CDATA[
+        set @to_date := (SELECT CURDATE());
+        set @from_date := (SELECT SUBDATE(@to_date, interval 6 day));
+
+        update tb_weekly_solved u
+        set score = (
+            select IFNULL(sum(case
+                                  when level <= 0 then 10
+                                  when level > 0 and level <=5 then 20
+                                  when level > 5 and level <=10 then 30
+                                  when level > 10 and level <=15 then 50
+                                  when level > 15 then 80
+                                  else 0
+                end), 0)
+            from (
+                     select mp.user_id,
+                            mp.problem_id,
+                            min(elapsed_tm) as time
+                     from tb_mark_problem mp
+                     where mp.user_id=u.id and date_format(mp.try_dt, '%Y-%u')=date_format(@to_date, '%Y-%u') and result_id=4
+                     group by mp.user_id, mp.problem_id
+                 ) mp2
+                     left outer join tb_baekjoon_problem bp on bp.problem_id=mp2.problem_id
+            ),
+            state = 0,
+            IF(score < ${target}, ${fine}, 0) = 0
+        where week_id=date_format(@from_date, '%Y-%u');
+
+        INSERT INTO tb_weekly_solved
+            (week_id, id, score, week_dt, state, fine)
         select week_id,
                id,
                score,
@@ -47,10 +101,6 @@
                  from tb_solved_user u
              ) base;
         ]]>
-
-        update tb_solved_user
-        set pass_this_week=0
-        where 1=1;
     </update>
 
 
@@ -114,20 +164,12 @@
         order by amount
     </select>
 
-    <select id="getWeeklyResult">
-        select rank() over (order by week_dt) as week,
-               json_arrayagg(json_object(
-                       'id', id,
-                       'name', (
-                           select name
-                           from tb_solved_user u
-                           where u.id=ws.id
-                       ),
-                       'score', score
-                             )) as list
+    <select id="getWeeklyResults" resultType="com.hanco.hanco.weekly_result.dto.WeeklyResultResponseDto">
+        select id,
+               score,
+               state
         from tb_weekly_solved ws
-        where week_dt like '${date}%' and complete_st=0
-        group by week_dt
+        where ws.week_id = date_format(#{date}, '%Y-%u')
     </select>
 
 </mapper>

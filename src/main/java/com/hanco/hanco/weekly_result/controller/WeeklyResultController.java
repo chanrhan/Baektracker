@@ -1,10 +1,15 @@
 package com.hanco.hanco.weekly_result.controller;
 
+import com.hanco.hanco.user.dto.request.WeekPassRequestDto;
+import com.hanco.hanco.weekly_result.dto.WeeklyResultResponseDto;
 import com.hanco.hanco.weekly_result.service.WeeklyResultService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,11 +24,17 @@ import java.util.Map;
 public class WeeklyResultController {
     private final WeeklyResultService weeklyResultService;
 
-
-    @GetMapping("/fine/week")
-    public ResponseEntity<List<Map<String,Object>>> getWeeklyResult(@RequestParam String date){
-        return ResponseEntity.ok(weeklyResultService.getWeeklyResult(date));
+    @GetMapping("")
+    public ResponseEntity<List<WeeklyResultResponseDto>> getWeeklyResult(@RequestParam String date){
+        return ResponseEntity.ok(weeklyResultService.getWeeklyResults(date));
     }
+
+    @PostMapping("/pass")
+    public ResponseEntity<Void> updatePass(@RequestBody WeekPassRequestDto dto){
+        weeklyResultService.updateWeekPass(dto);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
 
     @GetMapping("/fine/month")
     public ResponseEntity<Map<String,Object>> getMonthFine(@RequestParam String date){

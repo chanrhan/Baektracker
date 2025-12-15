@@ -1,6 +1,5 @@
 package com.hanco.hanco.mapper;
 
-import com.hanco.hanco.user.dto.request.UpdatePasswordRequestDto;
 import com.hanco.hanco.user.dto.request.WeekPassRequestDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,7 +13,6 @@ public interface UserMapper {
     public List<Map<String, Object>> getContinuousCompleteCount();
     public List<Map<String, Object>> getAllUsersLastRead();
     public void updateLastRead(String id, Integer lastRead);
-    public int updatePass(WeekPassRequestDto dto);
     public String findPassword(String id);
-    public int updatePassword(UpdatePasswordRequestDto dto);
+    public int updatePassword(String id, String newPwd);
 }

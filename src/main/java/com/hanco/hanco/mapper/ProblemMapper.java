@@ -1,5 +1,6 @@
 package com.hanco.hanco.mapper;
 
+import com.hanco.hanco.problem.dto.UserWeekScoreDto;
 import com.hanco.hanco.problem.vo.SolvedAcRequestVO;
 import com.hanco.hanco.problem.vo.SolvedAcResponseVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -16,6 +17,7 @@ public interface ProblemMapper {
     public void insertBaekjoonProblem(int problemId, String title, int level);
     public List<Map<String,Object>> getProblemInfoList(String keyword);
     public List<Integer> countUsersProblemSolved(List<Integer> list);
+    public List<UserWeekScoreDto> findUserWeekScores(String date);
 
     public List<Map<String,Object>> getUsersByProblem(Integer id);
 

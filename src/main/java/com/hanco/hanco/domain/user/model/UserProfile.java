@@ -11,7 +11,7 @@ public record UserProfile(
 ) {
 
     public static UserProfile of(User user, SolvedAcUser solvedAcUser) {
-        SolvedAcUser.InnerUserItem item = solvedAcUser.items().getFirst();
+        SolvedAcUser.InnerUserItem item = solvedAcUser.items().get(0);
         return new UserProfile(
                 user.getId(),
                 user.getUsername(),

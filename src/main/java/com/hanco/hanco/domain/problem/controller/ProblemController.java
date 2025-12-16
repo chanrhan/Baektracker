@@ -7,6 +7,7 @@ import com.hanco.hanco.domain.problem.service.ProblemService;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,7 +29,8 @@ public class ProblemController {
 
     @GetMapping("/reload")
     public ResponseEntity<Boolean> loadBaekjoonProblems() {
-        return ResponseEntity.ok(baekjoonService.loadBaekjoonProblemStatus() > 0);
+        baekjoonService.loadBaekjoonProblemStatus();
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @GetMapping("/search")

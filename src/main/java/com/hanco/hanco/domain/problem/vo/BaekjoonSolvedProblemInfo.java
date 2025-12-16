@@ -8,7 +8,7 @@ import lombok.experimental.SuperBuilder;
 @Data
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 @SuperBuilder
-public class SolvedAcResponseVO {
+public class BaekjoonSolvedProblemInfo {
     private String username;
     private Integer resultId;
     private String errorText;

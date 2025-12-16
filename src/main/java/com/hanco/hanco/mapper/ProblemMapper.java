@@ -1,8 +1,8 @@
 package com.hanco.hanco.mapper;
 
 import com.hanco.hanco.domain.problem.dto.UserWeekScoreDto;
+import com.hanco.hanco.domain.problem.vo.BaekjoonSolvedProblemInfo;
 import com.hanco.hanco.domain.problem.vo.SolvedAcRequestVO;
-import com.hanco.hanco.domain.problem.vo.SolvedAcResponseVO;
 import java.util.List;
 import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface ProblemMapper {
     // problem
-    public void insertMarkedProblems(List<SolvedAcResponseVO> list);
+    public void insertMarkedProblems(List<BaekjoonSolvedProblemInfo> list);
 
     public List<Map<String, Object>> getBaekjoonProblems(SolvedAcRequestVO vo);
 

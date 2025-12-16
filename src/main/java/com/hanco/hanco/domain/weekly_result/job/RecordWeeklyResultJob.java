@@ -1,6 +1,6 @@
 package com.hanco.hanco.domain.weekly_result.job;
 
-import com.hanco.hanco.domain.problem.service.ProblemService;
+import com.hanco.hanco.domain.baekjoon.service.BaekjoonService;
 import com.hanco.hanco.domain.weekly_result.service.WeeklyResultService;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 public class RecordWeeklyResultJob implements Job {
-    private final ProblemService problemService;
+    private final BaekjoonService baekjoonService;
     private final WeeklyResultService weeklyResultService;
 
     @Override
@@ -28,7 +28,7 @@ public class RecordWeeklyResultJob implements Job {
             log.error("Weekly Job must have run at Sunday!");
             return;
         }
-        problemService.loadBaekjoonProblemStatus();
+        baekjoonService.loadBaekjoonProblemStatus();
 
         weeklyResultService.insertWeeklyScore(60, 3000);
     }

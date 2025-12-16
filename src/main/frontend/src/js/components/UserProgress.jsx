@@ -1,16 +1,11 @@
 import styles from "../../css/styles.module.css";
-import React, {useEffect, useState, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {DesignUtils} from "../utils/DesignUtils";
 import {cm} from "../setup/utils/cm"
 import {MarkedProblemItem} from "./MarkedProblemItem";
 import {useApi} from "../api/useApi";
 import useModal from "../setup/hook/useModal";
-import {getWindowFromNode} from "@testing-library/dom/dist/helpers";
 import {ModalType} from "../setup/modal/ModalType";
-import {MouseEventUtils} from "../setup/utils/MouseEventUtils";
-import {DateUtils} from "../setup/utils/DateUtils";
-import Popup from "../../css/popup.module.css";
-import weeklyResultApi from "../api/weeklyResultApi";
 
 export function UserProgress({fromDate, toDate}) {
     const modal = useModal()
@@ -35,7 +30,7 @@ export function UserProgress({fromDate, toDate}) {
     useEffect(() => {
         getProblem();
         getWeekPass()
-        getWeeklyProblemSolved()
+        // getWeeklyProblemSolved()
     }, [fromDate, toDate]);
 
     const getAllUsers = () => {
@@ -74,20 +69,20 @@ export function UserProgress({fromDate, toDate}) {
     }
 
     const getProblem = () => {
-        const body = {
-            from_date: fromDate,
-            to_date: toDate,
-            problem_id: -1,
-        }
+        // const body = {
+        //     from_date: fromDate,
+        //     to_date: toDate,
+        //     problem_id: -1,
+        // }
 
-        problemApi.getProblem(body).then(({status, data}) => {
+        problemApi.getWeeklyUsersProgress(fromDate).then(({status, data}) => {
             const ob = {};
             // console.table(data)
-            if (data) {
-                for (const detail of data) {
-                    ob[detail.id] = {
+            if (data && data.items) {
+                for (const detail of data.items) {
+                    ob[detail.userId] = {
                         score: detail.score,
-                        problems: JSON.parse(detail.problems)
+                        problems: detail.problems
                     }
                 }
                 setProblems(ob);
@@ -95,19 +90,19 @@ export function UserProgress({fromDate, toDate}) {
         })
     }
 
-    const getWeeklyProblemSolved = () => {
-        problemApi.getWeeklyProblemSolved(fromDate).then(({data}) => {
-            if (data) {
-                if (users) {
-                    const copy = [...users]
-                    for (const user of copy) {
-                        user.shared_solved = data[user.id]
-                    }
-                    setUsers(copy)
-                }
-            }
-        })
-    }
+    // const getWeeklyProblemSolved = () => {
+    //     problemApi.getWeeklyProblemSolved(fromDate).then(({data}) => {
+    //         if (data) {
+    //             if (users) {
+    //                 const copy = [...users]
+    //                 for (const user of copy) {
+    //                     user.shared_solved = data[user.id]
+    //                 }
+    //                 setUsers(copy)
+    //             }
+    //         }
+    //     })
+    // }
     const getProgressPercentage = (current, target) => {
         if (current > target * 2) {
             return 110

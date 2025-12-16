@@ -4,53 +4,42 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hanco.hanco.mapper.ProblemMapper">
     <select id="getAllUsers">
-        select id, name,
-               (
-                   select IF(count(*) > 0, true, false)
-                   from tb_mark_problem mp
-                   where mp.user_id=id and week_id=date_format(#{date}, '%Y-%u')
-                   and mp.problem_id in (
-                       select ws.problem_id
-                       from tb_weekly_shared_problem ws
-                       where ws.week_id=date_format(#{date}, '%Y-%u')
-                       )
-                   ) as shared_solved,
-               (
-                   with recursive base as (
-                       select (
-                                  select max(week_dt)
-                                  from tb_weekly_solved
-                              ) as dt, 0 as cnt
-                       union all
-                       select date_sub(dt, interval 1 week ) as dt,
-                              cnt+1 as cnt
-                       from base
-                                left outer join tb_weekly_solved ws on date_format(dt, '%Y-%u')=ws.week_id and ws.id=u.id
-                       where ws.complete_st=1
-                   )
-                   select max(cnt)
-                   from base
-               ) as streak
+        select id,
+               name,
+               (select IF(count(*) > 0, true, false)
+                from tb_mark_problem mp
+                where mp.user_id = id
+                  and week_id = date_format(#{date}, '%Y-%u')
+                  and mp.problem_id in (select ws.problem_id
+                                        from tb_weekly_shared_problem ws
+                                        where ws.week_id = date_format(#{date}, '%Y-%u'))) as shared_solved,
+               (with recursive base as (select (select max(week_dt)
+                                                from tb_weekly_solved) as dt,
+                                               0                       as cnt
+                                        union all
+                                        select date_sub(dt, interval 1 week) as dt,
+                                               cnt + 1                       as cnt
+                                        from base
+                                                 left outer join tb_weekly_solved ws
+                                                                 on date_format(dt, '%Y-%u') = ws.week_id and ws.id = u.id
+                                        where ws.complete_st = 1)
+                select max(cnt)
+                from base)                                                                 as streak
         from tb_solved_user u
     </select>
 
     <select id="getWeeklyProblemSolved">
-        with base as (
-            select id,
-                   (
-                       select IF(count(*) > 0, true, false)
-                       from tb_mark_problem mp
-                       where mp.user_id=id and week_id=date_format(#{date}, '%Y-%u')
-                         and mp.problem_id in (
-                           select ws.problem_id
-                           from tb_weekly_shared_problem ws
-                           where ws.week_id=date_format(#{date}, '%Y-%u')
-                       )
-                   ) as shared_solved
-            from tb_solved_user
-        )
+        with base as (select id,
+                             (select IF(count(*) > 0, true, false)
+                              from tb_mark_problem mp
+                              where mp.user_id = id
+                                and year_week = #{yearWeek}
+                                and mp.problem_id in (select ws.problem_id
+                                                      from tb_weekly_shared_problem ws
+                                                      where ws.year_week = #{yearWeek})) as shared_solved
+                      from tb_solved_user)
 
-        select json_objectagg(id,shared_solved)
+        select json_objectagg(id, shared_solved)
         from base
     </select>
 
@@ -64,49 +53,43 @@
         update tb_solved_user
         set last_read=#{lastRead},
             last_read_time=now()
-        where id=#{id}
+        where id = #{id}
     </update>
 
     <select id="getUsersByProblem">
-        with base as (
-            select user_id,
-                   lang,
-                   elapsed_tm,
-                   used_mem,
-                   row_number() over (partition by user_id, lang order by elapsed_tm) as rownum
-            from tb_mark_problem
-            where problem_id=#{id} and result_id=4
-        )
-        select user_id,(
-            select name
-            from tb_solved_user u
-            where u.id=base.user_id
-                   ) as name,
-            lang,
-            elapsed_tm,
-            used_mem
+        with base as (select user_id,
+                             lang,
+                             elapsed_tm,
+                             used_mem,
+                             row_number() over (partition by user_id, lang order by elapsed_tm) as rownum
+                      from tb_mark_problem
+                      where problem_id = #{id}
+                        and result_id = 4)
+        select user_id,
+               (select name
+                from tb_solved_user u
+                where u.id = base.user_id) as name,
+               lang,
+               elapsed_tm,
+               used_mem
         from base
-        where rownum=1
+        where rownum = 1
     </select>
 
     <select id="getContinuousCompleteCount">
         select u.id,
-               (
-                   with recursive base as (
-                       select (
-                                  select max(week_dt)
-                                  from tb_weekly_solved
-                              ) as dt, 0 as cnt
-                       union all
-                       select date_sub(dt, interval 1 week ) as dt,
-                              cnt+1 as cnt
-                       from base
-                                left outer join tb_weekly_solved ws on date_format(dt, '%Y-%u')=ws.week_id and ws.id=u.id
-                       where ws.complete_st=1
-                   )
-                   select max(cnt)
-                   from base
-               ) as cnt
+               (with recursive base as (select (select max(week_dt)
+                                                from tb_weekly_solved) as dt,
+                                               0                       as cnt
+                                        union all
+                                        select date_sub(dt, interval 1 week) as dt,
+                                               cnt + 1                       as cnt
+                                        from base
+                                                 left outer join tb_weekly_solved ws
+                                                                 on date_format(dt, '%Y-%u') = ws.week_id and ws.id = u.id
+                                        where ws.complete_st = 1)
+                select max(cnt)
+                from base) as cnt
         from tb_solved_user u
     </select>
 
@@ -115,85 +98,74 @@
         (user_id, problem_id, submit_id, week_id, result_id, elapsed_tm, used_mem, lang, err_txt, try_dt)
         VALUES
         (
-            <foreach collection="list" item="item" separator="),(">
-                #{item.username},#{item.problemId},#{item.submitId},date_format(#{item.date},'%Y-%u'),#{item.resultId},#{item.elapsedTm},#{item.usedMem},#{item.lang},#{item.errorText},#{item.date}
-            </foreach>
+        <foreach collection="list" item="item" separator="),(">
+            #{item.username},#{item.problemId},#{item.submitId},date_format(#{item.date},'%Y-%u'),#{item.resultId},#{item.elapsedTm},#{item.usedMem},#{item.lang},#{item.errorText},#{item.date}
+        </foreach>
         )
     </insert>
 
     <select id="getBaekjoonProblems">
-        WITH base AS (
-            SELECT
-                us.id,
-                mp.problem_id,
-                bp.title,
-                bp.level,
-                mp.result_id,
-                mp.err_txt,
-                mp.try_dt,
-                mp.submit_id
-            FROM tb_solved_user us
-                     LEFT OUTER JOIN tb_mark_problem mp ON us.id = mp.user_id
-                     LEFT OUTER JOIN tb_baekjoon_problem bp ON mp.problem_id = bp.problem_id
-            WHERE mp.try_dt BETWEEN #{fromDate} AND #{toDate}
-        ),
-             numbered AS (
-                 SELECT
-                     bs.*,
-                     (@rownum := IF(@group = CONCAT(id, problem_id), @rownum + 1, 1)) AS rownum,
-            (@group := CONCAT(id, problem_id)) AS dummy
-        FROM base bs, (SELECT @rownum := 0, @group := '') AS vars
-        ORDER BY id, problem_id, result_id, try_dt
-            ), final as (
-        SELECT *,
-               (
-                   select IF(count(*)> 0, 1, 0)
-                   from tb_weekly_shared_problem wsp
-                   where week_id=date_format(#{fromDate},'%Y-%u') and wsp.problem_id = n.problem_id
-                   ) as is_shared_problem,
-               (
-                   select json_arrayagg(name)
-                   from (
-                            select distinct name
-                            from tb_mark_problem mp
-                             left outer join tb_solved_user su on mp.user_id=su.id
-                            where n.problem_id = mp.problem_id and mp.user_id != n.id and mp.result_id=4
-                        ) tmp
-               ) as co_solvers
-        FROM numbered n
-        where rownum=1
-        ORDER BY result_id, level desc
-            )
+        WITH base AS (SELECT us.id,
+                             mp.problem_id,
+                             bp.title,
+                             bp.level,
+                             mp.result_id,
+                             mp.err_txt,
+                             mp.try_dt,
+                             mp.submit_id
+                      FROM tb_solved_user us
+                               LEFT OUTER JOIN tb_mark_problem mp ON us.id = mp.user_id
+                               LEFT OUTER JOIN tb_baekjoon_problem bp ON mp.problem_id = bp.problem_id
+                      WHERE mp.try_dt BETWEEN #{fromDate} AND #{toDate}),
+             numbered AS (SELECT bs.*,
+                                 (@rownum := IF(@group = CONCAT(id, problem_id), @rownum + 1, 1)) AS rownum,
+                                 (@group := CONCAT(id, problem_id))                               AS dummy
+                          FROM base bs,
+                               (SELECT @rownum := 0, @group := '') AS vars
+                          ORDER BY id, problem_id, result_id, try_dt),
+             final as (SELECT *,
+                              (select IF(count(*) > 0, 1, 0)
+                               from tb_weekly_shared_problem wsp
+                               where week_id = date_format(#{fromDate}, '%Y-%u')
+                                 and wsp.problem_id = n.problem_id) as is_shared_problem,
+                              (select json_arrayagg(name)
+                               from (select distinct name
+                                     from tb_mark_problem mp
+                                              left outer join tb_solved_user su on mp.user_id = su.id
+                                     where n.problem_id = mp.problem_id
+                                       and mp.user_id != n.id
+                                       and mp.result_id = 4) tmp)   as co_solvers
+                       FROM numbered n
+                       where rownum = 1
+                       ORDER BY result_id, level desc)
 
        <![CDATA[
         select id,
                IFNULL(
-                       (
-                           select
-                               sum(
+                       (select sum(
                                        case
                                            when f2.level <= 0 then 10
-                                           when f2.level > 0 and f2.level <=5 then 20
-                                           when f2.level > 5 and level <=10 then 30
-                                           when f2.level > 10 and f2.level <=15 then 50
+                                           when f2.level > 0 and f2.level <= 5 then 20
+                                           when f2.level > 5 and level <= 10 then 30
+                                           when f2.level > 10 and f2.level <= 15 then 50
                                            when f2.level > 15 then 80
                                            else 0
                                            end
                                )
-                           from final as f2
-                           where f2.id=final.id and f2.result_id=4
-                       ), 0
-               ) as score,
+                        from final as f2
+                        where f2.id = final.id
+                          and f2.result_id = 4), 0
+               )                as score,
                json_arrayagg(json_object(
-                           'problem_id', problem_id,
-                            'title', title,
-                            'level', level,
-                            'result_id', result_id,
-                            'submit_id', submit_id,
-                             'err_txt', err_txt,
-                             'try_dt', try_dt,
-                            'is_shared_problem', is_shared_problem,
-                             'co_solvers', co_solvers
+                       'problem_id', problem_id,
+                       'title', title,
+                       'level', level,
+                       'result_id', result_id,
+                       'submit_id', submit_id,
+                       'err_txt', err_txt,
+                       'try_dt', try_dt,
+                       'is_shared_problem', is_shared_problem,
+                       'co_solvers', co_solvers
                              )) as problems
         from final
         group by id
@@ -204,32 +176,32 @@
     <select id="existBaekjoonProblem">
         SELECT count(*) > 0
         from tb_baekjoon_problem
-        where problem_id=#{problemId}
+        where problem_id = #{problemId}
     </select>
 
     <select id="getProblemInfoList">
-        select problem_id, title, level,
-               (
-                   select count(mp.submit_id)
-                   from (
-                       select m.problem_id,
-                              m.submit_id,
-                              row_number() over (partition by m.user_id, m.problem_id order by submit_id) as rownum
-                       from tb_mark_problem m
-                       where result_id=4
-                        ) mp
-                   where mp.problem_id=bp.problem_id and rownum=1
-                   ) as solved_cnt
+        select problem_id,
+               title,
+               level,
+               (select count(mp.submit_id)
+                from (select m.problem_id,
+                             m.submit_id,
+                             row_number() over (partition by m.user_id, m.problem_id order by submit_id) as rownum
+                      from tb_mark_problem m
+                      where result_id = 4) mp
+                where mp.problem_id = bp.problem_id
+                  and rownum = 1) as solved_cnt
         from tb_baekjoon_problem bp
-        where title like '%${keyword}%' or problem_id=#{keyword}
+        where title like '%${keyword}%'
+           or problem_id = #{keyword}
     </select>
 
     <select id="countUsersProblemSolved">
         select count(mp.problem_id)
         from (
-            <foreach collection="list" item="item" separator="union all">
-                select #{item} as id from dual
-            </foreach>
+        <foreach collection="list" item="item" separator="union all">
+            select #{item} as id from dual
+        </foreach>
         ) ids
         left outer join tb_mark_problem mp on ids.id=mp.problem_id and mp.result_id=4
         group by id
@@ -238,41 +210,39 @@
 
     <insert id="insertBaekjoonProblem">
         INSERT INTO tb_baekjoon_problem
-        (problem_id, title, level)
-        values (#{problemId},#{title},#{level})
+            (problem_id, title, level)
+        values (#{problemId}, #{title}, #{level})
     </insert>
 
     <insert id="insertWeeklyProblem">
         INSERT INTO tb_weekly_shared_problem
         (week_id, problem_id)
         VALUES
-            <foreach collection="list" item="item" separator=",">
-                (date_format(#{date}, '%Y-%u'), #{item})
-            </foreach>
+        <foreach collection="list" item="item" separator=",">
+            (date_format(#{date}, '%Y-%u'), #{item})
+        </foreach>
     </insert>
 
     <select id="getWeeklyProblem">
         select ws.problem_id,
                bp.title,
                bp.level,
-               (
-                   select count(submit_id)
-                   from (
-                       select *,
-                              row_number() over (partition by m.user_id, m.problem_id order by submit_id) as rownum
-                       from tb_mark_problem m
-                       where result_id=4
-                        ) mp
-                   where mp.problem_id=ws.problem_id and rownum=1
-                   ) as solved_cnt
+               (select count(submit_id)
+                from (select *,
+                             row_number() over (partition by m.user_id, m.problem_id order by submit_id) as rownum
+                      from tb_mark_problem m
+                      where result_id = 4) mp
+                where mp.problem_id = ws.problem_id
+                  and rownum = 1) as solved_cnt
         from tb_weekly_shared_problem ws
-        left outer join tb_baekjoon_problem bp on bp.problem_id=ws.problem_id
-        where week_id=date_format(#{date},'%Y-%u')
+                 left outer join tb_baekjoon_problem bp on bp.problem_id = ws.problem_id
+        where week_id = date_format(#{date}, '%Y-%u')
     </select>
 
     <delete id="deleteWeeklyProblemAll">
-        DELETE FROM tb_weekly_shared_problem
-        WHERE week_id=date_format(#{date}, '%Y-%u');
+        DELETE
+        FROM tb_weekly_shared_problem
+        WHERE week_id = date_format(#{date}, '%Y-%u');
     </delete>
 
 </mapper>

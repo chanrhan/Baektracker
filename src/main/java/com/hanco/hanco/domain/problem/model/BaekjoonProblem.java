@@ -2,8 +2,6 @@ package com.hanco.hanco.domain.problem.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -19,7 +17,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class BaekjoonProblem {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column(name = "title", nullable = false)
@@ -27,7 +24,4 @@ public class BaekjoonProblem {
 
     @Column(name = "level", columnDefinition = "0")
     private Integer level;
-
-    @Column(name = "limit_time", columnDefinition = "0")
-    private Integer limitTime;
 }

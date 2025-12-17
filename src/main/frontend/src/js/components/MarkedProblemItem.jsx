@@ -5,14 +5,14 @@ import React from "react";
 import {useTooltipHandlers} from "../setup/utils/TooltipUtils";
 
 
-export function MarkedProblemItem({problem, index}){
+export function MarkedProblemItem({problem, index}) {
     const tooltip = useTooltipHandlers(<div>
         <span style={{
             fontWeight: '600'
         }}>{problem.title}</span>
         <div>
             {
-                problem.co_solvers && problem.co_solvers.map((v,i)=>{
+                problem.coSolvers && problem.coSolvers.map((v, i) => {
                     return <span style={{
                         fontSize: '12px',
                         marginRight: '5px'
@@ -25,8 +25,8 @@ export function MarkedProblemItem({problem, index}){
     const result_id = problem.result_id;
 
     return (
-        <div key={index} onClick={()=>{
-            window.open(`https://www.acmicpc.net/problem/${problem.problem_id}`, "_blank")
+        <div key={index} onClick={() => {
+            window.open(`https://www.acmicpc.net/problem/${problem.problemId}`, "_blank")
         }}
              className={cm(`${styles.userProgressProblemItem} ${problem.solved ? styles.userProgressSolved : styles.userProgressUnsolved}`,
                  `${problem.is_shared_problem == 1 && styles.is_shared_problem}`)}
@@ -39,7 +39,8 @@ export function MarkedProblemItem({problem, index}){
             />
             <div className={styles.userProgressProblemContent}>
                 <span className={cm(styles.tierIcon, `${DesignUtils.getTierIconClass(problem.level)}`)}></span>
-                <span className={cm(styles.userProgressProblemNumber, `${result_id !== 4 && styles.red_text}`)}>{problem.problem_id}</span>
+                <span
+                    className={cm(styles.userProgressProblemNumber, `${result_id !== 4 && styles.red_text}`)}>{problem.problemId}</span>
             </div>
         </div>
     )

@@ -22,14 +22,13 @@ export function WeekProblems({fromDate, toDate}) {
 
     const getWeeklyProblems = () => {
         problemApi.getWeeklyProblem(fromDate).then(({status, data}) => {
-            // console.table(data)
             if (data && data.items) {
                 const copy = [...weeklyProblemInputs];
-                for (const i in data) {
-                    copy[i] = data[i].problem_id
+                for (const i in data.items) {
+                    copy[i] = data.items[i].problem_id
                 }
                 setWeeklyProblemInputs(copy);
-                setWeeklyProblems(data);
+                setWeeklyProblems(data.items);
             }
         })
     }

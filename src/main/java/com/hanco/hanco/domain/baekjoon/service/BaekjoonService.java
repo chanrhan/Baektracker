@@ -1,7 +1,6 @@
 package com.hanco.hanco.domain.baekjoon.service;
 
 import com.hanco.hanco.common.util.TimeUtils;
-import com.hanco.hanco.domain.problem.dto.response.ProblemInfo;
 import com.hanco.hanco.domain.problem.enums.SolvedAcResultType;
 import com.hanco.hanco.domain.problem.model.BaekjoonProblem;
 import com.hanco.hanco.domain.problem.model.SolvedProblem;
@@ -72,7 +71,7 @@ public class BaekjoonService {
     private List<SolvedProblem> scrapProblemPage(User user, int top, int lastReadIndex)
             throws IOException {
         Connection connection = Jsoup.connect(
-                Baekjoon_Problem_Status_Page_URL + "?user_id=" + user.getNickname() + "&top=" + top);
+                Baekjoon_Problem_Status_Page_URL + "?user_id=" + user.getUsername() + "&top=" + top);
         Document document = connection.get(); // GET 으로 요청하고, 요청 결과를 Document 객체로 반환
         Elements elements = document.getElementsByAttributeValue("id", "status-table");
         Element element = elements.get(0);
@@ -101,17 +100,7 @@ public class BaekjoonService {
                     }
                     int problemId = Integer.parseInt(tds.get(2).text());
 
-                    BaekjoonProblem baekjoonProblem = problemRepository.findById(problemId)
-                            .orElse(null);
-                    if (baekjoonProblem == null) {
-                        ProblemInfo problemInfo = problemService.getProblemInfo(problemId);
-                        baekjoonProblem = BaekjoonProblem.builder()
-                                .id(problemId)
-                                .title(problemInfo.title())
-                                .level(problemInfo.level())
-                                .build();
-                        problemRepository.save(baekjoonProblem);
-                    }
+                    BaekjoonProblem baekjoonProblem = problemService.getProblemOrInsert(problemId);
 
                     String resultText = tds.get(3).text();
                     String result = tds.get(3).child(0).attr("data-color");
@@ -122,11 +111,9 @@ public class BaekjoonService {
                     String errorText = null;
                     String lang = null;
                     try {
-//                        resultType = SolvedAcResultType.of(resultText);
                         resultType = result.equals("ac") ? SolvedAcResultType.CORRECT : SolvedAcResultType.WRONG;
                         usedMemory = Integer.parseInt(tds.get(4).text());
                         elapsedTime = Integer.parseInt(tds.get(5).text());
-//                        System.out.println(tds.get(6));
                         lang = tds.get(6).select("td").text();
                     } catch (IllegalArgumentException e) {
                         // 일치하는 Enum 이 없을 경우

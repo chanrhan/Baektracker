@@ -28,15 +28,16 @@ export function UserProgress({fromDate, toDate}) {
     }, []);
 
     useEffect(() => {
-        getProblem();
+        getWeeklyUsersProgress();
         getWeekPass()
         // getWeeklyProblemSolved()
     }, [fromDate, toDate]);
 
     const getAllUsers = () => {
         userApi.getUsers().then(({data}) => {
+            console.table(data)
+
             if (data) {
-                // console.table(data)
                 setUsers(data);
             }
             initLoad();
@@ -63,12 +64,12 @@ export function UserProgress({fromDate, toDate}) {
     const initLoad = () => {
         problemApi.loadBaekjoon().then(({data}) => {
             if (data) {
-                getProblem()
+                getWeeklyUsersProgress()
             }
         })
     }
 
-    const getProblem = () => {
+    const getWeeklyUsersProgress = () => {
         // const body = {
         //     from_date: fromDate,
         //     to_date: toDate,
@@ -77,7 +78,7 @@ export function UserProgress({fromDate, toDate}) {
 
         problemApi.getWeeklyUsersProgress(fromDate).then(({status, data}) => {
             const ob = {};
-            // console.table(data)
+            console.table(data)
             if (data && data.items) {
                 for (const detail of data.items) {
                     ob[detail.userId] = {
@@ -215,7 +216,7 @@ export function UserProgress({fromDate, toDate}) {
             <div className={styles.userProgressContainer}>
                 {users && users.map((user, i) => {
                     const problem = problems[user.id];
-                    // console.table(problem)
+                    console.table(problem)
                     const score = problem ? problem.score : 0;
                     const weeklyState = weeklyResults[user.id]?.state
 
@@ -231,7 +232,7 @@ export function UserProgress({fromDate, toDate}) {
                                         className={cm(styles.tierIcon, `${DesignUtils.getTierIconClass(user.tier)}`)}></span>
                                     {/*<TierIcon tier={user.tier} size="small"/>*/}
                                     <span className={styles.userProgressName}>
-                                        {user.name} {weeklyState === 2 ?
+                                        {user.nickname} {weeklyState === 2 ?
                                         <span className={styles.pass_text}>이번주 패스</span> : ''}
                                     </span>
                                     <div className={styles.userProgressMenuContainer} data-dropdown={user.id}>

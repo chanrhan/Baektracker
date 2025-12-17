@@ -2,6 +2,7 @@ package com.hanco.hanco.domain.weekly_result.controller;
 
 import com.hanco.hanco.domain.user.dto.request.WeekPassRequestDto;
 import com.hanco.hanco.domain.weekly_result.dto.WeeklyResultResponseDto;
+import com.hanco.hanco.domain.weekly_result.dto.response.TotalFineStatusResponse;
 import com.hanco.hanco.domain.weekly_result.service.WeeklyResultService;
 import java.util.List;
 import java.util.Map;
@@ -41,7 +42,7 @@ public class WeeklyResultController {
     }
 
     @GetMapping("/fine/total")
-    public ResponseEntity<Map<String, Object>> getTotalFine() {
-        return ResponseEntity.ok(weeklyResultService.getTotalFine());
+    public ResponseEntity<TotalFineStatusResponse> getTotalFine() {
+        return ResponseEntity.ok(weeklyResultService.getTotalFineStatus());
     }
 }

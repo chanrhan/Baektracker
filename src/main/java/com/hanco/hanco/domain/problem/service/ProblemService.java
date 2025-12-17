@@ -7,7 +7,9 @@ import com.hanco.hanco.domain.problem.dto.WeeklyUserProgress;
 import com.hanco.hanco.domain.problem.dto.response.ProblemInfo;
 import com.hanco.hanco.domain.problem.dto.response.ProblemsResponse;
 import com.hanco.hanco.domain.problem.dto.response.WeeklyUsersProgressResponse;
+import com.hanco.hanco.domain.problem.model.BaekjoonProblem;
 import com.hanco.hanco.domain.problem.model.SolvedProblem;
+import com.hanco.hanco.domain.problem.repository.ProblemRepository;
 import com.hanco.hanco.domain.problem.repository.SolvedProblemRepository;
 import com.hanco.hanco.domain.user.model.User;
 import com.hanco.hanco.domain.user.repository.UserRepository;
@@ -28,6 +30,7 @@ import org.springframework.stereotype.Service;
 @Log4j2
 public class ProblemService {
     private final SolvedAcService solvedAcService;
+    private final ProblemRepository problemRepository;
     private final ProblemMapper problemMapper;
     private final UserMapper userMapper;
     private final SolvedProblemRepository solvedProblemRepository;
@@ -61,9 +64,15 @@ public class ProblemService {
     }
 
     public WeeklyUsersProgressResponse getWeeklyUsersProgress(LocalDate fromDate) {
+        List<WeeklyUserProgress> progresses = new ArrayList<>();
         LocalDate toDate = fromDate.plusDays(6);
         List<User> users = userRepository.findAll();
+
         List<SolvedProblem> solvedProblems = solvedProblemRepository.findSolvedProblemsByTryDtBetween(fromDate, toDate);
+        System.out.println("solved: " + solvedProblems);
+        if (users.isEmpty() || solvedProblems.isEmpty()) {
+            return WeeklyUsersProgressResponse.from(progresses);
+        }
         Map<Long, List<SolvedProblem>> userMap = new HashMap<>();
         Map<Integer, List<String>> coSolverMap = solvedProblems.stream()
                 .collect(Collectors.groupingBy(
@@ -79,9 +88,11 @@ public class ProblemService {
             list.add(solvedProblem);
             userMap.put(userId, list);
         }
-        List<WeeklyUserProgress> progresses = new ArrayList<>();
         for (User user : users) {
             List<SolvedProblem> userProblems = userMap.get(user.getId());
+            if (userProblems == null || userProblems.isEmpty()) {
+                continue;
+            }
             List<SolvedProblemDetail> details = userProblems.stream()
                     .map(problem -> SolvedProblemDetail.of(problem, coSolverMap.get(problem.getProblemId())))
                     .toList();
@@ -92,6 +103,21 @@ public class ProblemService {
             progresses.add(new WeeklyUserProgress(user.getId(), score, details));
         }
         return WeeklyUsersProgressResponse.from(progresses);
+    }
+
+    public BaekjoonProblem getProblemOrInsert(Integer problemId) {
+        BaekjoonProblem baekjoonProblem = problemRepository.findById(problemId)
+                .orElse(null);
+        if (baekjoonProblem == null) {
+            ProblemInfo problemInfo = getProblemInfo(problemId);
+            baekjoonProblem = BaekjoonProblem.builder()
+                    .id(problemId)
+                    .title(problemInfo.title())
+                    .level(problemInfo.level())
+                    .build();
+            problemRepository.save(baekjoonProblem);
+        }
+        return baekjoonProblem;
     }
 
     private int mapProblemToScore(SolvedProblem solvedProblem) {

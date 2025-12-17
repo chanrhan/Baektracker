@@ -16,11 +16,12 @@ import org.springframework.web.client.RestClient;
 @RequiredArgsConstructor
 public class SolvedAcService {
     private static final String BASE_URL = "https://solved.ac/api/v3";
-    private final RestClient restClient;
 
     public SolvedAcUser searchUser(String username) {
-        ResponseEntity<SolvedAcUser> response = restClient.get()
-                .uri(BASE_URL + "/search/user")
+        ResponseEntity<SolvedAcUser> response = getRestClient().get()
+                .uri(ub -> ub.path("/search/user")
+                        .queryParam("query", username)
+                        .build())
                 .accept(MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(SolvedAcUser.class);
@@ -31,8 +32,10 @@ public class SolvedAcService {
     }
 
     public SolvedAcProblem getProblemInfo(Integer problemId) {
-        ResponseEntity<SolvedAcProblem> response = restClient.get()
-                .uri(BASE_URL + "/problem/show)")
+        ResponseEntity<SolvedAcProblem> response = getRestClient().get()
+                .uri(ub -> ub.path("/problem/show")
+                        .queryParam("problemId", problemId)
+                        .build())
                 .accept(MediaType.APPLICATION_JSON, MediaType.TEXT_PLAIN)
                 .retrieve()
                 .toEntity(SolvedAcProblem.class);
@@ -43,7 +46,7 @@ public class SolvedAcService {
     }
 
     public SolvedAcProblems searchProblems(String query) {
-        ResponseEntity<SolvedAcProblems> response = restClient.get()
+        ResponseEntity<SolvedAcProblems> response = getRestClient().get()
                 .uri(ub -> ub
                         .path("/search/problem")
                         .queryParam("page", 0)
@@ -59,6 +62,12 @@ public class SolvedAcService {
             throw CustomException.of(ApiResponseCode.NOT_FOUND_PROBLEM);
         }
         return response.getBody();
+    }
+
+    private RestClient getRestClient() {
+        return RestClient.builder()
+                .baseUrl(BASE_URL)
+                .build();
     }
 
 }

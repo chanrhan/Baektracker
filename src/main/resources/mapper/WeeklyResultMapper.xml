@@ -121,8 +121,8 @@
         with month_weeks as (select id,
                                     fine,
                                     row_number() over (partition by id order by week_dt) as rownum
-                             from tb_weekly_solved
-                             where week_dt like '${date}%'
+                             from weekly_results
+                             where year_week like '${date}%'
                              order by rownum),
              sum as (select id,
                             IFNULL(sum(fine), 0)                    as amount,
@@ -130,10 +130,10 @@
                      from month_weeks
                      group by id),
              final as (SELECT u.id,
-                              u.name,
+                              u.nickname,
                               s.amount,
                               s.week_list
-                       FROM tb_solved_user u
+                       FROM users u
                                 left outer join sum s on s.id = u.id)
         select IFNULL(sum(amount), 0) as sum,
                json_arrayagg(json_object(
@@ -150,8 +150,8 @@
         select id,
                score,
                state
-        from tb_weekly_solved ws
-        where ws.week_id = date_format(#{date}, '%Y-%u')
+        from weekly_results ws
+        where ws.year_week = date_format(#{date}, '%Y-%u')
     </select>
 
 </mapper>

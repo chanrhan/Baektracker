@@ -1,13 +1,20 @@
 package com.hanco.hanco.domain.weekly_result.service;
 
 import com.hanco.hanco.domain.user.dto.request.WeekPassRequestDto;
+import com.hanco.hanco.domain.user.model.User;
 import com.hanco.hanco.domain.weekly_result.dto.WeeklyResultResponseDto;
+import com.hanco.hanco.domain.weekly_result.dto.response.TotalFineStatusResponse;
+import com.hanco.hanco.domain.weekly_result.dto.response.TotalFineStatusResponse.InnerUserFineItem;
+import com.hanco.hanco.domain.weekly_result.model.WeeklyResult;
+import com.hanco.hanco.domain.weekly_result.repository.WeeklyResultRepository;
 import com.hanco.hanco.global.code.ApiResponseCode;
 import com.hanco.hanco.global.exception.CustomException;
 import com.hanco.hanco.mapper.UserMapper;
 import com.hanco.hanco.mapper.WeeklyResultMapper;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,14 +25,28 @@ import org.springframework.util.StringUtils;
 public class WeeklyResultService {
     private final UserMapper userMapper;
     private final WeeklyResultMapper weeklyResultMapper;
+    private final WeeklyResultRepository weeklyResultRepository;
     private final PasswordEncoder passwordEncoder;
 
     public void insertWeeklyScore(int target, int fine) {
         weeklyResultMapper.insertWeeklyResult(target, fine);
     }
 
-    public Map<String, Object> getTotalFine() {
-        return weeklyResultMapper.getTotalFine();
+    public TotalFineStatusResponse getTotalFineStatus() {
+        List<WeeklyResult> weeklyResults = weeklyResultRepository.findAll();
+        Map<User, Integer> userFineMap = weeklyResults.stream()
+                .collect(Collectors.groupingBy(
+                        WeeklyResult::getUser,
+                        Collectors.summingInt(WeeklyResult::getFine)
+                ));
+        List<InnerUserFineItem> userFineList = new ArrayList<>();
+        for (User user : userFineMap.keySet()) {
+            userFineList.add(InnerUserFineItem.of(user, userFineMap.get(user)));
+        }
+        userFineList.sort((f1, f2) -> f2.fine() - f1.fine());
+
+        return TotalFineStatusResponse.of(userFineList);
+//        return weeklyResultMapper.getTotalFine();
     }
 
     public Map<String, Object> getMonthFine(String date) {

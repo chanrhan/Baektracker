@@ -51,4 +51,14 @@ public class WeeklyResult {
     public String getUserNickname() {
         return user.getNickname();
     }
+
+    public static WeeklyResult from(String yearWeek, User user) {
+        return WeeklyResult.builder()
+                .yearWeek(yearWeek)
+                .score(0)
+                .state(WeeklyResultStatus.None)
+                .fine(0)
+                .user(user)
+                .build();
+    }
 }

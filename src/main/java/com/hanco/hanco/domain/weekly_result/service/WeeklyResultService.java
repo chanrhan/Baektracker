@@ -1,7 +1,9 @@
 package com.hanco.hanco.domain.weekly_result.service;
 
+import com.hanco.hanco.common.util.DateUtil;
 import com.hanco.hanco.domain.user.dto.request.WeekPassRequestDto;
 import com.hanco.hanco.domain.user.model.User;
+import com.hanco.hanco.domain.user.repository.UserRepository;
 import com.hanco.hanco.domain.weekly_result.dto.WeeklyResultResponseDto;
 import com.hanco.hanco.domain.weekly_result.dto.response.TotalFineStatusResponse;
 import com.hanco.hanco.domain.weekly_result.dto.response.TotalFineStatusResponse.InnerUserFineItem;
@@ -11,6 +13,7 @@ import com.hanco.hanco.global.code.ApiResponseCode;
 import com.hanco.hanco.global.exception.CustomException;
 import com.hanco.hanco.mapper.UserMapper;
 import com.hanco.hanco.mapper.WeeklyResultMapper;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +28,7 @@ import org.springframework.util.StringUtils;
 public class WeeklyResultService {
     private final UserMapper userMapper;
     private final WeeklyResultMapper weeklyResultMapper;
+    private final UserRepository userRepository;
     private final WeeklyResultRepository weeklyResultRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -73,7 +77,17 @@ public class WeeklyResultService {
         weeklyResultMapper.updateWeekPass(dto.id(), dto.date(), state);
     }
 
-    public void settleFine() {
+    public void insertWeeklyResults(LocalDate date) {
+        String yearWeek = DateUtil.toYearWeek(date);
+        List<User> users = userRepository.findAll();
+        List<WeeklyResult> weeklyResults = users.stream()
+                .map(user -> WeeklyResult.from(yearWeek, user))
+                .toList();
+        weeklyResultRepository.saveAll(weeklyResults);
+    }
+
+    public void updateWeeklyResults(LocalDate date) {
+        String yearWeek = DateUtil.toYearWeek(date);
 
     }
 }

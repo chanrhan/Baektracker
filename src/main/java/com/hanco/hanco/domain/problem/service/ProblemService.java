@@ -9,6 +9,7 @@ import com.hanco.hanco.domain.problem.dto.response.ProblemsResponse;
 import com.hanco.hanco.domain.problem.dto.response.WeeklyUsersProgressResponse;
 import com.hanco.hanco.domain.problem.model.BaekjoonProblem;
 import com.hanco.hanco.domain.problem.model.SolvedProblem;
+import com.hanco.hanco.domain.problem.queryRepository.SolvedProblemQueryRepository;
 import com.hanco.hanco.domain.problem.repository.ProblemRepository;
 import com.hanco.hanco.domain.problem.repository.SolvedProblemRepository;
 import com.hanco.hanco.domain.user.model.User;
@@ -34,6 +35,7 @@ public class ProblemService {
     private final ProblemMapper problemMapper;
     private final UserMapper userMapper;
     private final SolvedProblemRepository solvedProblemRepository;
+    private final SolvedProblemQueryRepository solvedProblemQueryRepository;
     private final UserRepository userRepository;
 
     public ProblemsResponse searchProblems(String keyword) {
@@ -68,8 +70,8 @@ public class ProblemService {
         LocalDate toDate = fromDate.plusDays(6);
         List<User> users = userRepository.findAll();
 
-        List<SolvedProblem> solvedProblems = solvedProblemRepository.findSolvedProblemsByTryDtBetween(fromDate, toDate);
-        System.out.println("solved: " + solvedProblems);
+        List<SolvedProblem> solvedProblems = solvedProblemQueryRepository.fetchUserProgresses(fromDate, toDate);
+
         if (users.isEmpty() || solvedProblems.isEmpty()) {
             return WeeklyUsersProgressResponse.from(progresses);
         }

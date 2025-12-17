@@ -29,8 +29,8 @@ public class SolvedProblemQueryRepository {
                                 sp2.tryDt.between(beforeDate, afterDate)
                         );
 
-        JPQLQuery<LocalDate> minTryDt =
-                JPAExpressions.select(sp3.tryDt.min())
+        JPQLQuery<Integer> maxSubmitId =
+                JPAExpressions.select(sp3.submitId.max())
                         .from(sp3)
                         .where(
                                 sp3.user.id.eq(sp.user.id),
@@ -47,7 +47,7 @@ public class SolvedProblemQueryRepository {
                                 afterDate
                         ),
                         sp.resultId.eq(minResultId),
-                        sp.tryDt.eq(minTryDt)
+                        sp.submitId.eq(maxSubmitId)
                 )
                 .fetch();
     }

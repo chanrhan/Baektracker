@@ -22,7 +22,7 @@ export function MarkedProblemItem({problem, index}) {
         </div>
     </div>)
 
-    const result_id = problem.result_id;
+    const result_id = problem.resultId;
 
     return (
         <div key={index} onClick={() => {

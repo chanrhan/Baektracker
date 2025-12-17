@@ -1,7 +1,10 @@
 package com.hanco.hanco.domain.weekly_result.model;
 
 import com.hanco.hanco.domain.user.model.User;
+import com.hanco.hanco.domain.weekly_result.code.WeeklyResultStatus;
+import com.hanco.hanco.domain.weekly_result.converter.WeeklyResultStatusConverter;
 import jakarta.persistence.Column;
+import jakarta.persistence.Convert;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -31,8 +34,8 @@ public class WeeklyResult {
     @Column(name = "score", columnDefinition = "0")
     private Integer score;
 
-    @Column(name = "state", columnDefinition = "0")
-    private Integer state;
+    @Convert(converter = WeeklyResultStatusConverter.class)
+    private WeeklyResultStatus state;
 
     @Column(name = "fine", columnDefinition = "0")
     private Integer fine;

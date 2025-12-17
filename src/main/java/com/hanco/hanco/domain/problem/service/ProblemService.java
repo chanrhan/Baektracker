@@ -1,5 +1,6 @@
 package com.hanco.hanco.domain.problem.service;
 
+import com.hanco.hanco.common.util.DateUtil;
 import com.hanco.hanco.domain.problem.dto.SolvedAcProblem;
 import com.hanco.hanco.domain.problem.dto.SolvedAcProblems;
 import com.hanco.hanco.domain.problem.dto.SolvedProblemDetail;
@@ -11,11 +12,12 @@ import com.hanco.hanco.domain.problem.model.BaekjoonProblem;
 import com.hanco.hanco.domain.problem.model.SolvedProblem;
 import com.hanco.hanco.domain.problem.queryRepository.SolvedProblemQueryRepository;
 import com.hanco.hanco.domain.problem.repository.ProblemRepository;
-import com.hanco.hanco.domain.problem.repository.SolvedProblemRepository;
 import com.hanco.hanco.domain.user.model.User;
 import com.hanco.hanco.domain.user.repository.UserRepository;
+import com.hanco.hanco.domain.weekly_result.code.WeeklyResultStatus;
+import com.hanco.hanco.domain.weekly_result.model.WeeklyResult;
+import com.hanco.hanco.domain.weekly_result.repository.WeeklyResultRepository;
 import com.hanco.hanco.mapper.ProblemMapper;
-import com.hanco.hanco.mapper.UserMapper;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,10 +35,9 @@ public class ProblemService {
     private final SolvedAcService solvedAcService;
     private final ProblemRepository problemRepository;
     private final ProblemMapper problemMapper;
-    private final UserMapper userMapper;
-    private final SolvedProblemRepository solvedProblemRepository;
     private final SolvedProblemQueryRepository solvedProblemQueryRepository;
     private final UserRepository userRepository;
+    private final WeeklyResultRepository weeklyResultRepository;
 
     public ProblemsResponse searchProblems(String keyword) {
         SolvedAcProblems result = solvedAcService.searchProblems(keyword);
@@ -69,13 +70,20 @@ public class ProblemService {
         List<WeeklyUserProgress> progresses = new ArrayList<>();
         LocalDate toDate = fromDate.plusDays(6);
         List<User> users = userRepository.findAll();
-
         List<SolvedProblem> solvedProblems = solvedProblemQueryRepository.fetchUserProgresses(fromDate, toDate);
+        String yearWeek = DateUtil.toYearWeek(fromDate);
+        List<WeeklyResult> weeklyResults = weeklyResultRepository.findWeeklyResultByYearWeek(yearWeek);
 
         if (users.isEmpty() || solvedProblems.isEmpty()) {
             return WeeklyUsersProgressResponse.from(progresses);
         }
         Map<Long, List<SolvedProblem>> userMap = new HashMap<>();
+        Map<Long, Boolean> weekPassMap = weeklyResults.stream()
+                .collect(Collectors.toMap(
+                        WeeklyResult::getUserId,
+                        this::isWeekPass
+                ));
+
         Map<Integer, List<String>> coSolverMap = solvedProblems.stream()
                 .collect(Collectors.groupingBy(
                         SolvedProblem::getProblemId,
@@ -91,18 +99,22 @@ public class ProblemService {
             userMap.put(userId, list);
         }
         for (User user : users) {
+            boolean isWeekPass = weekPassMap.get(user.getId());
             List<SolvedProblem> userProblems = userMap.get(user.getId());
             if (userProblems == null || userProblems.isEmpty()) {
                 continue;
             }
             List<SolvedProblemDetail> details = userProblems.stream()
-                    .map(problem -> SolvedProblemDetail.of(problem, coSolverMap.get(problem.getProblemId())))
+                    .map(problem ->
+                            SolvedProblemDetail.of(
+                                    problem,
+                                    coSolverMap.get(problem.getProblemId())))
                     .toList();
             int score = userProblems.stream()
                     .map(this::mapProblemToScore)
                     .reduce(Integer::sum)
                     .orElse(0);
-            progresses.add(new WeeklyUserProgress(user.getId(), score, details));
+            progresses.add(new WeeklyUserProgress(user.getId(), score, isWeekPass, details));
         }
         return WeeklyUsersProgressResponse.from(progresses);
     }
@@ -120,6 +132,10 @@ public class ProblemService {
             problemRepository.save(baekjoonProblem);
         }
         return baekjoonProblem;
+    }
+
+    private boolean isWeekPass(WeeklyResult weeklyResult) {
+        return weeklyResult.getState() == WeeklyResultStatus.WeekPass;
     }
 
     private int mapProblemToScore(SolvedProblem solvedProblem) {

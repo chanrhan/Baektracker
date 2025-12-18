@@ -15,8 +15,8 @@ function problemApi() {
         getWeeklyProblem: async (date) => {
             return axiosApi.get(`/api/v1/weekly-problem?date=${date}`, null);
         },
-        updateWeeklyProblem: async (date, body) => {
-            return axiosApi.post(`/api/v1/problem/weekly?date=${date}`, body, null);
+        updateWeeklyProblem: async (body) => {
+            return axiosApi.post(`/api/v1/weekly-problem`, body, null);
         },
         searchProblems: async (keyword) => {
             return axiosApi.get(`/api/v1/problem/search?keyword=${keyword}`, null);

@@ -49,7 +49,6 @@ public class SolvedAcService {
         ResponseEntity<SolvedAcProblems> response = getRestClient().get()
                 .uri(ub -> ub
                         .path("/search/problem")
-                        .queryParam("page", 0)
                         .queryParam("direction", "asc")
                         .queryParam("query", query)
                         .queryParam("sort", "level")

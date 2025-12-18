@@ -101,7 +101,10 @@ public class ProblemService {
             userMap.put(userId, list);
         }
         for (User user : users) {
-            boolean isWeekPass = weekPassMap.get(user.getId());
+            boolean isWeekPass = false;
+            if (weekPassMap.containsKey(user.getId())) {
+                isWeekPass = weekPassMap.get(user.getId());
+            }
             List<SolvedProblem> userProblems = userMap.get(user.getId());
             if (userProblems == null || userProblems.isEmpty()) {
                 continue;
@@ -121,6 +124,7 @@ public class ProblemService {
         return WeeklyUsersProgressResponse.from(progresses);
     }
 
+    @Transactional
     public BaekjoonProblem getProblemOrInsert(Integer problemId) {
         BaekjoonProblem baekjoonProblem = problemRepository.findById(problemId)
                 .orElse(null);

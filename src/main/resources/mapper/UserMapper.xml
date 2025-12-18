@@ -3,80 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hanco.hanco.mapper.UserMapper">
-
-
-    <select id="getAllUsers">
-        select u.id,
-               name,
-               (select IF(count(*) > 0, true, false)
-                from tb_mark_problem mp
-                where mp.user_id = u.id
-                  and week_id = date_format(#{date}, '%Y-%u')
-                  and mp.problem_id in (select ws.problem_id
-                                        from tb_weekly_shared_problem ws
-                                        where ws.week_id = date_format(#{date}, '%Y-%u'))) as shared_solved,
-               (with recursive base as (select (select max(week_dt)
-                                                from tb_weekly_solved) as dt,
-                                               0                       as cnt
-                                        union all
-                                        select date_sub(dt, interval 1 week) as dt,
-                                               cnt + 1                       as cnt
-                                        from base
-                                                 left outer join tb_weekly_solved ws
-                                                                 on date_format(dt, '%Y-%u') = ws.week_id and ws.id = u.id
-                                        where ws.state = 1
-                                           or ws.state = 2)
-                select max(cnt)
-                from base)                                                                 as streak
-        from tb_solved_user u
-    </select>
-    <!--    #                 IF(pass_this_week=1 or (-->
-    <!--    #                     select IF(complete_st=2, true, false)-->
-    <!--    #                     from tb_weekly_solved tws-->
-    <!--    #                     where tws.week_id=date_format(#{date}, '%Y-%u') and tws.id=u.id-->
-    <!--    #                 ), true, false) as pass-->
-
-    <select id="getAllUsersLastRead">
-        select id,
-               last_read
-        from tb_solved_user
-    </select>
-
-    <update id="updateLastRead">
-        update tb_solved_user
-        set last_read=#{lastRead},
-            last_read_time=now()
-        where id = #{id}
-    </update>
-
-    <select id="getContinuousCompleteCount">
-        select u.id,
-               (with recursive base as (select (select max(week_dt)
-                                                from tb_weekly_solved) as dt,
-                                               0                       as cnt
-                                        union all
-                                        select date_sub(dt, interval 1 week) as dt,
-                                               cnt + 1                       as cnt
-                                        from base
-                                                 left outer join tb_weekly_solved ws
-                                                                 on date_format(dt, '%Y-%u') = ws.week_id and ws.id = u.id
-                                        where ws.complete_st = 1)
-                select max(cnt)
-                from base) as cnt
-        from tb_solved_user u
-    </select>
-
     <select id="findPassword">
         select password
-        from tb_solved_user
-        where id = #{id}
+        from users
+        where id = #{username}
     </select>
-
-    <update id="updatePassword">
-        update tb_solved_user
-        set password=#{newPwd}
-        where id = #{id}
-    </update>
-
-
 </mapper>

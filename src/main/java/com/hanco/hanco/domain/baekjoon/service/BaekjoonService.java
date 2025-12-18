@@ -37,8 +37,6 @@ public class BaekjoonService {
 
     public void loadBaekjoonProblemStatus() {
         try {
-            List<SolvedProblem> list = new ArrayList<>();
-
             List<User> users = userRepository.findAll();
             for (User user : users) {
                 List<SolvedProblem> scrappedProblems = new ArrayList<>();
@@ -51,18 +49,15 @@ public class BaekjoonService {
                     scrappedProblems.addAll(res);
                     top = res.get(res.size() - 1).getSubmitId();
                 } while (true);
-
-                list.addAll(scrappedProblems);
+                System.out.println("scrapped: " + scrappedProblems.size());
 
                 if (!scrappedProblems.isEmpty()) {
                     int updatedLastRead = scrappedProblems.get(0).getSubmitId();
                     user.updateLastRead(updatedLastRead);
+                    solvedProblemRepository.saveAll(scrappedProblems);
                 }
             }
-            if (!list.isEmpty()) {
-                solvedProblemRepository.saveAll(list);
-//                problemMapper.insertMarkedProblems(list);
-            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -139,17 +134,6 @@ public class BaekjoonService {
                             .language(lang)
                             .problem(baekjoonProblem)
                             .build();
-//                    BaekjoonSolvedProblemInfo problemInfo = BaekjoonSolvedProblemInfo.builder()
-//                            .username(username)
-//                            .problemId(problemId)
-//                            .resultId(resultType.getStatus())
-//                            .elapsedTm(elapsedTime)
-//                            .usedMem(usedMemory)
-//                            .errorText(errorText)
-//                            .submitId(submitId)
-//                            .date(dateTime.format(formatter))
-//                            .lang(lang)
-//                            .build();
                     list.add(solvedProblem);
                 }
             }

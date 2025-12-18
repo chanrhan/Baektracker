@@ -31,8 +31,11 @@ export function WeekProblemAddModal(props) {
             return
         }
         problemApi.searchProblems(keyword).then(({data}) => {
+            console.table(data)
             if (data && data.count > 0 && data.items) {
                 setSearchResults(data.items);
+            } else {
+                setSearchResults(null)
             }
         })
     }
@@ -45,7 +48,7 @@ export function WeekProblemAddModal(props) {
             return;
         }
         for (const it of items) {
-            if (it.problem_id === id) {
+            if (it.problemId === id) {
                 modal.openModal(ModalType.SNACKBAR.Alert, {
                     msg: "중복된 문제입니다!"
                 })
@@ -55,7 +58,7 @@ export function WeekProblemAddModal(props) {
         const item = {
             problem_id: id,
             level: searchResults[index].level,
-            title: searchResults[index].titleKo
+            title: searchResults[index].title
         }
         const copy = [...items];
         copy.push(item)
@@ -70,10 +73,14 @@ export function WeekProblemAddModal(props) {
 
 
     const submit = () => {
-        const body = items.map((v, i) => {
+        const ids = items.map((v, i) => {
             return v.problem_id
         })
-        problemApi.updateWeeklyProblem(props.fromDate, body).then(({data}) => {
+        const body = {
+            date: props.fromDate,
+            problemIds: ids
+        }
+        problemApi.updateWeeklyProblem(body).then(({data}) => {
             if (!data) {
                 modal.openModal(ModalType.SNACKBAR.Alert, {
                     msg: "문제가 발생했습니다. 다시 시도해주세요"
@@ -135,7 +142,7 @@ export function WeekProblemAddModal(props) {
                         {
                             items && items.map((v, i) => {
                                 return (
-                                    <div key={v.id} className={styles.added_weeklyProblemsCard} onClick={() => {
+                                    <div key={v.problemId} className={styles.added_weeklyProblemsCard} onClick={() => {
                                         deleteProblem(i)
                                     }}>
                                         <div
@@ -148,7 +155,7 @@ export function WeekProblemAddModal(props) {
                                 className={cm(styles.tierIcon, `${DesignUtils.getTierIconClass(v.level)}`)}></span>
                                                 {/*<TierIcon tier={problem.level} size="small" showText={true}/>*/}
                                                 <h3 className={styles.weeklyProblemsTitle}>
-                                                    #{v.problem_id} {v.title}
+                                                    #{v.problemId} {v.title}
                                                 </h3>
                                             </div>
                                         </div>
@@ -172,7 +179,7 @@ export function WeekProblemAddModal(props) {
                                                 <span
                                                     className={cm(styles.tierIcon, `${DesignUtils.getTierIconClass(v.level)}`)}></span>
                                                 <span className={styles.problemModalProblemNumber}>#{v.problemId}</span>
-                                                <span className={styles.problemModalProblemTitle}>{v.titleKo}</span>
+                                                <span className={styles.problemModalProblemTitle}>{v.title}</span>
                                             </div>
                                             <div className={styles.problemModalProblemStats}>
                     <span className={styles.problemModalSolvedCount}>

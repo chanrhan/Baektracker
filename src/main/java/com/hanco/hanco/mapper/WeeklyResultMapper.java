@@ -1,5 +1,6 @@
 package com.hanco.hanco.mapper;
 
+import com.hanco.hanco.domain.weekly_result.dto.UserStreak;
 import com.hanco.hanco.domain.weekly_result.dto.WeeklyResultResponseDto;
 import java.time.LocalDate;
 import java.util.List;
@@ -21,4 +22,6 @@ public interface WeeklyResultMapper {
     public Map<String, Object> getMonthFine(String date);
 
     public int updateWeekPass(String id, LocalDate date, int state);
+
+    public List<UserStreak> getStreaks(LocalDate date);
 }

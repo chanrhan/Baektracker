@@ -23,16 +23,18 @@ public class RecordWeeklyResultJob implements Job {
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         log.info("[Job] Weekly Job is processing!");
 
-        LocalDate thisWeekDay = LocalDate.now();
-        if (thisWeekDay.getDayOfWeek() != DayOfWeek.SUNDAY) {
+        LocalDate thisWeekDate = LocalDate.now();
+        LocalDate fromDate = thisWeekDate.minusDays(6);
+        if (thisWeekDate.getDayOfWeek() != DayOfWeek.SUNDAY) {
             log.error("Weekly Job must have run at Sunday!");
             return;
         }
-        LocalDate nextWeekDay = thisWeekDay.plusDays(1);
+        LocalDate nextWeekDate = thisWeekDate.plusDays(1);
 
         baekjoonService.loadBaekjoonProblemStatus();
 
-        weeklyResultService.updateWeeklyResults(thisWeekDay);
-        weeklyResultService.insertWeeklyResults(nextWeekDay);
+        weeklyResultService.updateWeeklyResults(fromDate, thisWeekDate);
+        weeklyResultService.updateUserStreaks(fromDate);
+        weeklyResultService.insertInitialWeeklyResults(nextWeekDate);
     }
 }

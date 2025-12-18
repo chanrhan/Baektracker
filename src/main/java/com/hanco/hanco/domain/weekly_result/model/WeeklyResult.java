@@ -1,7 +1,7 @@
 package com.hanco.hanco.domain.weekly_result.model;
 
 import com.hanco.hanco.domain.user.model.User;
-import com.hanco.hanco.domain.weekly_result.code.WeeklyResultStatus;
+import com.hanco.hanco.domain.weekly_result.code.WeeklyResultState;
 import com.hanco.hanco.domain.weekly_result.converter.WeeklyResultStatusConverter;
 import jakarta.persistence.Column;
 import jakarta.persistence.Convert;
@@ -35,7 +35,7 @@ public class WeeklyResult {
     private Integer score;
 
     @Convert(converter = WeeklyResultStatusConverter.class)
-    private WeeklyResultStatus state;
+    private WeeklyResultState state;
 
     @Column(name = "fine", columnDefinition = "0")
     private Integer fine;
@@ -52,11 +52,23 @@ public class WeeklyResult {
         return user.getNickname();
     }
 
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public void setFine(int fine) {
+        this.fine = fine;
+    }
+
+    public void setState(WeeklyResultState state) {
+        this.state = state;
+    }
+
     public static WeeklyResult from(String yearWeek, User user) {
         return WeeklyResult.builder()
                 .yearWeek(yearWeek)
                 .score(0)
-                .state(WeeklyResultStatus.None)
+                .state(WeeklyResultState.None)
                 .fine(0)
                 .user(user)
                 .build();

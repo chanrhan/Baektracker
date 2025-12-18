@@ -1,9 +1,14 @@
 package com.hanco.hanco.domain.weekly_result.service;
 
 import com.hanco.hanco.common.util.DateUtil;
+import com.hanco.hanco.domain.problem.model.SolvedProblem;
+import com.hanco.hanco.domain.problem.queryRepository.SolvedProblemQueryRepository;
+import com.hanco.hanco.domain.problem.service.ProblemService;
 import com.hanco.hanco.domain.user.dto.request.WeekPassRequestDto;
 import com.hanco.hanco.domain.user.model.User;
 import com.hanco.hanco.domain.user.repository.UserRepository;
+import com.hanco.hanco.domain.weekly_result.code.WeeklyResultState;
+import com.hanco.hanco.domain.weekly_result.dto.UserStreak;
 import com.hanco.hanco.domain.weekly_result.dto.WeeklyResultResponseDto;
 import com.hanco.hanco.domain.weekly_result.dto.response.TotalFineStatusResponse;
 import com.hanco.hanco.domain.weekly_result.dto.response.TotalFineStatusResponse.InnerUserFineItem;
@@ -21,20 +26,22 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 @Service
 @RequiredArgsConstructor
 public class WeeklyResultService {
+    private static final Integer DEADLINE_SCORE = 60;
+    private static final Integer FINE_AMOUNT = 3000;
+
     private final UserMapper userMapper;
     private final WeeklyResultMapper weeklyResultMapper;
     private final UserRepository userRepository;
     private final WeeklyResultRepository weeklyResultRepository;
+    private final SolvedProblemQueryRepository solvedProblemQueryRepository;
     private final PasswordEncoder passwordEncoder;
-
-    public void insertWeeklyScore(int target, int fine) {
-        weeklyResultMapper.insertWeeklyResult(target, fine);
-    }
+    private final ProblemService problemService;
 
     public TotalFineStatusResponse getTotalFineStatus() {
         List<WeeklyResult> weeklyResults = weeklyResultRepository.findAll();
@@ -61,6 +68,7 @@ public class WeeklyResultService {
         return weeklyResultMapper.getWeeklyResults(date);
     }
 
+    @Transactional
     public void updateWeekPass(WeekPassRequestDto dto) {
 //        if(LocalDate.now().getDayOfWeek().getValue() >= 6){
 //            throw CustomException.of(ApiResponseCode.PASS_NOT_ALLOWED);
@@ -77,7 +85,7 @@ public class WeeklyResultService {
         weeklyResultMapper.updateWeekPass(dto.id(), dto.date(), state);
     }
 
-    public void insertWeeklyResults(LocalDate date) {
+    public void insertInitialWeeklyResults(LocalDate date) {
         String yearWeek = DateUtil.toYearWeek(date);
         List<User> users = userRepository.findAll();
         List<WeeklyResult> weeklyResults = users.stream()
@@ -86,8 +94,55 @@ public class WeeklyResultService {
         weeklyResultRepository.saveAll(weeklyResults);
     }
 
-    public void updateWeeklyResults(LocalDate date) {
-        String yearWeek = DateUtil.toYearWeek(date);
+    @Transactional
+    public void updateWeeklyResults(LocalDate fromDate, LocalDate toDate) {
+        String yearWeek = DateUtil.toYearWeek(toDate);
+        List<WeeklyResult> weeklyResults = weeklyResultRepository.findWeeklyResultByYearWeek(yearWeek);
+        List<SolvedProblem> solvedProblems = solvedProblemQueryRepository.fetchWeeklyUserScores(fromDate, toDate);
 
+        Map<Long, Integer> userScoreMap = solvedProblems.stream()
+                .collect(Collectors.groupingBy(
+                        SolvedProblem::getUserId,
+                        Collectors.summingInt(problemService::mapProblemToScore)
+                ));
+
+        for (WeeklyResult weeklyResult : weeklyResults) {
+            int score = userScoreMap.get(weeklyResult.getUserId());
+            weeklyResult.setScore(score);
+            if (weeklyResult.getState() == WeeklyResultState.None) {
+                WeeklyResultState state = getWeeklyResultState(score);
+                weeklyResult.setState(state);
+                weeklyResult.setFine(getFineAmount(state));
+            }
+        }
+    }
+
+    @Transactional
+    public void updateUserStreaks(LocalDate fromDate) {
+        List<User> users = userRepository.findAll();
+        List<UserStreak> streaks = weeklyResultMapper.getStreaks(fromDate);
+        Map<Long, Integer> userStreakMap = streaks.stream()
+                .collect(Collectors.toMap(
+                        UserStreak::id,
+                        UserStreak::streak
+                ));
+        for (User user : users) {
+            int streak = userStreakMap.get(user.getId());
+            user.setStreak(streak);
+        }
+    }
+
+    private WeeklyResultState getWeeklyResultState(int score) {
+        if (score >= DEADLINE_SCORE) {
+            return WeeklyResultState.Completed;
+        }
+        return WeeklyResultState.Failed;
+    }
+
+    private int getFineAmount(WeeklyResultState state) {
+        if (state == WeeklyResultState.Failed) {
+            return FINE_AMOUNT;
+        }
+        return 0;
     }
 }

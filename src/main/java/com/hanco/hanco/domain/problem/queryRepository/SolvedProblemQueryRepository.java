@@ -1,5 +1,6 @@
 package com.hanco.hanco.domain.problem.queryRepository;
 
+import com.hanco.hanco.domain.problem.code.SolvedAcResultType;
 import com.hanco.hanco.domain.problem.model.QSolvedProblem;
 import com.hanco.hanco.domain.problem.model.SolvedProblem;
 import com.querydsl.jpa.JPAExpressions;
@@ -14,6 +15,33 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class SolvedProblemQueryRepository {
     private final JPAQueryFactory queryFactory;
+
+    public List<SolvedProblem> fetchWeeklyUserScores(LocalDate beforeDate, LocalDate afterDate) {
+        QSolvedProblem sp = QSolvedProblem.solvedProblem;
+        QSolvedProblem sp2 = new QSolvedProblem("sp2");
+
+        JPQLQuery<Integer> maxSubmitId =
+                JPAExpressions.select(sp2.submitId.max())
+                        .from(sp2)
+                        .where(
+                                sp2.user.id.eq(sp.user.id),
+                                sp2.problem.id.eq(sp.problem.id),
+                                sp2.tryDt.between(beforeDate, afterDate),
+                                sp2.resultId.eq(SolvedAcResultType.CORRECT.getStatus())
+                        );
+
+        return queryFactory
+                .selectFrom(sp)
+                .where(
+                        sp.tryDt.between(
+                                beforeDate,
+                                afterDate
+                        ),
+                        sp.resultId.eq(SolvedAcResultType.CORRECT.getStatus()),
+                        sp.submitId.eq(maxSubmitId)
+                )
+                .fetch();
+    }
 
     public List<SolvedProblem> fetchUserProgresses(LocalDate beforeDate, LocalDate afterDate) {
         QSolvedProblem sp = QSolvedProblem.solvedProblem;

@@ -48,4 +48,8 @@ public class User {
     public void updateLastRead(Integer lastRead) {
         this.lastRead = lastRead;
     }
+
+    public void setStreak(int streak) {
+        this.streak = streak;
+    }
 }

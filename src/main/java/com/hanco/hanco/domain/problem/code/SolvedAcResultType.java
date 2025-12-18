@@ -1,4 +1,4 @@
-package com.hanco.hanco.domain.problem.enums;
+package com.hanco.hanco.domain.problem.code;
 
 
 import lombok.AllArgsConstructor;

@@ -1,7 +1,7 @@
 package com.hanco.hanco.domain.baekjoon.service;
 
 import com.hanco.hanco.common.util.TimeUtils;
-import com.hanco.hanco.domain.problem.enums.SolvedAcResultType;
+import com.hanco.hanco.domain.problem.code.SolvedAcResultType;
 import com.hanco.hanco.domain.problem.model.BaekjoonProblem;
 import com.hanco.hanco.domain.problem.model.SolvedProblem;
 import com.hanco.hanco.domain.problem.repository.ProblemRepository;

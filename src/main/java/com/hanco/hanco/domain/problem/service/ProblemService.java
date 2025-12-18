@@ -14,7 +14,7 @@ import com.hanco.hanco.domain.problem.queryRepository.SolvedProblemQueryReposito
 import com.hanco.hanco.domain.problem.repository.ProblemRepository;
 import com.hanco.hanco.domain.user.model.User;
 import com.hanco.hanco.domain.user.repository.UserRepository;
-import com.hanco.hanco.domain.weekly_result.code.WeeklyResultStatus;
+import com.hanco.hanco.domain.weekly_result.code.WeeklyResultState;
 import com.hanco.hanco.domain.weekly_result.model.WeeklyResult;
 import com.hanco.hanco.domain.weekly_result.repository.WeeklyResultRepository;
 import com.hanco.hanco.mapper.ProblemMapper;
@@ -135,10 +135,10 @@ public class ProblemService {
     }
 
     private boolean isWeekPass(WeeklyResult weeklyResult) {
-        return weeklyResult.getState() == WeeklyResultStatus.WeekPass;
+        return weeklyResult.getState() == WeeklyResultState.WeekPass;
     }
 
-    private int mapProblemToScore(SolvedProblem solvedProblem) {
+    public int mapProblemToScore(SolvedProblem solvedProblem) {
         int level = solvedProblem.getProblem().getLevel();
         if (level <= 0) {
             return 10;

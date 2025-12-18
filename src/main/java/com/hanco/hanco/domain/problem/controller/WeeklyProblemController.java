@@ -26,7 +26,7 @@ public class WeeklyProblemController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Boolean> updateWeeklyProblem(@RequestBody UpdateWeeklyProblemRequest request) {
+    public ResponseEntity<Void> updateWeeklyProblem(@RequestBody UpdateWeeklyProblemRequest request) {
         weeklyProblemService.updateWeeklyProblem(request);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

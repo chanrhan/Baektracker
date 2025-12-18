@@ -18,7 +18,7 @@ public class WeeklyProblemService {
     private final ProblemRepository problemRepository;
     private final WeeklyProblemRepository weeklyProblemRepository;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public WeeklyProblemsResponse getWeeklyProblem(LocalDate date) {
         String yearWeek = DateUtil.toYearWeek(date);
         List<WeeklyProblem> weeklyProblems = weeklyProblemRepository.findWeeklyProblemsByYearWeek(yearWeek);

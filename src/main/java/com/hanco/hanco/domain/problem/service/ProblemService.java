@@ -27,6 +27,7 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -66,6 +67,7 @@ public class ProblemService {
         }
     }
 
+    @Transactional(readOnly = true)
     public WeeklyUsersProgressResponse getWeeklyUsersProgress(LocalDate fromDate) {
         List<WeeklyUserProgress> progresses = new ArrayList<>();
         LocalDate toDate = fromDate.plusDays(6);

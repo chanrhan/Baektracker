@@ -8,8 +8,11 @@ import com.hanco.hanco.domain.user.dto.request.WeekPassRequestDto;
 import com.hanco.hanco.domain.user.model.User;
 import com.hanco.hanco.domain.user.repository.UserRepository;
 import com.hanco.hanco.domain.weekly_result.code.WeeklyResultState;
+import com.hanco.hanco.domain.weekly_result.dto.UserFine;
 import com.hanco.hanco.domain.weekly_result.dto.UserStreak;
 import com.hanco.hanco.domain.weekly_result.dto.WeeklyResultResponseDto;
+import com.hanco.hanco.domain.weekly_result.dto.response.MonthFineStatusResponse;
+import com.hanco.hanco.domain.weekly_result.dto.response.MonthFineStatusResponse.InnerUserMonthFineItem;
 import com.hanco.hanco.domain.weekly_result.dto.response.TotalFineStatusResponse;
 import com.hanco.hanco.domain.weekly_result.dto.response.TotalFineStatusResponse.InnerUserFineItem;
 import com.hanco.hanco.domain.weekly_result.model.WeeklyResult;
@@ -20,6 +23,7 @@ import com.hanco.hanco.mapper.UserMapper;
 import com.hanco.hanco.mapper.WeeklyResultMapper;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -43,25 +47,56 @@ public class WeeklyResultService {
     private final PasswordEncoder passwordEncoder;
     private final ProblemService problemService;
 
+    @Transactional(readOnly = true)
     public TotalFineStatusResponse getTotalFineStatus() {
-        List<WeeklyResult> weeklyResults = weeklyResultRepository.findAll();
-        Map<User, Integer> userFineMap = weeklyResults.stream()
-                .collect(Collectors.groupingBy(
-                        WeeklyResult::getUser,
-                        Collectors.summingInt(WeeklyResult::getFine)
-                ));
-        List<InnerUserFineItem> userFineList = new ArrayList<>();
-        for (User user : userFineMap.keySet()) {
-            userFineList.add(InnerUserFineItem.of(user, userFineMap.get(user)));
-        }
+        List<UserFine> weeklyResults = weeklyResultRepository.getTotalFineGroupByUser();
+        List<InnerUserFineItem> userFineList = new java.util.ArrayList<>(weeklyResults.stream()
+                .map(InnerUserFineItem::from)
+                .toList());
         userFineList.sort((f1, f2) -> f2.fine() - f1.fine());
 
         return TotalFineStatusResponse.of(userFineList);
-//        return weeklyResultMapper.getTotalFine();
     }
 
-    public Map<String, Object> getMonthFine(String date) {
-        return weeklyResultMapper.getMonthFine(date);
+    @Transactional(readOnly = true)
+    public MonthFineStatusResponse getMonthFine(LocalDate date) {
+        List<User> users = userRepository.findAll();
+        List<WeeklyResult> weeklyResults = weeklyResultRepository.findWeeklyResultByMonth(date);
+        int monthTotalFine = weeklyResults.stream()
+                .mapToInt(WeeklyResult::getFine)
+                .reduce(Integer::sum)
+                .orElse(0);
+        Map<Long, Integer> userFineMap = weeklyResults.stream()
+                .collect(Collectors.groupingBy(
+                        WeeklyResult::getUserId,
+                        Collectors.summingInt(WeeklyResult::getFine)
+                ));
+        Map<Long, List<Integer>> weeksMaps = weeklyResults.stream()
+                .collect(Collectors.groupingBy(
+                        WeeklyResult::getUserId,
+                        Collectors.collectingAndThen(
+                                Collectors.mapping(this::getWeekOfMonth, Collectors.toList()),
+                                list -> {
+                                    list.sort(Comparator.naturalOrder());
+                                    return list;
+                                }
+                        )
+                ));
+        List<InnerUserMonthFineItem> items = new ArrayList<>();
+        for (User user : users) {
+            if (!userFineMap.containsKey(user.getId())) {
+                continue;
+            }
+            int fine = userFineMap.get(user.getId());
+            List<Integer> weekList = weeksMaps.get(user.getId());
+            items.add(new InnerUserMonthFineItem(
+                    user.getId(),
+                    user.getNickname(),
+                    fine,
+                    weekList
+            ));
+        }
+        return MonthFineStatusResponse.of(monthTotalFine, items);
     }
 
     public List<WeeklyResultResponseDto> getWeeklyResults(String date) {
@@ -127,6 +162,9 @@ public class WeeklyResultService {
                         UserStreak::streak
                 ));
         for (User user : users) {
+            if (!userStreakMap.containsKey(user.getId())) {
+                continue;
+            }
             int streak = userStreakMap.get(user.getId());
             user.setStreak(streak);
         }
@@ -144,5 +182,9 @@ public class WeeklyResultService {
             return FINE_AMOUNT;
         }
         return 0;
+    }
+
+    private int getWeekOfMonth(WeeklyResult weeklyResult) {
+        return DateUtil.toWeekOfMonth(weeklyResult.getWeekDt());
     }
 }

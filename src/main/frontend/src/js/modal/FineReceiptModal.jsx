@@ -39,27 +39,16 @@ export function FineReceiptModal(props) {
     }
 
     const getMonthFine = () => {
-        const date_str = DateUtils.dateToStringYYMM(date)
+        const date_str = DateUtils.dateToStringYYMMdd(date)
         weeklyResultApi.getMonthFine(date_str).then(({data}) => {
+            console.table(data)
+            
             if (data) {
-                setMonthlySum(data.sum)
-                if (data.user_list) {
-                    const list = JSON.parse(data.user_list);
-                    setMonthlyData(list);
-                }
+                setMonthlySum(data.monthTotalFine)
+                setMonthlyData(data.items);
             }
         })
     }
-
-    // const getWeeklyResult = ()=>{
-    //   const date_str = DateUtils.dateToStringYYMM(date)
-    //   weeklyResultApi.getWeeklyResult(date_str).then(({data})=>{
-    //     // console.table(data)
-    //     if(data){
-    //       setWeeklyData(data)
-    //     }
-    //   })
-    // }
 
 
     const handlePrevMonth = () => {
@@ -121,9 +110,9 @@ export function FineReceiptModal(props) {
                                     totalData && totalData.map((v, i) => {
                                         return (
                                             <div className={styles.receiptModalUserInfo}>
-                                                <span className={styles.receiptModalUserName}>{v.name}</span>
+                                                <span className={styles.receiptModalUserName}>{v.nickname}</span>
                                                 <span
-                                                    className={styles.receiptModalUserAmount}>₩{formatCurrency(v.amount)}</span>
+                                                    className={styles.receiptModalUserAmount}>₩{formatCurrency(v.fine)}</span>
                                             </div>
                                         )
                                     })
@@ -140,18 +129,18 @@ export function FineReceiptModal(props) {
 
                 <div className={styles.receiptModalUserList}>
                     {monthlyData && monthlyData.map((user, index) => {
-                        if (user.amount <= 0) {
+                        if (user.fine <= 0) {
                             return null
                         }
                         return (
                             <div key={index} className={styles.receiptModalUserItem}>
                                 <div className={styles.receiptModalUserInfo}>
-                                    <span className={styles.receiptModalUserName}>{user.name}</span>
+                                    <span className={styles.receiptModalUserName}>{user.nickname}</span>
                                     <span
-                                        className={styles.receiptModalUserAmount}>₩{formatCurrency(user.amount)}</span>
+                                        className={styles.receiptModalUserAmount}>₩{formatCurrency(user.fine)}</span>
                                 </div>
                                 <div className={styles.receiptModalWeekList}>
-                                    {user.week_list && user.week_list.sort().map((week) => {
+                                    {user.weeks && user.weeks.sort().map((week) => {
                                         if (week < 0) {
                                             return null;
                                         }

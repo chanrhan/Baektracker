@@ -20,6 +20,7 @@ export function Header({fromDate, toDate, setFromDate, setToDate}) {
 
     const getTotalFine = () => {
         weeklyResultApi.getTotalFine().then(({data}) => {
+            console.table(data)
             if (data) {
                 setTotalFine(data.totalFine)
             }

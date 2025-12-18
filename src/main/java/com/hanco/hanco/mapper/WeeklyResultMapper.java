@@ -2,6 +2,7 @@ package com.hanco.hanco.mapper;
 
 import com.hanco.hanco.domain.weekly_result.dto.UserStreak;
 import com.hanco.hanco.domain.weekly_result.dto.WeeklyResultResponseDto;
+import com.hanco.hanco.domain.weekly_result.dto.response.MonthFineStatusResponse.InnerUserMonthFineItem;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,7 @@ public interface WeeklyResultMapper {
     // Fine
     public Map<String, Object> getTotalFine();
 
-    public Map<String, Object> getMonthFine(String date);
+    public List<InnerUserMonthFineItem> getMonthFine(LocalDate date);
 
     public int updateWeekPass(String id, LocalDate date, int state);
 

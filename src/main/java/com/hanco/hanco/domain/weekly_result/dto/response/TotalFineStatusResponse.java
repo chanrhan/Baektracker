@@ -1,6 +1,6 @@
 package com.hanco.hanco.domain.weekly_result.dto.response;
 
-import com.hanco.hanco.domain.user.model.User;
+import com.hanco.hanco.domain.weekly_result.dto.UserFine;
 import java.util.List;
 
 public record TotalFineStatusResponse(
@@ -23,11 +23,11 @@ public record TotalFineStatusResponse(
             Integer fine
     ) {
 
-        public static InnerUserFineItem of(User user, Integer fine) {
+        public static InnerUserFineItem from(UserFine userFine) {
             return new InnerUserFineItem(
-                    user.getId(),
-                    user.getNickname(),
-                    fine
+                    userFine.user().getId(),
+                    userFine.user().getNickname(),
+                    userFine.fine()
             );
         }
     }

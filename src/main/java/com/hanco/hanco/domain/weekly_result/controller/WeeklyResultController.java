@@ -2,10 +2,11 @@ package com.hanco.hanco.domain.weekly_result.controller;
 
 import com.hanco.hanco.domain.user.dto.request.WeekPassRequestDto;
 import com.hanco.hanco.domain.weekly_result.dto.WeeklyResultResponseDto;
+import com.hanco.hanco.domain.weekly_result.dto.response.MonthFineStatusResponse;
 import com.hanco.hanco.domain.weekly_result.dto.response.TotalFineStatusResponse;
 import com.hanco.hanco.domain.weekly_result.service.WeeklyResultService;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -37,7 +38,7 @@ public class WeeklyResultController {
 
 
     @GetMapping("/fine/month")
-    public ResponseEntity<Map<String, Object>> getMonthFine(@RequestParam String date) {
+    public ResponseEntity<MonthFineStatusResponse> getMonthFine(@RequestParam LocalDate date) {
         return ResponseEntity.ok(weeklyResultService.getMonthFine(date));
     }
 

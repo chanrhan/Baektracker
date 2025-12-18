@@ -12,6 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,6 +31,9 @@ public class WeeklyResult {
 
     @Column(name = "year_week", nullable = false)
     private String yearWeek;
+
+    @Column(name = "week_dt")
+    private LocalDate weekDt;
 
     @Column(name = "score", columnDefinition = "0")
     private Integer score;

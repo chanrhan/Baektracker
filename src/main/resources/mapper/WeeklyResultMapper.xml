@@ -136,9 +136,9 @@
     <select id="getMonthFine">
         with month_weeks as (select id,
                                     fine,
-                                    row_number() over (partition by id order by week_dt) as rownum
+                                    row_number() over (partition by id order by year_week) as rownum
                              from weekly_results
-                             where year_week like '${date}%'
+                             where month(week_dt) = month(#{date})
                              order by rownum),
              sum as (select id,
                             IFNULL(sum(fine), 0)                    as amount,
@@ -151,6 +151,13 @@
                               s.week_list
                        FROM users u
                                 left outer join sum s on s.id = u.id)
+
+        select id as userId,
+               nickname
+                     amount as fine,
+
+        from final
+
         select IFNULL(sum(amount), 0) as sum,
                json_arrayagg(json_object(
                        'id', id,

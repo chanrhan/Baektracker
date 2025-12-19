@@ -17,9 +17,7 @@ export function UserProgress({fromDate, toDate}) {
 
     const [users, setUsers] = useState([])
     const [problems, setProblems] = useState({})
-    const [weeklyResults, setWeeklyResults] = useState({})
     const [openDropdownId, setOpenDropdownId] = useState(null)
-    const dropdownRefs = useRef({})
     const threeDotsRefs = useRef({})
     const longPressTimer = useRef(null)
 
@@ -29,8 +27,6 @@ export function UserProgress({fromDate, toDate}) {
 
     useEffect(() => {
         getWeeklyUsersProgress();
-        getWeekPass()
-        // getWeeklyProblemSolved()
     }, [fromDate, toDate]);
 
     const getAllUsers = () => {
@@ -44,23 +40,6 @@ export function UserProgress({fromDate, toDate}) {
         })
     }
 
-    const getWeekPass = () => {
-        weeklyResultApi.getWeeklyResult(fromDate).then(({data}) => {
-            const ob = {};
-
-            if (data) {
-                for (const item of data) {
-                    if (item) {
-                        ob[item.id] = {
-                            state: Number(item.state)
-                        }
-                    }
-                }
-            }
-            setWeeklyResults(ob)
-        })
-    }
-
     const initLoad = () => {
         problemApi.loadBaekjoon().then(({data}) => {
             if (data) {
@@ -70,40 +49,17 @@ export function UserProgress({fromDate, toDate}) {
     }
 
     const getWeeklyUsersProgress = () => {
-        // const body = {
-        //     from_date: fromDate,
-        //     to_date: toDate,
-        //     problem_id: -1,
-        // }
-
         problemApi.getWeeklyUsersProgress(fromDate).then(({status, data}) => {
             const ob = {};
             console.table(data)
             if (data && data.items) {
                 for (const detail of data.items) {
-                    ob[detail.userId] = {
-                        score: detail.score,
-                        problems: detail.problems
-                    }
+                    ob[detail.userId] = detail
                 }
                 setProblems(ob);
             }
         })
     }
-
-    // const getWeeklyProblemSolved = () => {
-    //     problemApi.getWeeklyProblemSolved(fromDate).then(({data}) => {
-    //         if (data) {
-    //             if (users) {
-    //                 const copy = [...users]
-    //                 for (const user of copy) {
-    //                     user.shared_solved = data[user.id]
-    //                 }
-    //                 setUsers(copy)
-    //             }
-    //         }
-    //     })
-    // }
     const getProgressPercentage = (current, target) => {
         if (current > target * 2) {
             return 110
@@ -215,12 +171,11 @@ export function UserProgress({fromDate, toDate}) {
             <h2 className={styles.sectionTitle}>개별 진행 현황</h2>
             <div className={styles.userProgressContainer}>
                 {users && users.map((user, i) => {
-                    const problem = problems[user.id];
-                    console.table(problem)
-                    const score = problem ? problem.score : 0;
-                    const weeklyState = weeklyResults[user.id]?.state
+                    const userProgress = problems[user.id];
+                    const score = userProgress ? userProgress.score : 0;
+                    const weeklyState = userProgress?.isWeekPass ?? false
 
-                    const problemList = problem?.problems;
+                    const problemList = userProgress?.problems;
                     return (
                         <div key={i} className={cm(styles.userProgressCard, `${score >= 60 && styles.completed}`)}>
                             <div className={styles.userProgressAccent}

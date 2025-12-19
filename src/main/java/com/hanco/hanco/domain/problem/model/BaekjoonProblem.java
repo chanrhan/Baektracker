@@ -22,6 +22,6 @@ public class BaekjoonProblem {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "level", columnDefinition = "0")
+    @Column(name = "level", nullable = false)
     private Integer level;
 }

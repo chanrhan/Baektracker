@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "users")
@@ -29,13 +30,15 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "nickname", nullable = false)
+    @Column(name = "nickname")
     private String nickname;
 
-    @Column(name = "streak", columnDefinition = "0")
+    @ColumnDefault("0")
+    @Column(name = "streak", nullable = false)
     private Integer streak;
 
-    @Column(name = "last_read", columnDefinition = "-1")
+    @ColumnDefault("-1")
+    @Column(name = "last_read", nullable = false)
     private Integer lastRead;
 
     @Column(name = "last_read_time", nullable = true)

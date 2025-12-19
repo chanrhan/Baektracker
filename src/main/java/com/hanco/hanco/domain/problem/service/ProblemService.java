@@ -17,12 +17,15 @@ import com.hanco.hanco.domain.user.repository.UserRepository;
 import com.hanco.hanco.domain.weekly_result.code.WeeklyResultState;
 import com.hanco.hanco.domain.weekly_result.model.WeeklyResult;
 import com.hanco.hanco.domain.weekly_result.repository.WeeklyResultRepository;
+import com.hanco.hanco.global.code.ApiResponseCode;
+import com.hanco.hanco.global.exception.CustomException;
 import com.hanco.hanco.mapper.ProblemMapper;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -40,6 +43,7 @@ public class ProblemService {
     private final UserRepository userRepository;
     private final WeeklyResultRepository weeklyResultRepository;
 
+    @Transactional(transactionManager = "mybatisTxManager")
     public ProblemsResponse searchProblems(String keyword) {
         SolvedAcProblems result = solvedAcService.searchProblems(keyword);
 
@@ -56,15 +60,10 @@ public class ProblemService {
         return ProblemsResponse.of(problems, solvedCountList);
     }
 
-    public ProblemInfo getProblemInfo(int problemId) {
-//        String uri = "https://solved.ac/api/v3/problem/show?problemId="+problemId;
-        try {
-            SolvedAcProblem problem = solvedAcService.getProblemInfo(problemId);
-            return ProblemInfo.from(problem);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    public Optional<ProblemInfo> getProblemInfo(int problemId) {
+        SolvedAcProblem problem = solvedAcService.getProblemInfo(problemId);
+        System.out.printf("qwe get problem (%d) : %s\n", problemId, problem.titleKo());
+        return Optional.of(ProblemInfo.from(problem));
     }
 
     @Transactional(readOnly = true)
@@ -124,20 +123,25 @@ public class ProblemService {
         return WeeklyUsersProgressResponse.from(progresses);
     }
 
-    @Transactional
     public BaekjoonProblem getProblemOrInsert(Integer problemId) {
         BaekjoonProblem baekjoonProblem = problemRepository.findById(problemId)
                 .orElse(null);
         if (baekjoonProblem == null) {
-            ProblemInfo problemInfo = getProblemInfo(problemId);
-            baekjoonProblem = BaekjoonProblem.builder()
-                    .id(problemId)
-                    .title(problemInfo.title())
-                    .level(problemInfo.level())
-                    .build();
-            problemRepository.save(baekjoonProblem);
+            return loadBaekjoonProblemAndInsert(problemId);
         }
         return baekjoonProblem;
+    }
+
+    @Transactional
+    public BaekjoonProblem loadBaekjoonProblemAndInsert(Integer problemId) {
+        ProblemInfo problemInfo = getProblemInfo(problemId)
+                .orElseThrow(() -> CustomException.of(ApiResponseCode.SOLVED_AC_PROBLEM_SEARCH_ERROR));
+        BaekjoonProblem baekjoonProblem = BaekjoonProblem.builder()
+                .id(problemId)
+                .title(problemInfo.title())
+                .level(problemInfo.level())
+                .build();
+        return problemRepository.save(baekjoonProblem);
     }
 
     private boolean isWeekPass(WeeklyResult weeklyResult) {

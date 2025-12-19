@@ -5,11 +5,14 @@ import com.hanco.hanco.domain.weekly_result.dto.response.MonthFineStatusResponse
 import com.hanco.hanco.domain.weekly_result.model.WeeklyResult;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 public interface WeeklyResultRepository extends JpaRepository<WeeklyResult, Long> {
     List<WeeklyResult> findWeeklyResultByYearWeek(String yearWeek);
+
+    Optional<WeeklyResult> findWeeklyResultByYearWeekAndUser_Id(String yearWeek, Long userId);
 
     @Query("""
                 select wr

@@ -6,6 +6,7 @@ public record UserProfile(
         Long id,
         String username,
         String nickname,
+        Integer streak,
         Integer solvedCount,
         Integer tier
 ) {
@@ -16,6 +17,7 @@ public record UserProfile(
                 user.getId(),
                 user.getUsername(),
                 user.getNickname(),
+                user.getStreak(),
                 item.solvedCount(),
                 item.tier()
         );

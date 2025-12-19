@@ -35,8 +35,8 @@ from (with recursive
                                      left outer join problems pb on pb.id = problem_id
                             group by dt, user_id)
 
-      select dt,
-             date_format(dt, '%Y-%u') as year_week,
+      select date_format(dt, '%Y-%u') as year_week,
+             dt,
              user_id,
              score,
              IF(score >= 60, 1, 2)    as state,
@@ -45,8 +45,8 @@ from (with recursive
 
 insert into weekly_results
     (year_week, week_dt, user_id, score, state, fine)
-select date_sub(curdate(), interval weekday(curdate()) day),
-       date_format(curdate(), '%Y-%u'),
+select date_format(curdate(), '%Y-%u'),
+       date_sub(curdate(), interval weekday(curdate()) day),
        id,
        0,
        0,

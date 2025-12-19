@@ -6,6 +6,7 @@ import {MarkedProblemItem} from "./MarkedProblemItem";
 import {useApi} from "../api/useApi";
 import useModal from "../setup/hook/useModal";
 import {ModalType} from "../setup/modal/ModalType";
+import {DateUtils} from "../setup/utils/DateUtils";
 
 export function UserProgress({fromDate, toDate}) {
     const modal = useModal()
@@ -101,7 +102,7 @@ export function UserProgress({fromDate, toDate}) {
                     width: threeDotsButton.offsetWidth,
                     height: threeDotsButton.offsetHeight,
                     onSubmit: () => {
-                        getAllUsers()
+                        getWeeklyUsersProgress()
                     }
                 })
             }
@@ -170,7 +171,7 @@ export function UserProgress({fromDate, toDate}) {
                 {users && users.map((user, i) => {
                     const userProgress = problems[user.id];
                     const score = userProgress ? userProgress.score : 0;
-                    const weeklyState = userProgress?.isWeekPass ?? false
+                    const isWeekPass = userProgress.isWeekPass
 
                     const problemList = userProgress?.problems;
                     return (
@@ -184,7 +185,7 @@ export function UserProgress({fromDate, toDate}) {
                                         className={cm(styles.tierIcon, `${DesignUtils.getTierIconClass(user.tier)}`)}></span>
                                     {/*<TierIcon tier={user.tier} size="small"/>*/}
                                     <span className={styles.userProgressName}>
-                                        {user.nickname} {weeklyState === 2 ?
+                                        {user.nickname} {isWeekPass ?
                                         <span className={styles.pass_text}>이번주 패스</span> : ''}
                                     </span>
                                     <div className={styles.userProgressMenuContainer} data-dropdown={user.id}>
@@ -200,12 +201,16 @@ export function UserProgress({fromDate, toDate}) {
                                         </button>
                                         {openDropdownId === user.id && (
                                             <div className={styles.userProgressDropdown}>
-                                                <button
-                                                    className={styles.userProgressDropdownItem}
-                                                    onClick={(e) => openGrantPassModal(e, user.id)}
-                                                >
-                                                    패스
-                                                </button>
+                                                {
+                                                    DateUtils.isBetweenToday(fromDate, toDate) &&
+                                                    <button
+                                                        className={styles.userProgressDropdownItem}
+                                                        onClick={(e) => openGrantPassModal(e, user.id)}
+                                                    >
+                                                        패스
+                                                    </button>
+                                                }
+
                                                 <button
                                                     className={styles.userProgressDropdownItem}
                                                     onClick={(e) => openUpdatePasswordModal(e, user.id)}

@@ -1,25 +1,25 @@
 import {getDaysInMonth, startOfMonth} from "date-fns";
 
 export const DateUtils = {
-    formatYYMMdd: (year, month: number, day:number)=>{
-        return `${year}-${month.toString().padStart(2, 0)}-${day.toString().padStart(2,0)}`
+    formatYYMMdd: (year, month: number, day: number) => {
+        return `${year}-${month.toString().padStart(2, 0)}-${day.toString().padStart(2, 0)}`
     },
-    formatYYMM: (year:number, month:number)=>{
+    formatYYMM: (year: number, month: number) => {
         return `${year}-${month.toString().padStart(2, 0)}`
     },
-    dateToStringYYMM: (date: Date)=>{
-        return DateUtils.formatYYMM(date.getFullYear(), date.getMonth()+1)
+    dateToStringYYMM: (date: Date) => {
+        return DateUtils.formatYYMM(date.getFullYear(), date.getMonth() + 1)
     },
-    dateToStringYYMMdd: (date: Date)=>{
-        return DateUtils.formatYYMMdd(date.getFullYear(), date.getMonth()+1,date.getDate())
+    dateToStringYYMMdd: (date: Date) => {
+        return DateUtils.formatYYMMdd(date.getFullYear(), date.getMonth() + 1, date.getDate())
     },
-    equalYM: (date1: Date, date2: Date)=>{
+    equalYM: (date1: Date, date2: Date) => {
         return date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth()
     },
-    equalYMd: (date1: Date, date2: Date)=>{
+    equalYMd: (date1: Date, date2: Date) => {
         return date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()
     },
-    getMonthInfo: (year, month)=>{
+    getMonthInfo: (year, month) => {
         const date = new Date(year, month);
 
         const firstDayOfMonth = startOfMonth(date);
@@ -38,28 +38,33 @@ export const DateUtils = {
             totalWeek
         }
     },
-    hasNextMonth : (year, month)=>{
+    hasNextMonth: (year, month) => {
         const today = new Date();
-        if(year < today.getFullYear()){
+        if (year < today.getFullYear()) {
             return true;
         }
-        if(month === 1 && year === today.getFullYear()){
+        if (month === 1 && year === today.getFullYear()) {
             return false;
         }
         return month <= today.getMonth();
     },
-    hasPrevMonth : (year)=>{
+    hasPrevMonth: (year) => {
         return year >= 2000;
     },
-    hasNextYear: (year)=>{
+    hasNextYear: (year) => {
         const today = new Date();
         return year < today.getFullYear();
     },
-    isToday: (year, month, day)=>{
+    isToday: (year, month, day) => {
         const today = new Date();
-        return year === today.getFullYear() && month === today.getMonth()+1 && day === today.getDate();
+        return year === today.getFullYear() && month === today.getMonth() + 1 && day === today.getDate();
     },
-    dateDiff: (date1, date2)=>{
+    isDateToday: (dt) => {
+        const date = new Date(dt)
+        const today = new Date();
+        return date.getFullYear() === today.getFullYear() && date.getMonth() === today.getMonth() && date.getDate() === today.getDate();
+    },
+    dateDiff: (date1, date2) => {
         // console.log(`date diff: *${date1} *${date2}`)
         const before_date = Math.floor(new Date(date1).getTime() / 1000);
         const after_date = Math.floor(new Date(date2).getTime() / 1000);
@@ -71,17 +76,21 @@ export const DateUtils = {
 
         return Math.floor(tmp / (60 * 60 * 24));
     },
-    isBeforeDate: (curr_date, std_date)=>{
+    isBeforeDate: (curr_date, std_date) => {
         return DateUtils.dateDiff(curr_date, std_date) >= 0;
     },
-    isAfterDate: (curr_date, std_date)=>{
+    isAfterDate: (curr_date, std_date) => {
         return DateUtils.dateDiff(curr_date, std_date) <= 0;
     },
-    dateFromDiffYmdFromToday: (year, month, day)=>{
-      const date = new Date(DateUtils.formatYYMMdd(year, month, day));
-      return DateUtils.dateDiffFromToday(date);
+    isBetweenToday: (fromDate, toDate) => {
+        const today = new Date()
+        return DateUtils.isAfterDate(today, fromDate) && DateUtils.isBeforeDate(today, toDate)
     },
-    dateDiffFromToday: (date)=>{
+    dateFromDiffYmdFromToday: (year, month, day) => {
+        const date = new Date(DateUtils.formatYYMMdd(year, month, day));
+        return DateUtils.dateDiffFromToday(date);
+    },
+    dateDiffFromToday: (date) => {
         const d_date = Math.floor(new Date(date).getTime() / 1000);
         const now_date = Math.floor(new Date().getTime() / 1000);
         const tmp = d_date - now_date;
@@ -95,10 +104,10 @@ export const DateUtils = {
     //     before_date
     // }
     getYearWeek: (date) => {
-        const onejan = new Date(date.getFullYear(),0,1);
-        return Math.ceil((((date - onejan) / 86400000) + onejan.getDay()+1)/7);
+        const onejan = new Date(date.getFullYear(), 0, 1);
+        return Math.ceil((((date - onejan) / 86400000) + onejan.getDay() + 1) / 7);
     },
-    getMonthAndWeek: (year, weekNumber)=>{
+    getMonthAndWeek: (year, weekNumber) => {
         // 주 번호에 해당하는 날짜 계산 (1월 1일부터 주 번호만큼 더함)
         const firstDayOfYear = new Date(year, 0, 1); // 1월 1일
         const daysOffset = (weekNumber - 1) * 7; // 주 번호에 따른 오프셋 계산
@@ -111,77 +120,77 @@ export const DateUtils = {
         const adjustedDay = weekStartDate.getDate() + dayOfWeek - 1; // 첫 주 보정
         const weekOfMonth = Math.ceil(adjustedDay / 7); // 몇째 주인지 계산
 
-        return { month, weekOfMonth };
+        return {month, weekOfMonth};
     },
-    addMonth: (date: Date, month)=>{
-        const orgMonth = date.getMonth()+1;
-        if(month > (12 - orgMonth)){
+    addMonth: (date: Date, month) => {
+        const orgMonth = date.getMonth() + 1;
+        if (month > (12 - orgMonth)) {
             const diff = month - (12 - orgMonth);
-            date.setFullYear(date.getFullYear()+1);
-            date.setMonth(diff-1);
-        }else{
-            date.setMonth(date.getMonth()+1);
+            date.setFullYear(date.getFullYear() + 1);
+            date.setMonth(diff - 1);
+        } else {
+            date.setMonth(date.getMonth() + 1);
         }
     },
-    addWeek: (date: Date, week)=>{
-        const orgMonth = date.getMonth()+1;
+    addWeek: (date: Date, week) => {
+        const orgMonth = date.getMonth() + 1;
         const orgDate = date.getDate();
 
         const {totalDays} = this.getMonthInfo(date.getFullYear(), date.getMonth());
 
-        if(orgMonth === 12 && (week*7) >= (totalDays - orgDate)){
-            date.setFullYear(date.getFullYear()+1);
+        if (orgMonth === 12 && (week * 7) >= (totalDays - orgDate)) {
+            date.setFullYear(date.getFullYear() + 1);
             date.setMonth(1);
-            date.setDate((week*7) - (totalDays - orgDate));
-        }else{
-            date.setDate(orgDate + (week*7));
+            date.setDate((week * 7) - (totalDays - orgDate));
+        } else {
+            date.setDate(orgDate + (week * 7));
         }
     },
-    addDate: (date: Date, days)=>{
-        const orgMonth = date.getMonth()+1;
+    addDate: (date: Date, days) => {
+        const orgMonth = date.getMonth() + 1;
         const orgDate = date.getDate();
 
         const {totalDays} = DateUtils.getMonthInfo(date.getFullYear(), date.getMonth());
 
-        if(orgMonth === 12 && (days) >= (totalDays - orgDate)){
-            date.setFullYear(date.getFullYear()+1);
+        if (orgMonth === 12 && (days) >= (totalDays - orgDate)) {
+            date.setFullYear(date.getFullYear() + 1);
             date.setMonth(1);
             date.setDate((days) - (totalDays - orgDate));
-        }else{
+        } else {
             date.setDate(orgDate + (days));
         }
     },
-    subMonth: (date: Date, month)=>{
-        const orgMonth = date.getMonth()+1;
-        if(month >= orgMonth){
-            const diff =  12 - (month - orgMonth);
-            date.setFullYear(date.getFullYear()-1);
-            date.setMonth(diff-1);
-        }else{
-            date.setMonth(date.getMonth()-1);
+    subMonth: (date: Date, month) => {
+        const orgMonth = date.getMonth() + 1;
+        if (month >= orgMonth) {
+            const diff = 12 - (month - orgMonth);
+            date.setFullYear(date.getFullYear() - 1);
+            date.setMonth(diff - 1);
+        } else {
+            date.setMonth(date.getMonth() - 1);
         }
     },
-    subWeek: (date: Date, week)=>{
-        const orgMonth = date.getMonth()+1;
+    subWeek: (date: Date, week) => {
+        const orgMonth = date.getMonth() + 1;
         const orgDate = date.getDate();
 
-        if(orgMonth === 1 && (week*7) >= orgDate){
-            date.setFullYear(date.getFullYear()-1);
+        if (orgMonth === 1 && (week * 7) >= orgDate) {
+            date.setFullYear(date.getFullYear() - 1);
             date.setMonth(12);
-            date.setDate(orgDate - (week*7));
-        }else{
-            date.setDate(orgDate - (week*7));
+            date.setDate(orgDate - (week * 7));
+        } else {
+            date.setDate(orgDate - (week * 7));
         }
     },
-    subDate: (date: Date, days)=>{
-        const orgMonth = date.getMonth()+1;
+    subDate: (date: Date, days) => {
+        const orgMonth = date.getMonth() + 1;
         const orgDate = date.getDate();
 
-        if(orgMonth === 1 && days >= orgDate){
-            date.setFullYear(date.getFullYear()-1);
+        if (orgMonth === 1 && days >= orgDate) {
+            date.setFullYear(date.getFullYear() - 1);
             date.setMonth(11);
             date.setDate(31 - (days - orgDate));
-        }else{
+        } else {
             date.setDate(orgDate - (days));
         }
     },

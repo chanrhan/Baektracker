@@ -6,5 +6,5 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/solved_db?useUnicode=yes&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
 
 logging:
-  level:
-    p6spy: debug
+  pattern:
+    console: '%d{HH:mm:ss.SSS} %5p [%t] %c{36} - %m%n%ex{full}'

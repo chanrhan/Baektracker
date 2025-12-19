@@ -106,6 +106,7 @@ public class BaekjoonProblemService {
             }
             List<SolvedProblem> userProblems = userMap.get(user.getId());
             if (userProblems == null || userProblems.isEmpty()) {
+                progresses.add(new WeeklyUserProgress(user.getId(), 0, isWeekPass, null));
                 continue;
             }
             List<SolvedProblemDetail> details = userProblems.stream()

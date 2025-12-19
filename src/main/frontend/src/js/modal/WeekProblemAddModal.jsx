@@ -9,6 +9,7 @@ import {useApi} from "../api/useApi";
 import {ObjectUtils} from "../setup/utils/ObjectUtil";
 
 export function WeekProblemAddModal(props) {
+    console.table(props)
     const modal = useModal();
     const {problemApi} = useApi()
     const [items, setItems] = useState(props.problems ? [...props.problems] : [])
@@ -56,7 +57,7 @@ export function WeekProblemAddModal(props) {
             }
         }
         const item = {
-            problem_id: id,
+            problemId: id,
             level: searchResults[index].level,
             title: searchResults[index].title
         }
@@ -74,19 +75,19 @@ export function WeekProblemAddModal(props) {
 
     const submit = () => {
         const ids = items.map((v, i) => {
-            return v.problem_id
+            return v.problemId
         })
         const body = {
             date: props.fromDate,
             problemIds: ids
         }
         problemApi.updateWeeklyProblem(body).then(({data}) => {
-            if (!data) {
-                modal.openModal(ModalType.SNACKBAR.Alert, {
-                    msg: "문제가 발생했습니다. 다시 시도해주세요"
-                })
-                return
-            }
+            // if (!data) {
+            //     modal.openModal(ModalType.SNACKBAR.Alert, {
+            //         msg: "문제가 발생했습니다. 다시 시도해주세요"
+            //     })
+            //     return
+            // }
             modal.openModal(ModalType.SNACKBAR.Info, {
                 msg: "저장되었습니다"
             })

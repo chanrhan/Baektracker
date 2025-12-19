@@ -44,7 +44,10 @@ dependencies {
     implementation libs.org.webjars.jquery
 
     // log4jdbc
-    implementation libs.org.bgee.log4jdbc.log4j2.log4jdbc.log4j2.jdbc4.v1
+//    implementation libs.org.bgee.log4jdbc.log4j2.log4jdbc.log4j2.jdbc4.v1
+
+    // p6spy (sql log)
+//    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.9.0'
 
     // Quartz
     implementation libs.org.springframework.boot.spring.boot.starter.quartz

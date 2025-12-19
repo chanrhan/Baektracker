@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Log4j2
-public class ProblemService {
+public class BaekjoonProblemService {
     private final SolvedAcService solvedAcService;
     private final ProblemRepository problemRepository;
     private final ProblemMapper problemMapper;

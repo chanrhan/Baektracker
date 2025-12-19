@@ -21,11 +21,12 @@ export function WeekProblems({fromDate, toDate}) {
     }, [fromDate, toDate]);
 
     const getWeeklyProblems = () => {
-        problemApi.getWeeklyProblem(fromDate).then(({status, data}) => {
+        problemApi.getWeeklyProblem(fromDate).then(({data}) => {
+            console.table(data)
             if (data && data.items) {
                 const copy = [...weeklyProblemInputs];
                 for (const i in data.items) {
-                    copy[i] = data.items[i].problem_id
+                    copy[i] = data.items[i].problemId
                 }
                 setWeeklyProblemInputs(copy);
                 setWeeklyProblems(data.items);
@@ -65,11 +66,11 @@ export function WeekProblems({fromDate, toDate}) {
             <div className={styles.weeklyProblemsContainer}>
                 <div className={styles.weeklyProblemsGrid}>
                     {weeklyProblems && weeklyProblems.map((problem) => {
-                        const status = getSolverStatus(problem?.solved_cnt)
+                        const status = getSolverStatus(problem?.solvedCount)
 
                         return (
                             <div key={problem.id} className={styles.weeklyProblemsCard} onClick={() => {
-                                window.open(`https://www.acmicpc.net/problem/${problem.problem_id}`, "_blank")
+                                window.open(`https://www.acmicpc.net/problem/${problem.problemId}`, "_blank")
                             }}>
                                 <div
                                     className={styles.weeklyProblemsAccentBar}
@@ -81,7 +82,7 @@ export function WeekProblems({fromDate, toDate}) {
                                             className={cm(styles.tierIcon, `${DesignUtils.getTierIconClass(problem.level)}`)}></span>
                                         {/*<TierIcon tier={problem.level} size="small" showText={true}/>*/}
                                         <h3 className={styles.weeklyProblemsTitle}>
-                                            # {problem.problem_id} {problem.title}
+                                            # {problem.problemId} {problem.title}
                                         </h3>
                                     </div>
                                 </div>

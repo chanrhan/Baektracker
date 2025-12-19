@@ -31,8 +31,6 @@ export function UserProgress({fromDate, toDate}) {
 
     const getAllUsers = () => {
         userApi.getUsers().then(({data}) => {
-            console.table(data)
-
             if (data) {
                 setUsers(data);
             }
@@ -51,7 +49,6 @@ export function UserProgress({fromDate, toDate}) {
     const getWeeklyUsersProgress = () => {
         problemApi.getWeeklyUsersProgress(fromDate).then(({status, data}) => {
             const ob = {};
-            console.table(data)
             if (data && data.items) {
                 for (const detail of data.items) {
                     ob[detail.userId] = detail

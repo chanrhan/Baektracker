@@ -3,7 +3,7 @@ package com.hanco.hanco.domain.weekly_result.service;
 import com.hanco.hanco.common.util.DateUtil;
 import com.hanco.hanco.domain.problem.model.SolvedProblem;
 import com.hanco.hanco.domain.problem.queryRepository.SolvedProblemQueryRepository;
-import com.hanco.hanco.domain.problem.service.ProblemService;
+import com.hanco.hanco.domain.problem.service.BaekjoonProblemService;
 import com.hanco.hanco.domain.user.dto.request.WeekPassRequestDto;
 import com.hanco.hanco.domain.user.model.User;
 import com.hanco.hanco.domain.user.repository.UserRepository;
@@ -41,7 +41,7 @@ public class WeeklyResultService {
     private final WeeklyResultRepository weeklyResultRepository;
     private final SolvedProblemQueryRepository solvedProblemQueryRepository;
     private final PasswordEncoder passwordEncoder;
-    private final ProblemService problemService;
+    private final BaekjoonProblemService problemService;
 
     @Transactional(readOnly = true)
     public TotalFineStatusResponse getTotalFineStatus() {

@@ -3,7 +3,7 @@ package com.hanco.hanco.domain.problem.controller;
 import com.hanco.hanco.domain.baekjoon.service.BaekjoonService;
 import com.hanco.hanco.domain.problem.dto.response.ProblemsResponse;
 import com.hanco.hanco.domain.problem.dto.response.WeeklyUsersProgressResponse;
-import com.hanco.hanco.domain.problem.service.ProblemService;
+import com.hanco.hanco.domain.problem.service.BaekjoonProblemService;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/problem")
 public class ProblemController {
-    private final ProblemService problemService;
+    private final BaekjoonProblemService problemService;
     private final BaekjoonService baekjoonService;
 
     @GetMapping("")

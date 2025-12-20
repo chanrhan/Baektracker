@@ -77,4 +77,9 @@ public class WeeklyResult {
                 .user(user)
                 .build();
     }
+
+    @Override
+    public String toString() {
+        return String.format("(name: %s, week_dt: %s, score: %s, fine: %s\n", user.getNickname(), weekDt, score, fine);
+    }
 }

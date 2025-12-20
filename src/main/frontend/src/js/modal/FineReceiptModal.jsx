@@ -33,7 +33,6 @@ export function FineReceiptModal(props) {
             if (data) {
                 setTotalSum(data.totalFine)
                 setTotalData(data.items);
-
             }
         })
     }
@@ -42,7 +41,7 @@ export function FineReceiptModal(props) {
         const date_str = DateUtils.dateToStringYYMMdd(date)
         weeklyResultApi.getMonthFine(date_str).then(({data}) => {
             console.table(data)
-            
+
             if (data) {
                 setMonthlySum(data.monthTotalFine)
                 setMonthlyData(data.items);

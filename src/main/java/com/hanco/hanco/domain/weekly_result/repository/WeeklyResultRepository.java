@@ -17,7 +17,7 @@ public interface WeeklyResultRepository extends JpaRepository<WeeklyResult, Long
     @Query("""
                 select wr
                     from WeeklyResult wr
-                        where month(wr.weekDt)=month(:weekDt)
+                        where month(wr.weekDt)=month(:weekDt) and wr.fine > 0
             """)
     List<WeeklyResult> findWeeklyResultByMonth(LocalDate weekDt);
 

@@ -6,15 +6,10 @@
 
 plugins {
     id 'java-library'
-    id 'maven-publish'
 }
 
 repositories {
     mavenCentral()
-    mavenLocal()
-    maven {
-        url = uri('https://repo.maven.apache.org/maven2/')
-    }
 }
 
 dependencies {
@@ -71,14 +66,6 @@ group = 'com.baektracker'
 version = '0.0.1-SNAPSHOT'
 description = 'baektracker'
 java.sourceCompatibility = JavaVersion.VERSION_17
-
-publishing {
-    publications {
-        maven(MavenPublication) {
-            from(components.java)
-        }
-    }
-}
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'

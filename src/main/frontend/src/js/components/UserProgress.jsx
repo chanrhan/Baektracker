@@ -171,7 +171,7 @@ export function UserProgress({fromDate, toDate}) {
                 {users && users.map((user, i) => {
                     const userProgress = problems[user.id];
                     const score = userProgress ? userProgress.score : 0;
-                    const isWeekPass = userProgress.isWeekPass
+                    const isWeekPass = userProgress?.isWeekPass ?? false
 
                     const problemList = userProgress?.problems;
                     return (
@@ -207,7 +207,7 @@ export function UserProgress({fromDate, toDate}) {
                                                         className={styles.userProgressDropdownItem}
                                                         onClick={(e) => openGrantPassModal(e, user.id)}
                                                     >
-                                                        패스
+                                                        주간 패스
                                                     </button>
                                                 }
 

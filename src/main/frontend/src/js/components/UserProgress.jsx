@@ -177,20 +177,20 @@ export function UserProgress({fromDate, toDate}) {
                 <div className={styles.skeletonHeader}>
                     <div className={styles.skeletonTierIcon}/>
                     <div className={styles.skeletonName}/>
-                    <div className={styles.skeletonMenuButton}/>
-                    <div className={styles.skeletonStreak}/>
+                    {/*<div className={styles.skeletonMenuButton}/>*/}
+                    {/*<div className={styles.skeletonStreak}/>*/}
                 </div>
                 <div className={styles.userProgressProgressContainer}>
                     <div className={styles.skeletonProgressBar}>
-                        <div className={styles.skeletonProgressFill}/>
+                        {/*<div className={styles.skeletonProgressFill}/>*/}
                     </div>
-                    <div className={styles.skeletonProgressText}/>
+                    {/*<div className={styles.skeletonProgressText}/>*/}
                 </div>
                 <div className={styles.userProgressChallengeProblems}>
                     <div className={styles.skeletonProblemGrid}>
-                        {[...Array(8)].map((_, idx) => (
-                            <div key={idx} className={styles.skeletonProblemItem}/>
-                        ))}
+                        {/*{[...Array(8)].map((_, idx) => (*/}
+                        {/*    <div key={idx} className={styles.skeletonProblemItem}/>*/}
+                        {/*))}*/}
                     </div>
                 </div>
             </div>
@@ -223,7 +223,7 @@ export function UserProgress({fromDate, toDate}) {
                                         <span className={styles.userProgressName}>
                                             {user.nickname} {isWeekPass ?
                                             <span className={styles.pass_text}>이번주 패스</span> : ''}
-                                            {user.weekPassCount >= 0 && (
+                                            {user.weekPassCount > 0 && (
                                                 <span className={styles.pass_text}>
                                                     🛡️{user.weekPassCount}
                                                 </span>

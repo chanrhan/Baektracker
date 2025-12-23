@@ -605,6 +605,129 @@
     /*border: 1px solid #e2e8f0;*/
 }
 
+/* Skeleton Loading Styles */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.userProgressSkeletonCard {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 20px;
+    padding-left: 24px;
+    background: white;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 185px;
+    width: 100%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.skeletonBox {
+    background: #e5e7eb;
+    border-radius: 4px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonAccent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: #e5e7eb;
+    border-radius: 0 0 0 12px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 10px;
+    height: 28px;
+}
+
+.skeletonTierIcon {
+    width: 20px;
+    height: 24px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonName {
+    width: 120px;
+    height: 20px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonMenuButton {
+    width: 24px;
+    height: 24px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    margin-left: auto;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonStreak {
+    width: 20px;
+    height: 20px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonProgressBar {
+    width: 100%;
+    height: 8px;
+    background: #f3f4f6;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    overflow: hidden;
+}
+
+.skeletonProgressFill {
+    width: 60%;
+    height: 100%;
+    background: #e5e7eb;
+    border-radius: 6px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonProgressText {
+    width: 80px;
+    height: 13px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonProblemGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    height: 90px;
+    padding: 8px 0;
+}
+
+.skeletonProblemItem {
+    height: 26px;
+    background: #e5e7eb;
+    border-radius: 6px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
 .userProgressProblemItem {
     display: flex;
     align-items: center;

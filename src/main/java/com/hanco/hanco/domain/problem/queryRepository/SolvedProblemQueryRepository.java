@@ -77,6 +77,10 @@ public class SolvedProblemQueryRepository {
                         sp.resultId.eq(minResultId),
                         sp.submitId.eq(maxSubmitId)
                 )
+                .orderBy(
+                        sp.resultId.asc(),
+                        sp.problem.level.desc()
+                )
                 .fetch();
     }
 }

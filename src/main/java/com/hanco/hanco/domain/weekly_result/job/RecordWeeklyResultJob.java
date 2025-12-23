@@ -31,10 +31,14 @@ public class RecordWeeklyResultJob implements Job {
         }
         LocalDate nextWeekDate = thisWeekDate.plusDays(1);
 
+        // 백준 문제 불러오기
         baekjoonService.loadBaekjoonProblemStatus();
 
+        // 주간 결과 정산 및 새로운 (빈) 주간 결과 삽입
         weeklyResultService.updateWeeklyResults(fromDate, thisWeekDate);
-        weeklyResultService.updateUserStreaks(fromDate);
         weeklyResultService.insertInitialWeeklyResults(nextWeekDate);
+        
+        // 각 사용자별 스트릭 갱신
+        weeklyResultService.updateUserStreaks(fromDate);
     }
 }

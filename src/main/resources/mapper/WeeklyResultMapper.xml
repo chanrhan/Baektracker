@@ -4,9 +4,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hanco.hanco.mapper.WeeklyResultMapper">
     <select id="getStreaks">
+        set @start_date := (select date_sub(#{date}, interval weekday(#{date}) day));
+
         select u.id,
-               (with recursive base as (select #{date} as dt,
-                                               0       as cnt
+               (with recursive base as (select @start_date as dt,
+                                               0           as cnt
                                         union all
                                         select date_sub(dt, interval 1 week)  as dt,
                                                IF(ws.state = 1, cnt + 1, cnt) as cnt
@@ -19,19 +21,4 @@
                 from base) as streak
         from users u
     </select>
-    <update id="updateWeekPass">
-        update weekly_results
-        set state=#{state}
-        where user_id = #{username}
-          and year_week = date_format(#{date}, '%Y-%u')
-    </update>
-
-    <select id="getWeeklyResults" resultType="com.hanco.hanco.domain.weekly_result.dto.WeeklyResultResponseDto">
-        select id,
-               score,
-               state
-        from weekly_results ws
-        where ws.year_week = date_format(#{date}, '%Y-%u')
-    </select>
-
 </mapper>

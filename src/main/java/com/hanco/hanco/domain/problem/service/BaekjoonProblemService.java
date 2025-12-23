@@ -1,6 +1,7 @@
 package com.hanco.hanco.domain.problem.service;
 
 import com.hanco.hanco.common.util.DateUtil;
+import com.hanco.hanco.domain.problem.code.SolvedAcResultType;
 import com.hanco.hanco.domain.problem.dto.SolvedAcProblem;
 import com.hanco.hanco.domain.problem.dto.SolvedAcProblems;
 import com.hanco.hanco.domain.problem.dto.SolvedProblemDetail;
@@ -116,6 +117,7 @@ public class BaekjoonProblemService {
                                     coSolverMap.get(problem.getProblemId())))
                     .toList();
             int score = userProblems.stream()
+                    .filter(p -> p.getResultId() == SolvedAcResultType.CORRECT.getStatus())
                     .map(this::mapProblemToScore)
                     .reduce(Integer::sum)
                     .orElse(0);

@@ -1,7 +1,7 @@
 package com.hanco.hanco.domain.user.controller;
 
+import com.hanco.hanco.domain.user.dto.UserProfile;
 import com.hanco.hanco.domain.user.dto.request.UpdatePasswordRequestDto;
-import com.hanco.hanco.domain.user.model.UserProfile;
 import com.hanco.hanco.domain.user.service.UserService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,7 @@ public class UserController {
     public ResponseEntity<List<UserProfile>> getAllUsers() {
         return ResponseEntity.ok(userService.getUsers());
     }
-    
+
     @PatchMapping("/pwd")
     public ResponseEntity<Void> updateUserPassword(@RequestBody UpdatePasswordRequestDto dto) {
         userService.updatePassword(dto);

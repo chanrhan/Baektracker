@@ -1,9 +1,10 @@
 package com.hanco.hanco.domain.user.service;
 
 import com.hanco.hanco.domain.problem.service.SolvedAcService;
+import com.hanco.hanco.domain.user.dto.UserInfo;
+import com.hanco.hanco.domain.user.dto.UserProfile;
 import com.hanco.hanco.domain.user.dto.request.UpdatePasswordRequestDto;
 import com.hanco.hanco.domain.user.model.User;
-import com.hanco.hanco.domain.user.model.UserProfile;
 import com.hanco.hanco.domain.user.repository.UserRepository;
 import com.hanco.hanco.domain.weekly_result.dto.SolvedAcUser;
 import com.hanco.hanco.global.code.ApiResponseCode;
@@ -38,10 +39,10 @@ public class UserService {
     }
 
     public List<UserProfile> getUsers() {
-        List<User> users = userRepository.findAll();
+        List<UserInfo> users = userRepository.getUserInfo();
         List<UserProfile> userProfiles = new ArrayList<>();
-        for (User user : users) {
-            SolvedAcUser solvedAcUser = solvedAcService.searchUser(user.getUsername());
+        for (UserInfo user : users) {
+            SolvedAcUser solvedAcUser = solvedAcService.searchUser(user.username());
             userProfiles.add(UserProfile.of(user, solvedAcUser));
         }
         userProfiles.sort((u1, u2) -> u2.tier() - u1.tier());

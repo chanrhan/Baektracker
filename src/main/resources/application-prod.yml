@@ -1,0 +1,36 @@
+server:
+  port: 20000
+  servlet:
+    encoding:
+      force: true
+  tomcat:
+    uri-encoding: UTF-8
+    use-relative-redirects: true
+    max-swallow-size: 100000000
+  max-http-request-header-size: 100000000
+
+spring:
+  datasource:
+    username: root
+    password: @gmlcks0915
+  web:
+    resources:
+      add-mappings: true
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+  servlet:
+    multipart:
+      max-file-size: 150MB
+      max-request-size: 150MB
+
+# Mybatis
+mybatis:
+  mapper-locations: mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+    call-setters-on-nulls: true
+
+
+
+

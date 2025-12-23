@@ -1,0 +1,10 @@
+spring:
+  jpa:
+    open-in-view: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/solved_db?useUnicode=yes&characterEncoding=UTF-8&allowMultiQueries=true&serverTimezone=Asia/Seoul&useSSL=false&allowPublicKeyRetrieval=true
+
+logging:
+  pattern:
+    console: '%d{HH:mm:ss.SSS} %5p [%t] %c{36} - %m%n%ex{full}'

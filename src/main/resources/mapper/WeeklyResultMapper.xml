@@ -3,131 +3,22 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hanco.hanco.mapper.WeeklyResultMapper">
-    <update id="insertWeeklyResult">
-        <![CDATA[
-        set @to_date := (SELECT CURDATE());
-        set @from_date := (SELECT SUBDATE(@to_date, interval 6 day));
+    <select id="getStreaks">
+        set @start_date := (select date_sub(#{date}, interval weekday(#{date}) day));
 
-        INSERT INTO tb_weekly_solved
-            (week_id, id, score, week_dt, complete_st, fine)
-        select week_id,
-               id,
-               score,
-               week_dt,
-               case
-                   when pass = 1 then 2
-                    when pass = 0 and score >= ${target} then 1
-                    else 0
-                end as complete_st,
-               IF(score < ${target} and pass = false, ${fine}, 0) as fine
-        from (
-                 select date_format(@to_date, '%Y-%u') as week_id,
-                        u.id as id,
-                        (
-                            select IFNULL(sum(case
-                                                  when level <= 0 then 10
-                                                  when level > 0 and level <=5 then 20
-                                                  when level > 5 and level <=10 then 30
-                                                  when level > 10 and level <=15 then 50
-                                                  when level > 15 then 80
-                                                  else 0
-                                end), 0)
-                            from (
-                                     select mp.user_id,
-                                            mp.problem_id,
-                                            min(elapsed_tm) as time
-                                     from tb_mark_problem mp
-                                     where mp.user_id=u.id and date_format(mp.try_dt, '%Y-%u')=date_format(@to_date, '%Y-%u') and result_id=4
-                                     group by mp.user_id, mp.problem_id
-                                 ) mp2
-                                     left outer join tb_baekjoon_problem bp on bp.problem_id=mp2.problem_id
-                        ) as score,
-                        DATE_FORMAT(@from_date, '%Y-%m-%d') as week_dt,
-                        pass_this_week as pass
-                 from tb_solved_user u
-             ) base;
-        ]]>
-
-        update tb_solved_user
-        set pass_this_week=0
-        where 1=1;
-    </update>
-
-
-    <select id="getTotalFine">
-        with base as (
-            SELECT id,
-                   name,
-                   amount,
-                   dense_rank() over (order by amount desc ) as ranking
-            FROM (
-                     SELECT u.id,
-                            u.name,
-                            (
-                                select IFNULL(sum(fine), 0)
-                                from tb_weekly_solved ws
-                                where ws.id=u.id
-                            ) as amount
-                     FROM tb_solved_user u
-                 ) tmp
-            order by amount desc
-        )
-        select sum(amount) as sum,
-               json_arrayagg(json_object(
-                       'id',id,
-                       'name',name,
-                       'amount',amount
-                             )) as user_list
-        from base
+        select u.id,
+               (with recursive base as (select @start_date as dt,
+                                               0           as cnt
+                                        union all
+                                        select date_sub(dt, interval 1 week)  as dt,
+                                               IF(ws.state = 1, cnt + 1, cnt) as cnt
+                                        from base
+                                                 left outer join weekly_results ws
+                                                                 on date_format(dt, '%Y-%u') = ws.year_week and ws.id = u.id
+                                        where ws.state = 1
+                                           or ws.state = 3)
+                select max(cnt)
+                from base) as streak
+        from users u
     </select>
-
-    <select id="getMonthFine">
-        with month_weeks as (
-            select id,
-                   fine,
-                   row_number() over (partition by id order by week_dt) as rownum
-            from tb_weekly_solved
-            where week_dt like '${date}%'
-            order by rownum
-        ), sum as (
-            select id,
-                   IFNULL(sum(fine) , 0) as amount,
-                   json_arrayagg(IF(fine > 0, rownum, -1)) as week_list
-            from month_weeks
-            group by id
-        ), final as (
-            SELECT u.id,
-                   u.name,
-                   s.amount,
-                   s.week_list
-            FROM tb_solved_user u
-                     left outer join sum s on s.id=u.id
-        )
-        select IFNULL(sum(amount), 0) as sum,
-               json_arrayagg(json_object(
-                       'id', id,
-                       'name', name,
-                       'amount', amount,
-                       'week_list', week_list
-                             )) as user_list
-        from final
-        order by amount
-    </select>
-
-    <select id="getWeeklyResult">
-        select rank() over (order by week_dt) as week,
-               json_arrayagg(json_object(
-                       'id', id,
-                       'name', (
-                           select name
-                           from tb_solved_user u
-                           where u.id=ws.id
-                       ),
-                       'score', score
-                             )) as list
-        from tb_weekly_solved ws
-        where week_dt like '${date}%' and complete_st=0
-        group by week_dt
-    </select>
-
 </mapper>

@@ -8,6 +8,7 @@ import {DateSelectModule} from "./menu/DateSelectModule";
 import {FineReceiptModal} from "./FineReceiptModal";
 import {WeekProblemAddModal} from "./WeekProblemAddModal";
 import {GrantPassMenuModal} from "./menu/GrantPassMenuModal";
+import {UpdatePasswordModal} from "./menu/UpdatePasswordModal";
 
 export const ModalSet = {
     // common
@@ -20,6 +21,7 @@ export const ModalSet = {
     // Menu
     SelectDate: DateSelectModule,
     GrantPass : GrantPassMenuModal,
+    UpdatePassword: UpdatePasswordModal,
 
     // error
     Warning: WarningModal,

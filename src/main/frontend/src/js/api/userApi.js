@@ -1,13 +1,13 @@
 import {AxiosApi} from "../setup/api/ApiCommon";
 
-function userApi(){
+function userApi() {
     const axiosApi = AxiosApi();
     return {
-        getAllUsers: async (date)=> {
-            return axiosApi.get(`/api/v1/user?date=${date}`);
+        getUsers: async () => {
+            return axiosApi.get(`/api/v1/user`);
         },
-        grantPassThisWeek: async (id, state, pwd)=> {
-            return axiosApi.post(`/api/v1/user/pass/${id}/${state}`, pwd);
+        updatePassword: async (id, orgPwd, newPwd) => {
+            return axiosApi.patch(`/api/v1/user/pwd`, {id, orgPwd, newPwd});
         },
     }
 }

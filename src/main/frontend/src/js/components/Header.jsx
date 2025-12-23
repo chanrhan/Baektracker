@@ -7,7 +7,7 @@ import {NumberUtils} from "../setup/utils/NumberUtils";
 import {WeekSelectModal} from "../modal/menu/WeekSelectModal";
 import {useApi} from "../api/useApi";
 
-export function Header({fromDate, toDate, setFromDate, setToDate}){
+export function Header({fromDate, toDate, setFromDate, setToDate}) {
     const {weeklyResultApi} = useApi();
     const today = new Date();
 
@@ -18,43 +18,41 @@ export function Header({fromDate, toDate, setFromDate, setToDate}){
         getTotalFine()
     }, []);
 
-    const getTotalFine = ()=>{
-        weeklyResultApi.getTotalFine().then(({data})=>{
-            if(data){
-                setTotalFine(data.sum)
+    const getTotalFine = () => {
+        weeklyResultApi.getTotalFine().then(({data}) => {
+            if (data) {
+                setTotalFine(data.totalFine)
             }
         })
     }
 
-    const setWeekDates = (date: Date)=>{
+    const setWeekDates = (date: Date) => {
         const fd = DateUtils.getFirstDateOfWeek(date);
         const td = DateUtils.getLastDateOfWeek(date);
         setFromDate(DateUtils.dateToStringYYMMdd(fd))
         setToDate(DateUtils.dateToStringYYMMdd(td))
     }
 
-    const handlePrevWeek = ()=>{
+    const handlePrevWeek = () => {
         const newDate = new Date(fromDate);
         DateUtils.subDate(newDate, 7);
         setWeekDates(newDate);
     }
 
-    const handleNextWeek = ()=>{
+    const handleNextWeek = () => {
         const newDate = new Date(fromDate);
         DateUtils.addDate(newDate, 7);
 
         setWeekDates(newDate);
     }
 
-    const handleWeek = (year, month, day)=>{
+    const handleWeek = (year, month, day) => {
         const dt = new Date(year, month, day);
         setWeekDates(dt);
     }
 
-    const openRecipeModal = ()=>{
-        modal.openModal(ModalType.LAYER.Recipe, {
-
-        })
+    const openRecipeModal = () => {
+        modal.openModal(ModalType.LAYER.Recipe, {})
     }
 
     return (
@@ -76,7 +74,7 @@ export function Header({fromDate, toDate, setFromDate, setToDate}){
                         →
                     </button>
                 </div>
-                <button className={styles.weekSelectorTodayButton} onClick={()=>{
+                <button className={styles.weekSelectorTodayButton} onClick={() => {
                     setWeekDates(today)
                 }}>
                     오늘

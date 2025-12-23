@@ -5,9 +5,10 @@ import {ModalType} from "../setup/modal/ModalType";
 import {DesignUtils} from "../utils/DesignUtils";
 import {cm} from "../setup/utils/cm";
 import {useApi} from "../api/useApi";
+
 // WeeklyProblems 컴포넌트
 
-export function WeekProblems({fromDate, toDate}){
+export function WeekProblems({fromDate, toDate}) {
     const {problemApi} = useApi();
     const modal = useModal();
 
@@ -19,26 +20,26 @@ export function WeekProblems({fromDate, toDate}){
         getWeeklyProblems();
     }, [fromDate, toDate]);
 
-    const getWeeklyProblems = ()=>{
-        problemApi.getWeeklyProblem(fromDate).then(({status,data})=>{
-            // console.table(data)
-            if(data){
+    const getWeeklyProblems = () => {
+        problemApi.getWeeklyProblem(fromDate).then(({data}) => {
+            console.table(data)
+            if (data && data.items) {
                 const copy = [...weeklyProblemInputs];
-                for(const i in data){
-                    copy[i] = data[i].problem_id
+                for (const i in data.items) {
+                    copy[i] = data.items[i].problemId
                 }
                 setWeeklyProblemInputs(copy);
-                setWeeklyProblems(data);
+                setWeeklyProblems(data.items);
             }
         })
     }
 
-    const openWeeklyProblemModal = ()=>{
+    const openWeeklyProblemModal = () => {
         modal.openModal(ModalType.LAYER.WeeklyProblemDetail, {
             problems: weeklyProblems,
             fromDate: fromDate,
             toDate: toDate,
-            onSubmit: ()=>{
+            onSubmit: () => {
                 getWeeklyProblems()
             }
         })
@@ -46,12 +47,12 @@ export function WeekProblems({fromDate, toDate}){
 
     const getSolverStatus = (solverCount) => {
         if (solverCount === 7) {
-            return { text: "모두가 풀었습니다!!", className: styles.weeklyProblemsAllSolved }
+            return {text: "모두가 풀었습니다!!", className: styles.weeklyProblemsAllSolved}
         }
         if (solverCount === 0) {
-            return { text: "아무도 풀지 않았습니다..", className: styles.weeklyProblemsNoneSolved }
+            return {text: "아무도 풀지 않았습니다..", className: styles.weeklyProblemsNoneSolved}
         }
-        return { text: `${solverCount}명이 풀었습니다`, className: styles.weeklyProblemsPartialSolved }
+        return {text: `${solverCount}명이 풀었습니다`, className: styles.weeklyProblemsPartialSolved}
     }
 
     return (
@@ -65,11 +66,11 @@ export function WeekProblems({fromDate, toDate}){
             <div className={styles.weeklyProblemsContainer}>
                 <div className={styles.weeklyProblemsGrid}>
                     {weeklyProblems && weeklyProblems.map((problem) => {
-                        const status = getSolverStatus(problem?.solved_cnt)
+                        const status = getSolverStatus(problem?.solvedCount)
 
                         return (
-                            <div key={problem.id} className={styles.weeklyProblemsCard} onClick={()=>{
-                                window.open(`https://www.acmicpc.net/problem/${problem.problem_id}`, "_blank")
+                            <div key={problem.id} className={styles.weeklyProblemsCard} onClick={() => {
+                                window.open(`https://www.acmicpc.net/problem/${problem.problemId}`, "_blank")
                             }}>
                                 <div
                                     className={styles.weeklyProblemsAccentBar}
@@ -77,10 +78,11 @@ export function WeekProblems({fromDate, toDate}){
                                 />
                                 <div className={styles.weeklyProblemsHeader}>
                                     <div className={styles.weeklyProblemsInfo}>
-                                        <span className={cm(styles.tierIcon, `${DesignUtils.getTierIconClass(problem.level)}`)}></span>
+                                        <span
+                                            className={cm(styles.tierIcon, `${DesignUtils.getTierIconClass(problem.level)}`)}></span>
                                         {/*<TierIcon tier={problem.level} size="small" showText={true}/>*/}
                                         <h3 className={styles.weeklyProblemsTitle}>
-                                            # {problem.problem_id} {problem.title}
+                                            # {problem.problemId} {problem.title}
                                         </h3>
                                     </div>
                                 </div>
@@ -97,7 +99,7 @@ export function WeekProblems({fromDate, toDate}){
                     {weeklyProblems && weeklyProblems.length < 3 && (
                         <>
                             {Array.from({length: 3 - weeklyProblems.length}).map((_, index) => (
-                                <div key={index} className={styles.weeklyProblemsEmptySlot} onClick={()=>{
+                                <div key={index} className={styles.weeklyProblemsEmptySlot} onClick={() => {
                                     openWeeklyProblemModal()
                                 }}>
                                     <span className={styles.weeklyProblemsEmptyText}>문제를 출제해주세요</span>

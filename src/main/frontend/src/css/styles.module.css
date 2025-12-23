@@ -1,193 +1,193 @@
 /* 메인 컨테이너 스타일 */
 .container {
-  min-height: 100vh;
-  /*background-color: #fafafa;*/
-  padding: 2px;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    min-height: 100vh;
+    /*background-color: #fafafa;*/
+    padding: 2px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 }
 
-::-webkit-scrollbar{
-  scrollbar-width: none;
+::-webkit-scrollbar {
+    scrollbar-width: none;
 }
 
 .header {
-  /*display: grid;*/
-  grid-template-columns: 1fr auto 1fr;
-  align-items: center;
-  margin-bottom: 8px;
-  /*padding-bottom: 10px;*/
-  /*border-bottom: 1px solid #e1e5e9;*/
-  /*gap: 20px;*/
-  max-width: 1400px;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 20px 24px;
-  display: flex;
-  justify-content: space-between;
+    /*display: grid;*/
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    margin-bottom: 8px;
+    /*padding-bottom: 10px;*/
+    /*border-bottom: 1px solid #e1e5e9;*/
+    /*gap: 20px;*/
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 20px 24px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .title {
-  display: block;
-  font-size: 32px;
-  font-weight: 700;
-  color: #1a1a1a;
-  margin: 0;
-  justify-self: start;
+    display: block;
+    font-size: 32px;
+    font-weight: 700;
+    color: #1a1a1a;
+    margin: 0;
+    justify-self: start;
 }
 
 .main {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  max-width: 1400px;
-  margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .problemsSection {
-  background: white;
-  border-radius: 12px;
-  padding: 14px 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e1e5e9;
-  flex-shrink: 0;
+    background: white;
+    border-radius: 12px;
+    padding: 14px 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e1e5e9;
+    flex-shrink: 0;
 }
 
 .progressSection {
-  background: white;
-  border-radius: 12px;
-  padding: 20px 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  border: 1px solid #e1e5e9;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  min-height: 600px;
+    background: white;
+    border-radius: 12px;
+    padding: 20px 24px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e1e5e9;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 600px;
 }
 
 .progressSection .sectionTitle {
-  font-size: 18px;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin: 0 0 16px 4px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 16px 4px;
 }
 
 .problemsHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
 }
 
 .problemsHeader .sectionTitle {
-  font-size: 18px;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin: 0 0 2px 4px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1a1a1a;
+    margin: 0 0 2px 4px;
 }
 
 .addButton {
-  background: #2563eb;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 16px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
 .addButton:hover {
-  background: #1d4ed8;
+    background: #1d4ed8;
 }
 
 .fineInfo {
-  justify-self: end;
+    justify-self: end;
 }
 
 /* WeekSelector 스타일 */
 .weekSelectorContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 15px;
-  margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin: 0;
 }
 
 .weekSelectorNavigation {
-  display: flex;
-  align-items: center;
-  gap: 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
 
 .weekSelectorNavButton {
-  background: white;
-  border: 1px solid #d1d5db;
-  border-radius: 6px;
-  width: 36px;
-  height: 36px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  font-size: 16px;
-  color: #374151;
-  transition: all 0.2s;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    color: #374151;
+    transition: all 0.2s;
 }
 
 .weekSelectorNavButton:hover {
-  background: #f3f4f6;
-  border-color: #9ca3af;
+    background: #f3f4f6;
+    border-color: #9ca3af;
 }
 
 .weekSelectorWeekButton {
-  background: white;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  color: #1f2937;
-  cursor: pointer;
-  transition: all 0.2s;
-  min-width: 240px;
-  text-align: center;
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1f2937;
+    cursor: pointer;
+    transition: all 0.2s;
+    min-width: 240px;
+    text-align: center;
 }
 
 .weekSelectorWeekButton:hover {
-  background: #f9fafb;
-  border-color: #6b7280;
+    background: #f9fafb;
+    border-color: #6b7280;
 }
 
 .weekSelectorTodayButton {
-  background: #10b981;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 8px 12px;
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
+    background: #10b981;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
 .weekSelectorTodayButton:hover {
-  background: #059669;
+    background: #059669;
 }
 
 /* TierIcon 스타일 */
 .tierIconContainer {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .tierIcon {
-  width: 17px;
-  height: 22px;
-  /*background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTciIGhlaWdodD0iMjIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNyIgaGVpZ2h0PSIyMiIgZmlsbD0iI2FkNTYwMCIgcng9IjIiLz4KPC9zdmc+');*/
-  /*margin-bottom: 8px;*/
+    width: 17px;
+    height: 22px;
+    /*background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTciIGhlaWdodD0iMjIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxNyIgaGVpZ2h0PSIyMiIgZmlsbD0iI2FkNTYwMCIgcng9IjIiLz4KPC9zdmc+');*/
+    /*margin-bottom: 8px;*/
 }
 
 /*.tierIconSmall {*/
@@ -209,574 +209,772 @@
 /*}*/
 
 .tierIconText {
-  font-weight: 600;
-  font-size: 14px;
+    font-weight: 600;
+    font-size: 14px;
 }
 
 /* FineInfo 스타일 */
 .fineInfoContainer {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
 
 .fineInfoAmount {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
 }
 
 .fineInfoLabel {
-  font-size: 12px;
-  color: #6b7280;
-  font-weight: 500;
+    font-size: 12px;
+    color: #6b7280;
+    font-weight: 500;
 }
 
 .fineInfoAmountText {
-  font-size: 20px;
-  font-weight: 700;
-  color: #dc2626;
+    font-size: 20px;
+    font-weight: 700;
+    color: #dc2626;
 }
 
 .fineInfoReceiptButton {
-  background: #f3f4f6;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  padding: 8px 12px;
-  font-size: 14px;
-  color: #374151;
-  cursor: pointer;
-  transition: all 0.2s;
+    background: #f3f4f6;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 14px;
+    color: #374151;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
 .fineInfoReceiptButton:hover {
-  background: #e5e7eb;
-  border-color: #9ca3af;
+    background: #e5e7eb;
+    border-color: #9ca3af;
 }
 
 /* WeeklyProblems 스타일 */
 .weeklyProblemsContainer {
-  flex: 1;
-  overflow: hidden;
+    flex: 1;
+    overflow: hidden;
 }
 
 .weeklyProblemsGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 12px;
-  height: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+    height: 100%;
 }
 
 .weeklyProblemsCard {
-  border: 1px solid #e5e7eb;
-  /*background-color: rgba(255, 115, 236, 0.12);*/
-  border-radius: 10px;
-  padding: 16px 20px;
-  /*background: white;*/
-  background: rgba(153, 194, 255, 0.16);
-  position: relative;
-  overflow: hidden;
-  height: 85px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
+    border: 1px solid #e5e7eb;
+    /*background-color: rgba(255, 115, 236, 0.12);*/
+    border-radius: 10px;
+    padding: 16px 20px;
+    /*background: white;*/
+    background: rgba(153, 194, 255, 0.16);
+    position: relative;
+    overflow: hidden;
+    height: 85px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
 
 }
 
 .weeklyProblemsCard:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .weeklyProblemsAccentBar {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 6px;
-  height: 100%;
-  border-radius: 0 0 0 10px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    border-radius: 0 0 0 10px;
 }
 
 .weeklyProblemsHeader {
-  flex: 1;
-  min-width: 0;
+    flex: 1;
+    min-width: 0;
 }
 
 .weeklyProblemsInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
 }
 
 .weeklyProblemsTitle {
-  font-size: 18px;
-  font-weight: 700;
-  /*color: #436bef;*/
-  margin: 0;
-  line-height: 1.3;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    font-size: 18px;
+    font-weight: 700;
+    /*color: #436bef;*/
+    margin: 0;
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .weeklyProblemsSolverStatus {
-  flex-shrink: 0;
-  margin-left: 16px;
+    flex-shrink: 0;
+    margin-left: 16px;
 }
 
 .weeklyProblemsStatusBadge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 14px;
-  font-weight: 500;
-  min-width: 60px;
-  text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    min-width: 60px;
+    text-align: center;
 }
 
 .weeklyProblemsAllSolved {
-  background: #f0fdf4;
-  color: #166534;
-  border: 1px solid #bbf7d0;
+    background: #f0fdf4;
+    color: #166534;
+    border: 1px solid #bbf7d0;
 }
 
 .weeklyProblemsNoneSolved {
-  background: #fef2f2;
-  color: #991b1b;
-  border: 1px solid #fecaca;
+    background: #fef2f2;
+    color: #991b1b;
+    border: 1px solid #fecaca;
 }
 
 .weeklyProblemsPartialSolved {
-  background: #fffbeb;
-  color: #92400e;
-  border: 1px solid #fde68a;
+    background: #fffbeb;
+    color: #92400e;
+    border: 1px solid #fde68a;
 }
 
 .weeklyProblemsEmptySlot {
-  border: 2px dashed #d1d5db;
-  border-radius: 10px;
-  padding: 16px 20px;
-  text-align: center;
-  background: #fafafa;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
+    border: 2px dashed #d1d5db;
+    border-radius: 10px;
+    padding: 16px 20px;
+    text-align: center;
+    background: #fafafa;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
 }
 
 .weeklyProblemsEmptyText {
-  color: #9ca3af;
-  font-size: 13px;
-  font-weight: 500;
+    color: #9ca3af;
+    font-size: 13px;
+    font-weight: 500;
 }
 
 /* UserProgress 스타일 */
 .userProgressContainer {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 20px;
-  flex: 1;
-  overflow-y: auto;
-  padding-right: 8px;
-  align-items: start;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 8px;
+    align-items: start;
 }
 
 .userProgressCard {
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 20px;
-  padding-left: 24px;
-  background: white;
-  transition: box-shadow 0.2s;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  height: 185px;
-  width: 100%;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 20px;
+    padding-left: 24px;
+    background: white;
+    transition: box-shadow 0.2s;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 185px;
+    width: 100%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
-.userProgressCard.completed{
-  border: 0.08rem solid #0ed900;
-  background: rgba(143, 255, 137, 0.03);
+
+.userProgressCard.completed {
+    border: 0.08rem solid #0ed900;
+    background: rgba(143, 255, 137, 0.03);
 }
 
 .userProgressCard:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .userProgressAccent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 6px;
-  height: 100%;
-  border-radius: 0 0 0 12px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    border-radius: 0 0 0 12px;
 }
 
 .userProgressHeader {
-  display: flex;
-  align-items: center;
-  margin-bottom: 12px;
-  gap: 5px;
-  height: 28px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 5px;
+    height: 28px;
 }
 
 .userProgressInfo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
 }
 
 .userProgressName {
-  font-size: 18px;
-  font-weight: 600;
-  color: #1f2937;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-radius: 6px;
+    padding: 1px 5px;
 }
 
-.userProgressName .pass_text{
-  font-size: 16px;
-  font-weight: 600;
-  margin-left: 2px;
-  color: rgb(71, 123, 255);
+.userProgressName .pass_text {
+    font-size: 16px;
+    font-weight: 600;
+    margin-left: 2px;
+    color: rgb(71, 123, 255);
+}
+
+.userProgressMenuContainer {
+    position: relative;
+    margin-left: auto;
+}
+
+.userProgressThreeDots {
+    width: 24px;
+    height: 24px;
+    border: none;
+    background: none;
+    color: #6b7280;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    padding: 0;
+    line-height: 1;
+    transition: background-color 0.2s;
+}
+
+.userProgressThreeDots:hover {
+    background-color: rgba(183, 183, 183, 0.44);
+}
+
+.userProgressDropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    right: 0;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 140px;
+    z-index: 100;
+    overflow: hidden;
+}
+
+.userProgressDropdownItem {
+    width: 100%;
+    padding: 10px 16px;
+    border: none;
+    background: none;
+    text-align: left;
+    font-size: 14px;
+    color: #374151;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.userProgressDropdownItem:hover {
+    background-color: #f3f4f6;
+}
+
+.userProgressDropdownItem:first-child {
+    border-radius: 8px 8px 0 0;
+}
+
+.userProgressDropdownItem:last-child {
+    border-radius: 0 0 8px 8px;
 }
 
 .userProgressHotStreak {
-  /*color: #dc2626;*/
-  /*font-size: 16px;*/
-  /*font-weight: 600;*/
-  width: 22px;
-  height: 22px;
-  background: url(../images/streak_fire_icon.png) no-repeat center/ 100%;
+    /*color: #dc2626;*/
+    /*font-size: 16px;*/
+    /*font-weight: 600;*/
+    width: 22px;
+    height: 22px;
+    background: url(../images/streak_fire_icon.png) no-repeat center/ 100%;
 }
+
 .userProgressHotStreak.cold {
-  /*color: #dc2626;*/
-  /*font-size: 16px;*/
-  /*font-weight: 600;*/
-  width: 22px;
-  height: 22px;
-  background: url(../images/streak_fire_blue_icon.png) no-repeat center/ 100%;
+    /*color: #dc2626;*/
+    /*font-size: 16px;*/
+    /*font-weight: 600;*/
+    width: 22px;
+    height: 22px;
+    background: url(../images/streak_fire_blue_icon.png) no-repeat center/ 100%;
 }
-.userProgressHotStreakNumber{
-  font-size: 16px;
-  font-weight: 500;
-  color: red;
+
+.userProgressHotStreakNumber {
+    font-size: 16px;
+    font-weight: 500;
+    color: red;
 }
 
 .userProgressProgressContainer {
-  margin-bottom: 16px;
-  height: 22px;
+    margin-bottom: 16px;
+    height: 22px;
 }
 
 .userProgressBar {
-  width: 100%;
-  height: 8px;
-  background: #f3f4f6;
-  border-radius: 6px;
-  overflow: hidden;
-  margin-bottom: 6px;
+    width: 100%;
+    height: 8px;
+    background: #f3f4f6;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 6px;
 }
 
 .userProgressFill {
-  height: 100%;
-  transition: width 0.3s ease;
+    height: 100%;
+    transition: width 0.3s ease;
 }
 
-.userProgressFill.p100{
-  background: linear-gradient(90deg, #10b981, #059669);
+.userProgressFill.p100 {
+    background: linear-gradient(90deg, #10b981, #059669);
 }
 
-.userProgressFill.p70{
-  background: linear-gradient(90deg, #d2c914, #c5bd08);
+.userProgressFill.p70 {
+    background: linear-gradient(90deg, #d2c914, #c5bd08);
 }
 
-.userProgressFill.p30{
-  background: linear-gradient(90deg, #ce6b17, #c26b09);
+.userProgressFill.p30 {
+    background: linear-gradient(90deg, #ce6b17, #c26b09);
 }
 
-.userProgressFill.p10{
-  background: linear-gradient(90deg, #b91010, #960505);
+.userProgressFill.p10 {
+    background: linear-gradient(90deg, #b91010, #960505);
 }
 
-.userProgressFill.p_over{
-  background: linear-gradient(90deg, #10b981, #0031d2);
+.userProgressFill.p_over {
+    background: linear-gradient(90deg, #10b981, #0031d2);
 }
 
 .userProgressText {
-  font-size: 13px;
-  color: #6b7280;
-  font-weight: 500;
+    font-size: 13px;
+    color: #6b7280;
+    font-weight: 500;
 }
 
 .userProgressChallengeProblems {
-  height: 90px;
-  overflow: hidden;
+    height: 90px;
+    overflow: hidden;
 }
 
 .userProgressProblemGrid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  height: 100%;
-  overflow-y: auto;
-  padding: 8px 0;
-  /*background: #f8fafc;*/
-  border-radius: 10px;
-  align-content: start;
-  /*border: 1px solid #e2e8f0;*/
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    height: 100%;
+    overflow-y: auto;
+    padding: 8px 0;
+    /*background: #f8fafc;*/
+    border-radius: 10px;
+    align-content: start;
+    /*border: 1px solid #e2e8f0;*/
+}
+
+/* Skeleton Loading Styles */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.userProgressSkeletonCard {
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 20px;
+    padding-left: 24px;
+    background: white;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 185px;
+    width: 100%;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.skeletonBox {
+    background: #e5e7eb;
+    border-radius: 4px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonAccent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: #e5e7eb;
+    border-radius: 0 0 0 12px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonHeader {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    gap: 10px;
+    height: 28px;
+}
+
+.skeletonTierIcon {
+    width: 20px;
+    height: 24px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonName {
+    width: 120px;
+    height: 20px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonMenuButton {
+    width: 24px;
+    height: 24px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    margin-left: auto;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonStreak {
+    width: 20px;
+    height: 20px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonProgressBar {
+    width: 100%;
+    height: 8px;
+    background: #f3f4f6;
+    border-radius: 6px;
+    margin-bottom: 6px;
+    overflow: hidden;
+}
+
+.skeletonProgressFill {
+    width: 60%;
+    height: 100%;
+    background: #e5e7eb;
+    border-radius: 6px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonProgressText {
+    width: 80px;
+    height: 13px;
+    background: #e5e7eb;
+    border-radius: 4px;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.skeletonProblemGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    height: 90px;
+    padding: 8px 0;
+}
+
+.skeletonProblemItem {
+    height: 26px;
+    background: #e5e7eb;
+    border-radius: 6px;
+    animation: pulse 1.5s ease-in-out infinite;
 }
 
 .userProgressProblemItem {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 8px;
-  border-radius: 6px;
-  transition: all 0.2s;
-  position: relative;
-  overflow: hidden;
-  height: 26px;
-  min-width: 0;
-  background: white;
-  border: 1px solid #e2e8f0;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 8px;
+    border-radius: 6px;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+    height: 26px;
+    min-width: 0;
+    background: white;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    cursor: pointer;
 }
-.userProgressProblemItem.is_shared_problem{
-  /*border: 0.08rem solid #436bef;*/
-  background: rgba(153, 194, 255, 0.16);
+
+.userProgressProblemItem.is_shared_problem {
+    /*border: 0.08rem solid #436bef;*/
+    background: rgba(153, 194, 255, 0.16);
 }
 
 .userProgressProblemContent {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  z-index: 2;
-  width: 100%;
-  /*max-width: 100px;*/
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    z-index: 2;
+    width: 100%;
+    /*max-width: 100px;*/
+    justify-content: center;
 }
 
-.userProgressProblemContent .tierIcon{
-  width: 13px;
-  height: 20px;
-  margin-right: 2px;
+.userProgressProblemContent .tierIcon {
+    width: 13px;
+    height: 20px;
+    margin-right: 2px;
 }
 
 .userProgressProblemItem.userProgressSolved::before {
-  content: "✓";
-  position: absolute;
-  top: 2px;
-  right: 4px;
-  font-size: 11px;
-  color: #22c55e;
-  font-weight: bold;
-  z-index: 3;
+    content: "✓";
+    position: absolute;
+    top: 2px;
+    right: 4px;
+    font-size: 11px;
+    color: #22c55e;
+    font-weight: bold;
+    z-index: 3;
 }
 
 .userProgressProblemItem.userProgressUnsolved::before {
-  content: "✗";
-  position: absolute;
-  top: 2px;
-  right: 4px;
-  font-size: 11px;
-  color: #ef4444;
-  font-weight: bold;
-  z-index: 3;
+    content: "✗";
+    position: absolute;
+    top: 2px;
+    right: 4px;
+    font-size: 11px;
+    color: #ef4444;
+    font-weight: bold;
+    z-index: 3;
 }
 
 .userProgressProblemItem:hover {
-  transform: scale(1.05);
-  z-index: 1;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transform: scale(1.05);
+    z-index: 1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .userProgressProblemAccent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 4px;
-  height: 100%;
-  border-radius: 6px 0 0 6px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    border-radius: 6px 0 0 6px;
 }
 
 .userProgressProblemNumber {
-  font-size: 12px;
-  font-weight: 700;
-  color: #374151;
-  text-align: center;
-  line-height: 1;
-  white-space: nowrap;
+    font-size: 12px;
+    font-weight: 700;
+    color: #374151;
+    text-align: center;
+    line-height: 1;
+    white-space: nowrap;
 }
-.userProgressProblemNumber.red_text{
-  color: red;
+
+.userProgressProblemNumber.red_text {
+    color: red;
 }
 
 /* 모달 스타일 */
 .modalOverlay {
-  /*position: fixed;*/
-  /*top: 0;*/
-  /*left: 0;*/
-  /*right: 0;*/
-  /*bottom: 0;*/
-  /*background: rgba(0, 0, 0, 0.5);*/
-  /*display: flex;*/
-  /*align-items: center;*/
-  /*justify-content: center;*/
-  /*z-index: 1000;*/
+    /*position: fixed;*/
+    /*top: 0;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*bottom: 0;*/
+    /*background: rgba(0, 0, 0, 0.5);*/
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
+    /*z-index: 1000;*/
 }
 
 .modal {
-  background: white;
-  border-radius: 12px;
-  padding: 24px;
-  max-width: 500px;
-  width: 90%;
-  max-height: 80vh;
-  overflow-y: auto;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    max-width: 500px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .modal h3 {
-  margin: 0 0 16px 0;
-  font-size: 18px;
-  font-weight: 600;
-  color: #1f2937;
+    margin: 0 0 16px 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #1f2937;
 }
 
 .modal p {
-  margin: 0 0 20px 0;
-  color: #6b7280;
-  line-height: 1.5;
+    margin: 0 0 20px 0;
+    color: #6b7280;
+    line-height: 1.5;
 }
 
 .modal button {
-  background: #2563eb;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 10px 16px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
 .modal button:hover {
-  background: #1d4ed8;
+    background: #1d4ed8;
 }
 
 /* WeekProblemAddModal 스타일 */
 .problemModalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
 }
 
 .problemModal {
-  background: white;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 600px;
-  max-height: 80vh;
-  overflow: hidden;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 .problemModalHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 24px;
-  border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .problemModalTitle {
-  font-size: 20px;
-  font-weight: 600;
-  color: #1f2937;
-  margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
 }
-.problemModalTitle .select_date_text{
-  font-size: 16px;
-  color: #b7b7b7;
-  margin-bottom: 2px;
+
+.problemModalTitle .select_date_text {
+    font-size: 16px;
+    color: #b7b7b7;
+    margin-bottom: 2px;
 }
 
 .problemModalCloseButton {
-  background: none;
-  border: none;
-  font-size: 18px;
-  color: #6b7280;
-  cursor: pointer;
-  padding: 4px 6px;
-  border-radius: 4px;
-  transition: background-color 0.2s;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 4px 6px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
 }
 
-.problemModalCloseButton + .problemModalCloseButton{
-  margin-left: 8px;
+.problemModalCloseButton + .problemModalCloseButton {
+    margin-left: 8px;
 }
 
 .problemModalCloseButton:hover {
-  background: #f3f4f6;
+    background: #f3f4f6;
 }
 
 .problemModalContent {
-  padding: 24px;
-  max-height: 60vh;
-  overflow: hidden;
+    padding: 24px;
+    max-height: 60vh;
+    overflow: hidden;
 }
 
 .selectedProblemSection {
-  margin-bottom: 24px;
+    margin-bottom: 24px;
 }
-.selectedProblemSection .selected_problem_list{
-  /*padding: 4px 6px;*/
-  display: flex;
+
+.selectedProblemSection .selected_problem_list {
+    /*padding: 4px 6px;*/
+    display: flex;
 }
 
 .selectedProblemSection .selected_problem_list .added_weeklyProblemsCard {
-  border: 1px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 16px 20px;
-  background: white;
-  position: relative;
-  overflow: hidden;
-  width: calc(30%);
-  min-width: 120px;
-  max-width: 220px;
-  height: 80px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.2s;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  cursor: pointer;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 16px 20px;
+    background: white;
+    position: relative;
+    overflow: hidden;
+    width: calc(30%);
+    min-width: 120px;
+    max-width: 220px;
+    height: 80px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
 }
-.selectedProblemSection .selected_problem_list .added_weeklyProblemsCard:hover{
-  /*position: absolute;*/
-  background-color: rgba(255, 0, 0, 0.47);
-  /*width: 100%;*/
-  /*height: 100%;*/
+
+.selectedProblemSection .selected_problem_list .added_weeklyProblemsCard:hover {
+    /*position: absolute;*/
+    background-color: rgba(255, 0, 0, 0.47);
+    /*width: 100%;*/
+    /*height: 100%;*/
 }
+
 /*.selectedProblemSection .selected_problem_list .added_weeklyProblemsCard:hover:before{*/
 /*  position: absolute;*/
 /*  font-size: 14px;*/
@@ -785,430 +983,438 @@
 /*  height: 20px;*/
 /*}*/
 
-.selectedProblemSection .selected_problem_list .added_weeklyProblemsCard + .added_weeklyProblemsCard{
-  margin-left: calc(5%);
+.selectedProblemSection .selected_problem_list .added_weeklyProblemsCard + .added_weeklyProblemsCard {
+    margin-left: calc(5%);
 }
 
 
 .problemModalSearchSection {
-  margin-bottom: 24px;
+    margin-bottom: 24px;
 }
 
 .problemModalSearchInput {
-  display: flex;
-  gap: 12px;
+    display: flex;
+    gap: 12px;
 }
 
 .problemModalSearchInput input {
-  flex: 1;
-  padding: 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 14px;
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
 }
 
 .problemModalSearchInput input:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .problemModalSearchInput button {
-  background: #2563eb;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 20px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
 .problemModalSearchInput button:hover {
-  background: #1d4ed8;
+    background: #1d4ed8;
 }
 
 .problemModalResultsSection {
-  margin-bottom: 24px;
+    margin-bottom: 24px;
 }
 
 .problemModalResultsTitle {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1f2937;
-  margin: 0 0 16px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 16px 0;
 }
 
 .problemModalProblemList {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  overflow-y: auto;
-  max-height: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    overflow-y: auto;
+    max-height: 300px;
 }
 
 .problemModalProblemItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  background: #fafafa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fafafa;
 }
 
 .problemModalProblemInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .problemModalProblemNumber {
-  font-size: 14px;
-  color: #6b7280;
-  font-weight: 500;
+    font-size: 14px;
+    color: #6b7280;
+    font-weight: 500;
 }
 
 .problemModalProblemTitle {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1f2937;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
 }
 
 .problemModalProblemLevel {
-  font-size: 14px;
-  color: #059669;
-  font-weight: 500;
+    font-size: 14px;
+    color: #059669;
+    font-weight: 500;
 }
 
 .problemModalProblemStats {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
 }
 
 .problemModalSolvedCount {
-  font-size: 14px;
-  color: #6b7280;
+    font-size: 14px;
+    color: #6b7280;
 }
 
 .problemModalAddButton {
-  background: #10b981;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 6px 12px;
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
+    background: #10b981;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
 .problemModalAddButton:hover {
-  background: #059669;
+    background: #059669;
 }
 
 .problemModalFooter {
-  border-top: 1px solid #e5e7eb;
-  padding: 16px 0 0 0;
+    border-top: 1px solid #e5e7eb;
+    padding: 16px 0 0 0;
 }
 
 .problemModalLimitInfo {
-  font-size: 14px;
-  color: #6b7280;
-  text-align: center;
+    font-size: 14px;
+    color: #6b7280;
+    text-align: center;
 }
 
 /* ReceiptModal 스타일 */
 .receiptModalOverlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
 }
 
 .receiptModal {
-  background: white;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 500px;
-  max-height: 80vh;
-  overflow: hidden;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 .receiptModalHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 24px;
-  border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .receiptModalTitle {
-  font-size: 20px;
-  font-weight: 600;
-  color: #1f2937;
-  margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
 }
 
 .receiptModalCloseButton {
-  background: none;
-  border: none;
-  font-size: 20px;
-  color: #6b7280;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
-  transition: background-color 0.2s;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
 }
 
 .receiptModalCloseButton:hover {
-  background: #f3f4f6;
+    background: #f3f4f6;
 }
 
 .receiptModalContent {
-  padding: 24px;
-  max-height: 60vh;
-  overflow-y: auto;
+    padding: 24px;
+    max-height: 60vh;
+    overflow-y: auto;
 }
 
 .receiptModalMonthTabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 24px;
-  /*border-bottom: 1px solid #e5e7eb;*/
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    /*border-bottom: 1px solid #e5e7eb;*/
+    align-items: center;
+    justify-content: center;
 }
 
 .receiptModalMonthTab {
-  background: none;
-  border: none;
-  padding: 12px 16px;
-  font-size: 14px;
-  color: #6b7280;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: all 0.2s;
+    background: none;
+    border: none;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #6b7280;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
 }
 
 .receiptModalMonthTab:hover {
-  color: #374151;
+    color: #374151;
 }
 
 .receiptModalActive {
-  color: #2563eb;
-  border-bottom-color: #2563eb;
-  font-weight: 600;
+    color: #2563eb;
+    border-bottom-color: #2563eb;
+    font-weight: 600;
 }
 
 .receiptModalSummary {
-  margin-bottom: 24px;
-  padding: 20px;
-  background: #f9fafb;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+    margin-bottom: 24px;
+    padding: 20px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .receiptModalTotalAmount {
-  margin-bottom: 6px;
-  border-bottom: 1px solid #e5e7eb;
+    margin-bottom: 6px;
+    border-bottom: 1px solid #e5e7eb;
 }
-.receiptModalTotalAmount .total_fine_section{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+
+.receiptModalTotalAmount .total_fine_section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
-.fold_section{
-  margin: 6px 0 0 0;
-  text-align: center;
-  border-radius: 8px;
-  cursor: pointer;
+
+.fold_section {
+    margin: 6px 0 0 0;
+    text-align: center;
+    border-radius: 8px;
+    cursor: pointer;
 }
-.fold_section .opened_user_list{
-  height: 0;
-  overflow: hidden;
+
+.fold_section .opened_user_list {
+    height: 0;
+    overflow: hidden;
 }
-.fold_section.opened .opened_user_list{
-  height: 200px;
-  margin-bottom: 12px;
+
+.fold_section.opened .opened_user_list {
+    height: 245px;
+    /*max-height: 300px;*/
+    margin-bottom: 12px;
 }
-.fold_section .btn_fold{
-  width: 100%;
-  height: 24px;
-  background: url(../images/arrow_icon.png) no-repeat center / 28px 28px;
-  z-index: 1;
+
+.fold_section .btn_fold {
+    width: 100%;
+    height: 24px;
+    background: url(../images/arrow_icon.png) no-repeat center / 28px 28px;
+    z-index: 1;
 }
-.fold_section.opened .btn_fold{
-  transform: rotate(180deg);
+
+.fold_section.opened .btn_fold {
+    transform: rotate(180deg);
 }
+
 /*.fold_section .btn_fold:hover{*/
 /*  background: rgba(210, 210, 210, 0.5);*/
 /*  z-index: 0;*/
 /*}*/
 
 .receiptModalTotalLabel {
-  font-size: 16px;
-  color: #374151;
-  font-weight: 600;
+    font-size: 16px;
+    color: #374151;
+    font-weight: 600;
 }
 
 .receiptModalTotalValue {
-  font-size: 24px;
-  font-weight: 700;
-  color: #dc2626;
+    font-size: 24px;
+    font-weight: 700;
+    color: #dc2626;
 }
 
 .receiptModalMonthAmount {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .receiptModalMonthLabel {
-  font-size: 14px;
-  color: #6b7280;
-  font-weight: 500;
+    font-size: 14px;
+    color: #6b7280;
+    font-weight: 500;
 }
 
 .receiptModalMonthValue {
-  font-size: 18px;
-  font-weight: 600;
-  color: #374151;
+    font-size: 18px;
+    font-weight: 600;
+    color: #374151;
 }
 
 .receiptModalUserList {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .receiptModalUserItem {
-  padding: 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  background: #fefefe;
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fefefe;
 }
 
 .receiptModalUserInfo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
 }
 
 .receiptModalUserName {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1f2937;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
 }
 
 .receiptModalUserAmount {
-  font-size: 16px;
-  font-weight: 600;
-  color: #dc2626;
+    font-size: 16px;
+    font-weight: 600;
+    color: #dc2626;
 }
 
 .receiptModalWeekList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
 }
 
 .receiptModalWeekBadge {
-  background: #dbeafe;
-  color: #1e40af;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 500;
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
 }
 
 /* 반응형 스타일 */
 @media (max-width: 1200px) {
-  .container {
-    padding: 12px;
-  }
+    .container {
+        padding: 12px;
+    }
 
-  .problemsSection {
-    padding: 16px 20px;
-  }
+    .problemsSection {
+        padding: 16px 20px;
+    }
 
-  .progressSection {
-    padding: 24px;
-    min-height: 500px;
-  }
+    .progressSection {
+        padding: 24px;
+        min-height: 500px;
+    }
 
-  .userProgressContainer {
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 16px;
-  }
+    .userProgressContainer {
+        grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        gap: 16px;
+    }
 
-  .userProgressCard {
-    height: 150px;
-    padding: 18px;
-    padding-left: 22px;
-  }
+    .userProgressCard {
+        height: 150px;
+        padding: 18px;
+        padding-left: 22px;
+    }
 
-  .userProgressChallengeProblems {
-    height: 80px;
-  }
+    .userProgressChallengeProblems {
+        height: 80px;
+    }
 
-  .weeklyProblemsGrid {
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 10px;
-  }
+    .weeklyProblemsGrid {
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 10px;
+    }
 
-  .weeklyProblemsCard {
-    height: 75px;
-    padding: 14px 18px;
-  }
+    .weeklyProblemsCard {
+        height: 75px;
+        padding: 14px 18px;
+    }
 
-  .weeklyProblemsTitle {
-    font-size: 14px;
-  }
+    .weeklyProblemsTitle {
+        font-size: 14px;
+    }
 
-  .weeklyProblemsStatusBadge {
-    font-size: 12px;
-    padding: 6px 12px;
-    min-width: 50px;
-  }
+    .weeklyProblemsStatusBadge {
+        font-size: 12px;
+        padding: 6px 12px;
+        min-width: 50px;
+    }
 }
 
 /*Weekly Shared Prolbem Add Modal*/
 .overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
 }
 
 .modal {
-  background: white;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 600px;
-  max-height: 80vh;
-  overflow: hidden;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 /*.header {*/
@@ -1220,217 +1426,217 @@
 /*}*/
 
 .title {
-  font-size: 32px;
-  font-weight: 600;
-  color: #1f2937;
-  margin: 0;
+    font-size: 32px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
 }
 
 .closeButton {
-  background: none;
-  border: none;
-  font-size: 20px;
-  color: #6b7280;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
-  transition: background-color 0.2s;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
 }
 
 .closeButton:hover {
-  background: #f3f4f6;
+    background: #f3f4f6;
 }
 
 .content {
-  padding: 24px;
-  max-height: 60vh;
-  overflow-y: auto;
+    padding: 24px;
+    max-height: 60vh;
+    overflow-y: auto;
 }
 
 .searchSection {
-  margin-bottom: 24px;
+    margin-bottom: 24px;
 }
 
 .searchInput {
-  display: flex;
-  gap: 12px;
+    display: flex;
+    gap: 12px;
 }
 
 .searchInput input {
-  flex: 1;
-  padding: 12px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  font-size: 14px;
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 14px;
 }
 
 .searchInput input:focus {
-  outline: none;
-  border-color: #2563eb;
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .searchInput button {
-  background: #2563eb;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 12px 20px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
 .searchInput button:hover {
-  background: #1d4ed8;
+    background: #1d4ed8;
 }
 
 .resultsSection {
-  margin-bottom: 24px;
+    margin-bottom: 24px;
 }
 
 .resultsTitle {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1f2937;
-  margin: 0 0 16px 0;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 16px 0;
 }
 
 .problemList {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
 .problemItem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  background: #fafafa;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fafafa;
 }
 
 .problemInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .problemNumber {
-  font-size: 14px;
-  color: #6b7280;
-  font-weight: 500;
+    font-size: 14px;
+    color: #6b7280;
+    font-weight: 500;
 }
 
 .problemTitle {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1f2937;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
 }
 
 .problemLevel {
-  font-size: 14px;
-  color: #059669;
-  font-weight: 500;
+    font-size: 14px;
+    color: #059669;
+    font-weight: 500;
 }
 
 .problemStats {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
 }
 
 .solvedCount {
-  font-size: 12px;
-  color: #6b7280;
+    font-size: 12px;
+    color: #6b7280;
 }
 
 .addButton {
-  background: #10b981;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  padding: 6px 12px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
+    background: #10b981;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
 }
 
 .addButton:hover {
-  background: #059669;
+    background: #059669;
 }
 
 .footer {
-  border-top: 1px solid #e5e7eb;
-  padding: 16px 0 0 0;
+    border-top: 1px solid #e5e7eb;
+    padding: 16px 0 0 0;
 }
 
 .limitInfo {
-  font-size: 14px;
-  color: #6b7280;
-  text-align: center;
+    font-size: 14px;
+    color: #6b7280;
+    text-align: center;
 }
 
 @media (max-width: 768px) {
-  .modal {
-    width: 95%;
-    margin: 20px;
-  }
+    .modal {
+        width: 95%;
+        margin: 20px;
+    }
 
-  .problemItem {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
+    .problemItem {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
 
-  .problemStats {
-    align-items: flex-start;
-    width: 100%;
-  }
+    .problemStats {
+        align-items: flex-start;
+        width: 100%;
+    }
 }
 
 .sharedProblemManageModal {
-  width: 100%;
-  height: 100%;
-  /*max-width: 100vh;*/
-  /*max-height: 100vh;*/
-  /*background-color: #33363d;*/
-  /*position: relative;*/
-  /*display: flex;*/
-  /*align-items: center;*/
-  /*justify-content: center;*/
-  border-radius: 12px;
-  overflow: hidden;
+    width: 100%;
+    height: 100%;
+    /*max-width: 100vh;*/
+    /*max-height: 100vh;*/
+    /*background-color: #33363d;*/
+    /*position: relative;*/
+    /*display: flex;*/
+    /*align-items: center;*/
+    /*justify-content: center;*/
+    border-radius: 12px;
+    overflow: hidden;
 }
 
 
 /*Recipe Modal*/
 .overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
 }
 
 .modal {
-  background: white;
-  border-radius: 12px;
-  width: 90%;
-  max-width: 500px;
-  max-height: 80vh;
-  overflow: hidden;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow: hidden;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
 
 /*.header {*/
@@ -1442,454 +1648,482 @@
 /*}*/
 
 .title {
-  font-size: 28px;
-  font-weight: 600;
-  color: #1f2937;
-  margin: 0;
+    font-size: 28px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0;
 }
 
 .closeButton {
-  background: none;
-  border: none;
-  font-size: 20px;
-  color: #6b7280;
-  cursor: pointer;
-  padding: 4px;
-  border-radius: 4px;
-  transition: background-color 0.2s;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #6b7280;
+    cursor: pointer;
+    padding: 4px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
 }
 
 .closeButton:hover {
-  background: #f3f4f6;
+    background: #f3f4f6;
 }
 
 .content {
-  padding: 24px;
-  max-height: 60vh;
-  overflow-y: auto;
+    padding: 24px;
+    max-height: 60vh;
+    overflow-y: auto;
 }
 
 .monthTabs {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 24px;
-  border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .monthTab {
-  background: none;
-  border: none;
-  padding: 12px 16px;
-  font-size: 14px;
-  color: #6b7280;
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: all 0.2s;
+    background: none;
+    border: none;
+    padding: 12px 16px;
+    font-size: 14px;
+    color: #6b7280;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
 }
 
 .monthTab:hover {
-  color: #374151;
+    color: #374151;
 }
 
 .monthTab.active {
-  color: #2563eb;
-  border-bottom-color: #2563eb;
-  font-weight: 600;
+    color: #2563eb;
+    border-bottom-color: #2563eb;
+    font-weight: 600;
 }
 
 .summary {
-  margin-bottom: 24px;
-  padding: 20px;
-  background: #f9fafb;
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+    margin-bottom: 24px;
+    padding: 20px;
+    background: #f9fafb;
+    border-radius: 8px;
+    border: 1px solid #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .totalAmount {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-bottom: 12px;
-  border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #e5e7eb;
 }
 
 .totalLabel {
-  font-size: 16px;
-  color: #374151;
-  font-weight: 600;
+    font-size: 16px;
+    color: #374151;
+    font-weight: 600;
 }
 
 .totalValue {
-  font-size: 24px;
-  font-weight: 700;
-  color: #dc2626;
+    font-size: 24px;
+    font-weight: 700;
+    color: #dc2626;
 }
 
 .monthAmount {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .monthLabel {
-  font-size: 14px;
-  color: #6b7280;
-  font-weight: 500;
+    font-size: 14px;
+    color: #6b7280;
+    font-weight: 500;
 }
 
 .monthValue {
-  font-size: 18px;
-  font-weight: 600;
-  color: #374151;
+    font-size: 18px;
+    font-weight: 600;
+    color: #374151;
 }
 
 .userList {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
 }
 
 .userItem {
-  padding: 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
-  background: #fefefe;
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fefefe;
 }
 
 .userInfo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
 }
 
 .userName {
-  font-size: 16px;
-  font-weight: 600;
-  color: #1f2937;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
 }
 
 .userAmount {
-  font-size: 16px;
-  font-weight: 600;
-  color: #dc2626;
+    font-size: 16px;
+    font-weight: 600;
+    color: #dc2626;
 }
 
 .weekList {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
 }
 
 .weekBadge {
-  background: #dbeafe;
-  color: #1e40af;
-  padding: 4px 8px;
-  border-radius: 4px;
-  font-size: 12px;
-  font-weight: 500;
-}
-
-@media (max-width: 768px) {
-  .modal {
-    width: 95%;
-    margin: 20px;
-  }
-
-  .monthTabs {
-    flex-wrap: wrap;
-  }
-
-  .totalAmount,
-  .monthAmount {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-}
-
-
-@media (max-width: 768px) {
-  .container {
-    padding: 10px;
-  }
-
-  .header {
-    display: block;
-    /*grid-template-columns: 1fr;*/
-    gap: 16px;
-    text-align: center;
-  }
-
-  .title {
-    display: block;
-    justify-self: center;
-    margin-bottom: 24px;
-  }
-
-  .fineInfo {
-    justify-self: center;
-  }
-
-  .problemsSection {
-    padding: 16px;
-  }
-
-  .progressSection {
-    padding: 20px;
-    min-height: 400px;
-  }
-
-  .problemsHeader {
-    flex-direction: column;
-    gap: 12px;
-    align-items: stretch;
-  }
-
-  .weekSelectorContainer {
-    display: block;
-    flex-direction: column;
-    gap: 15px;
-  }
-
-  .weekSelectorWeekButton {
-    min-width: auto;
-    width: 100%;
-  }
-
-  .weekSelectorTodayButton{
-    margin-top: 10px;
-    width: 150px;
-  }
-
-  .fineInfoContainer {
-    display: block;
-    /*flex-direction: column;*/
-    /*align-items: flex-start;*/
-    gap: 12px;
-    text-align: center;
-    align-items: center;
-    margin-top: 12px;
-  }
-
-  .fineInfoAmount {
-    display: inline-block;
-    align-items: center;
-    margin-right: 12px;
-  }
-
-  .fineInfoLabel{
-    margin-right: 12px;
-  }
-
-  .fineInfoReceiptButton{
-    display: inline-block;
-  }
-
-  .userProgressContainer {
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 12px;
-  }
-
-  .userProgressCard {
-    height: 140px;
-    padding: 16px;
-    padding-left: 20px;
-  }
-
-  .userProgressChallengeProblems {
-    height: 70px;
-  }
-
-  .userProgressProblemGrid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 6px;
-    padding: 6px;
-  }
-
-  .userProgressProblemItem {
-    height: 28px;
-    padding: 4px 6px;
-  }
-
-  .userProgressProblemContent {
-    gap: 4px;
-  }
-
-  .userProgressProblemNumber {
-    font-size: 9px;
-  }
-
-  .weeklyProblemsGrid {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
-
-  .weeklyProblemsCard {
-    height: 70px;
-    padding: 12px 16px;
-  }
-
-  .weeklyProblemsEmptySlot {
-    height: 70px;
-    padding: 12px 16px;
-  }
-
-  .weeklyProblemsEmptyText {
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 4px 8px;
+    border-radius: 4px;
     font-size: 12px;
-  }
+    font-weight: 500;
+}
 
-  /* WeekProblemAddModal 모바일 스타일 */
-  .problemModal {
-    width: 95%;
-    margin: 20px;
-  }
+@media (max-width: 768px) {
+    .modal {
+        width: 95%;
+        margin: 20px;
+    }
 
-  .problemModalProblemItem {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
+    .monthTabs {
+        flex-wrap: wrap;
+    }
 
-  .problemModalProblemStats {
-    align-items: flex-start;
-    width: 100%;
-  }
+    .totalAmount,
+    .monthAmount {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+}
 
-  /* ReceiptModal 모바일 스타일 */
-  .receiptModal {
-    width: 95%;
-    margin: 20px;
-  }
 
-  .receiptModalMonthTabs {
-    flex-wrap: wrap;
-  }
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
 
-  .receiptModalTotalAmount,
-  .receiptModalMonthAmount {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
+    .header {
+        display: block;
+        /*grid-template-columns: 1fr;*/
+        gap: 16px;
+        text-align: center;
+    }
+
+    .title {
+        display: block;
+        justify-self: center;
+        margin-bottom: 24px;
+    }
+
+    .fineInfo {
+        justify-self: center;
+    }
+
+    .problemsSection {
+        padding: 16px;
+    }
+
+    .progressSection {
+        padding: 20px;
+        min-height: 400px;
+    }
+
+    .problemsHeader {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+    }
+
+    .weekSelectorContainer {
+        display: block;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .weekSelectorWeekButton {
+        min-width: auto;
+        width: 100%;
+    }
+
+    .weekSelectorTodayButton {
+        margin-top: 10px;
+        width: 150px;
+    }
+
+    .fineInfoContainer {
+        display: block;
+        /*flex-direction: column;*/
+        /*align-items: flex-start;*/
+        gap: 12px;
+        text-align: center;
+        align-items: center;
+        margin-top: 12px;
+    }
+
+    .fineInfoAmount {
+        display: inline-block;
+        align-items: center;
+        margin-right: 12px;
+    }
+
+    .fineInfoLabel {
+        margin-right: 12px;
+    }
+
+    .fineInfoReceiptButton {
+        display: inline-block;
+    }
+
+    .userProgressContainer {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 12px;
+    }
+
+    .userProgressCard {
+        height: 140px;
+        padding: 16px;
+        padding-left: 20px;
+    }
+
+    .userProgressChallengeProblems {
+        height: 70px;
+    }
+
+    .userProgressProblemGrid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        padding: 6px;
+    }
+
+    .userProgressProblemItem {
+        height: 28px;
+        padding: 4px 6px;
+    }
+
+    .userProgressProblemContent {
+        gap: 4px;
+    }
+
+    .userProgressProblemNumber {
+        font-size: 9px;
+    }
+
+    .weeklyProblemsGrid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .weeklyProblemsCard {
+        height: 70px;
+        padding: 12px 16px;
+    }
+
+    .weeklyProblemsEmptySlot {
+        height: 70px;
+        padding: 12px 16px;
+    }
+
+    .weeklyProblemsEmptyText {
+        font-size: 12px;
+    }
+
+    /* WeekProblemAddModal 모바일 스타일 */
+    .problemModal {
+        width: 95%;
+        margin: 20px;
+    }
+
+    .problemModalProblemItem {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .problemModalProblemStats {
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    /* ReceiptModal 모바일 스타일 */
+    .receiptModal {
+        width: 95%;
+        margin: 20px;
+    }
+
+    .receiptModalMonthTabs {
+        flex-wrap: wrap;
+    }
+
+    .receiptModalTotalAmount,
+    .receiptModalMonthAmount {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
 }
 
 
 /*tier*/
 .unrated {
-  background: url(../images/solved/tier_unrated.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_unrated.png) no-repeat center / 100%;
 }
+
 .sprout_3 {
-  background: url(../images/solved/tier_sprout_3.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_sprout_3.png) no-repeat center / 100%;
 }
+
 .sprout_4 {
-  background: url(../images/solved/tier_sprout_4.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_sprout_4.png) no-repeat center / 100%;
 }
+
 .sprout_5 {
-  background: url(../images/solved/tier_sprout_5.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_sprout_5.png) no-repeat center / 100%;
 }
+
 /* Bronze */
 .bronze_1 {
-  background: url(../images/solved/tier_bronze_1.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_bronze_1.png) no-repeat center / 100%;
 }
+
 .bronze_2 {
-  background: url(../images/solved/tier_bronze_2.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_bronze_2.png) no-repeat center / 100%;
 }
+
 .bronze_3 {
-  background: url(../images/solved/tier_bronze_3.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_bronze_3.png) no-repeat center / 100%;
 }
+
 .bronze_4 {
-  background: url(../images/solved/tier_bronze_4.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_bronze_4.png) no-repeat center / 100%;
 }
+
 .bronze_5 {
-  background: url(../images/solved/tier_bronze_5.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_bronze_5.png) no-repeat center / 100%;
 }
 
 /* Silver */
 .silver_1 {
-  background: url(../images/solved/tier_silver_1.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_silver_1.png) no-repeat center / 100%;
 }
+
 .silver_2 {
-  background: url(../images/solved/tier_silver_2.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_silver_2.png) no-repeat center / 100%;
 }
+
 .silver_3 {
-  background: url(../images/solved/tier_silver_3.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_silver_3.png) no-repeat center / 100%;
 }
+
 .silver_4 {
-  background: url(../images/solved/tier_silver_4.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_silver_4.png) no-repeat center / 100%;
 }
+
 .silver_5 {
-  background: url(../images/solved/tier_silver_5.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_silver_5.png) no-repeat center / 100%;
 }
 
 /* Gold */
 .gold_1 {
-  background: url(../images/solved/tier_gold_1.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_gold_1.png) no-repeat center / 100%;
 }
+
 .gold_2 {
-  background: url(../images/solved/tier_gold_2.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_gold_2.png) no-repeat center / 100%;
 }
+
 .gold_3 {
-  background: url(../images/solved/tier_gold_3.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_gold_3.png) no-repeat center / 100%;
 }
+
 .gold_4 {
-  background: url(../images/solved/tier_gold_4.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_gold_4.png) no-repeat center / 100%;
 }
+
 .gold_5 {
-  background: url(../images/solved/tier_gold_5.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_gold_5.png) no-repeat center / 100%;
 }
 
 /* Platinum */
 .platinum_1 {
-  background: url(../images/solved/tier_platinum_1.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_platinum_1.png) no-repeat center / 100%;
 }
+
 .platinum_2 {
-  background: url(../images/solved/tier_platinum_2.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_platinum_2.png) no-repeat center / 100%;
 }
+
 .platinum_3 {
-  background: url(../images/solved/tier_platinum_3.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_platinum_3.png) no-repeat center / 100%;
 }
+
 .platinum_4 {
-  background: url(../images/solved/tier_platinum_4.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_platinum_4.png) no-repeat center / 100%;
 }
+
 .platinum_5 {
-  background: url(../images/solved/tier_platinum_5.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_platinum_5.png) no-repeat center / 100%;
 }
 
 /* Diamond */
 .diamond_1 {
-  background: url(../images/solved/tier_diamond_1.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_diamond_1.png) no-repeat center / 100%;
 }
+
 .diamond_2 {
-  background: url(../images/solved/tier_diamond_2.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_diamond_2.png) no-repeat center / 100%;
 }
+
 .diamond_3 {
-  background: url(../images/solved/tier_diamond_3.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_diamond_3.png) no-repeat center / 100%;
 }
+
 .diamond_4 {
-  background: url(../images/solved/tier_diamond_4.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_diamond_4.png) no-repeat center / 100%;
 }
+
 .diamond_5 {
-  background: url(../images/solved/tier_diamond_5.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_diamond_5.png) no-repeat center / 100%;
 }
 
 /* Ruby */
 .ruby_1 {
-  background: url(../images/solved/tier_ruby_1.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_ruby_1.png) no-repeat center / 100%;
 }
+
 .ruby_2 {
-  background: url(../images/solved/tier_ruby_2.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_ruby_2.png) no-repeat center / 100%;
 }
+
 .ruby_3 {
-  background: url(../images/solved/tier_ruby_3.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_ruby_3.png) no-repeat center / 100%;
 }
+
 .ruby_4 {
-  background: url(../images/solved/tier_ruby_4.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_ruby_4.png) no-repeat center / 100%;
 }
+
 .ruby_5 {
-  background: url(../images/solved/tier_ruby_5.png) no-repeat center / 100%;
+    background: url(../images/solved/tier_ruby_5.png) no-repeat center / 100%;
 }
 

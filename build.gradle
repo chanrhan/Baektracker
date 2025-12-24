@@ -79,7 +79,7 @@ tasks.withType(Javadoc) {
 
 def frontendDir = "$projectDir/src/main/frontend"
 def querydslDir = layout.buildDirectory.dir("generated/querydsl").get().asFile
-
+def reactBuildDir = layout.buildDirectory.dir("frontend").get().asFile
 
 sourceSets {
     main {
@@ -87,7 +87,7 @@ sourceSets {
             srcDir querydslDir
         }
         resources {
-            srcDirs = ["$projectDir/src/main/resources"]
+            srcDirs = ["$projectDir/src/main/resources", reactBuildDir]
         }
     }
 }
@@ -126,5 +126,5 @@ tasks.register('buildReact', Exec) {
 tasks.register('copyReactBuildFiles', Copy) {
     dependsOn "buildReact"
     from "$frontendDir/build"
-    into layout.buildDirectory.dir("resources/main/static")
+    into reactBuildDir
 }

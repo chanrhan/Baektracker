@@ -1,7 +1,7 @@
 package com.baektracker.domain.problem.queryRepository;
 
 import com.baektracker.domain.problem.code.SolvedAcResultType;
-import com.baektracker.hanco.domain.problem.model.QSolvedProblem;
+import com.baektracker.domain.problem.model.QSolvedProblem;
 import com.baektracker.domain.problem.model.SolvedProblem;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.JPQLQuery;

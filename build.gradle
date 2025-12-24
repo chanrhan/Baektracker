@@ -128,3 +128,7 @@ tasks.register('copyReactBuildFiles', Copy) {
     from "$frontendDir/build"
     into reactBuildDir
 }
+
+tasks.named('processResources') {
+    dependsOn 'copyReactBuildFiles'
+}

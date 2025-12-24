@@ -87,7 +87,7 @@ sourceSets {
             srcDir querydslDir
         }
         resources {
-            srcDirs = ["$projectDir/src/main/resources", reactBuildDir]
+            srcDirs = ["$projectDir/src/main/resources"]
         }
     }
 }
@@ -97,11 +97,18 @@ tasks.withType(JavaCompile).configureEach {
     options.generatedSourceOutputDirectory = querydslDir
 }
 
-tasks.named("bootJar") {
-    dependsOn("copyReactBuildFiles")
-}
 tasks.named("jar") {
     dependsOn("copyReactBuildFiles")
+    from(reactBuildDir) {
+        into("static")   // classpath:/static/ 로 들어감
+    }
+}
+
+tasks.named("bootJar") {
+    dependsOn("copyReactBuildFiles")
+    from(reactBuildDir) {
+        into("static")
+    }
 }
 
 tasks.register('installReact', Exec) {

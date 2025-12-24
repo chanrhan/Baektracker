@@ -97,8 +97,11 @@ tasks.withType(JavaCompile).configureEach {
     options.generatedSourceOutputDirectory = querydslDir
 }
 
-bootJar {
-    dependsOn "copyReactBuildFiles"
+tasks.named("bootJar") {
+    dependsOn("copyReactBuildFiles")
+}
+tasks.named("jar") {
+    dependsOn("copyReactBuildFiles")
 }
 
 tasks.register('installReact', Exec) {
@@ -127,8 +130,4 @@ tasks.register('copyReactBuildFiles', Copy) {
     dependsOn "buildReact"
     from "$frontendDir/build"
     into reactBuildDir
-}
-
-tasks.named('processResources') {
-    dependsOn 'copyReactBuildFiles'
 }

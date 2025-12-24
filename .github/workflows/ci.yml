@@ -1,4 +1,4 @@
-name: CI - SpringBoot + React (Gradle)
+name: CI
 
 on:
   push:

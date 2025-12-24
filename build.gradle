@@ -106,9 +106,9 @@ tasks.register('installReact', Exec) {
     inputs.dir "$frontendDir"
     group = BasePlugin.BUILD_GROUP
     if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
-        commandLine 'npm.cmd', 'install'
+        commandLine 'npm.cmd', 'ci'
     } else {
-        commandLine 'npm', 'install'
+        commandLine 'npm', 'ci'
     }
 }
 
@@ -126,5 +126,5 @@ tasks.register('buildReact', Exec) {
 tasks.register('copyReactBuildFiles', Copy) {
     dependsOn "buildReact"
     from "$frontendDir/build"
-    into "$projectDir/src/main/resources/static"
+    into layout.buildDirectory.dir("resources/main/static")
 }

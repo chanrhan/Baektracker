@@ -1,0 +1,4 @@
+spring:
+  datasource:
+    username: ${MYSQL_USERNAME}
+    password: ${MYSQL_PASSWORD}

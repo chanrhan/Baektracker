@@ -1,8 +1,8 @@
 services:
   app:
-    image: test:latest
+    image: baektracker:latest
     ports:
-      - "8080:8080"
+      - "20000:20000"
     env_file:
       - .env
     restart: always

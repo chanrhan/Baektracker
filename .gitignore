@@ -37,3 +37,4 @@ src/main/resources/application-dev.yml
 /.gradle/
 
 .env
+*.tar

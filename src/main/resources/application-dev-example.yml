@@ -1,0 +1,9 @@
+server:
+  port: #{port}
+
+spring:
+  datasource:
+    username: #{username}
+    password: #{password}
+    url: #{url}
+

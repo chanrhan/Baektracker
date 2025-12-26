@@ -123,6 +123,7 @@ tasks.register('installReact', Exec) {
 }
 
 tasks.register('buildReact', Exec) {
+    environment "CI", "false"
     dependsOn "installReact"
     workingDir "$frontendDir"
     inputs.dir "$frontendDir"

@@ -1,4 +1,8 @@
+server:
+  port: ${PORT}
+
 spring:
   datasource:
+    url: ${DB_URL}
     username: ${MYSQL_USERNAME}
     password: ${MYSQL_PASSWORD}

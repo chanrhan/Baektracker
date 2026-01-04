@@ -23,6 +23,9 @@ spring:
     multipart:
       max-file-size: 150MB
       max-request-size: 150MB
+  output:
+    ansi:
+      enabled: always
 
 logging:
   pattern:

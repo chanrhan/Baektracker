@@ -123,7 +123,7 @@ public class WeeklyResultService {
     public void updateWeeklyResults(LocalDate fromDate, LocalDate toDate) {
         String yearWeek = DateUtil.toYearWeek(toDate);
         List<WeeklyResult> weeklyResults = weeklyResultRepository.findWeeklyResultByYearWeek(yearWeek);
-        List<SolvedProblem> solvedProblems = solvedProblemQueryRepository.fetchWeeklyUserScores(fromDate, toDate);
+        List<SolvedProblem> solvedProblems = solvedProblemQueryRepository.getCorrectProblems(fromDate, toDate);
 
         Map<Long, Integer> userScoreMap = solvedProblems.stream()
                 .collect(Collectors.groupingBy(
@@ -132,13 +132,15 @@ public class WeeklyResultService {
                 ));
 
         for (WeeklyResult weeklyResult : weeklyResults) {
-            int score = userScoreMap.get(weeklyResult.getUserId());
+            int score = userScoreMap.getOrDefault(weeklyResult.getUserId(), 0);
+            int fine = 0;
             weeklyResult.setScore(score);
             if (weeklyResult.getState() == WeeklyResultState.None) {
                 WeeklyResultState state = getWeeklyResultState(score);
                 weeklyResult.setState(state);
-                weeklyResult.setFine(getFineAmount(state));
+                fine = getFineAmount(state);
             }
+            weeklyResult.setFine(fine);
         }
     }
 

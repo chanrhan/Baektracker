@@ -42,3 +42,6 @@ org-springframework-boot-spring-boot-starter-tomcat = { module = "org.springfram
 org-springframework-boot-spring-boot-starter-web = { module = "org.springframework.boot:spring-boot-starter-web", version.ref = "org-springframework-boot-spring-boot-starter-web" }
 org-springframework-security-spring-security-test = { module = "org.springframework.security:spring-security-test", version.ref = "org-springframework-security-spring-security-test" }
 org-webjars-jquery = { module = "org.webjars:jquery", version.ref = "org-webjars-jquery" }
+org-junit-jupiter-junit-jupiter = { module = "org.junit.jupiter:junit-jupiter" }
+org-mockito-mockito-junit-jupiter = { module = "org.mockito:mockito-junit-jupiter" }
+org-assertj-assertj-core = { module = "org.assertj:assertj-core" }

@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
@@ -19,6 +20,7 @@ import org.hibernate.annotations.ColumnDefault;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -55,4 +57,5 @@ public class User {
     public void setStreak(int streak) {
         this.streak = streak;
     }
+
 }

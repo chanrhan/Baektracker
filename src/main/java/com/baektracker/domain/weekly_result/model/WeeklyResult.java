@@ -17,13 +17,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "weekly_results")
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class WeeklyResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,8 +82,8 @@ public class WeeklyResult {
                 .build();
     }
 
-    @Override
-    public String toString() {
-        return String.format("(name: %s, week_dt: %s, score: %s, fine: %s\n", user.getNickname(), weekDt, score, fine);
-    }
+//    @Override
+//    public String toString() {
+//        return String.format("(name: %s, week_dt: %s, score: %s, fine: %s\n", user.getNickname(), weekDt, score, fine);
+//    }
 }

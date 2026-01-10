@@ -19,6 +19,7 @@ import com.baektracker.domain.weekly_result.repository.WeeklyResultRepository;
 import com.baektracker.global.code.ApiResponseCode;
 import com.baektracker.global.exception.CustomException;
 import com.baektracker.mapper.WeeklyResultMapper;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -97,13 +98,18 @@ public class WeeklyResultService {
 
     @Transactional
     public void updateWeekPass(WeekPassRequestDto dto) {
-        String yearWeek = DateUtil.toYearWeek(dto.date());
+        LocalDate date = dto.date();
+        String yearWeek = DateUtil.toYearWeek(date);
         WeeklyResult weeklyResult = weeklyResultRepository.findWeeklyResultByYearWeekAndUser_Id(yearWeek, dto.id())
                 .orElseThrow();
         User user = weeklyResult.getUser();
 
         if (!passwordEncoder.matches(dto.password(), user.getPassword())) {
             throw CustomException.of(ApiResponseCode.INVALID_PASSWORD);
+        }
+
+        if (date.getDayOfWeek().equals(DayOfWeek.SATURDAY) || date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+            throw CustomException.of(ApiResponseCode.PASS_NOT_ALLOWED, "주간 패스는 평일에만 사용할 수 있습니다.");
         }
 
         WeeklyResultState state = dto.activate() ? WeeklyResultState.WeekPass : WeeklyResultState.None;

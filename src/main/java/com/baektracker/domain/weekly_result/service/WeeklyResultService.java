@@ -126,9 +126,9 @@ public class WeeklyResultService {
 
     @Transactional
     public void updateWeeklyResults(LocalDate fromDate, LocalDate toDate) {
-        String yearWeek = DateUtil.toYearWeek(toDate);
+        String yearWeek = DateUtil.toYearWeek(fromDate);
         List<WeeklyResult> weeklyResults = weeklyResultRepository.findWeeklyResultByYearWeek(yearWeek);
-        List<SolvedProblem> solvedProblems = solvedProblemQueryRepository.getCorrectProblems(fromDate, toDate);
+        List<SolvedProblem> solvedProblems = solvedProblemQueryRepository.getSolvedCorrectProblems(fromDate, toDate);
 
         Map<Long, Integer> userScoreMap = solvedProblems.stream()
                 .collect(Collectors.groupingBy(

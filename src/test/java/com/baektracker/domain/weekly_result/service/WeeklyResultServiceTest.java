@@ -108,7 +108,7 @@ class WeeklyResultServiceTest {
                 .tryDt(LocalDate.of(2026, 1, 2))
                 .build();
 
-        given(solvedProblemQueryRepository.getCorrectProblems(from, to))
+        given(solvedProblemQueryRepository.getSolvedCorrectProblems(from, to))
                 .willReturn(List.of(sp1));
 
         given(problemService.mapProblemToScore(sp1)).willReturn(20);
@@ -180,7 +180,7 @@ class WeeklyResultServiceTest {
                 .tryDt(LocalDate.of(2026, 1, 4))
                 .build();
 
-        given(solvedProblemQueryRepository.getCorrectProblems(from, to))
+        given(solvedProblemQueryRepository.getSolvedCorrectProblems(from, to))
                 .willReturn(List.of(sp1, sp2, sp3));
 
         given(problemService.mapProblemToScore(sp1)).willReturn(20);
@@ -229,7 +229,7 @@ class WeeklyResultServiceTest {
                 .tryDt(LocalDate.of(2026, 1, 2))
                 .build();
 
-        given(solvedProblemQueryRepository.getCorrectProblems(from, to))
+        given(solvedProblemQueryRepository.getSolvedCorrectProblems(from, to))
                 .willReturn(List.of(sp1));
 
         given(problemService.mapProblemToScore(sp1)).willReturn(20);

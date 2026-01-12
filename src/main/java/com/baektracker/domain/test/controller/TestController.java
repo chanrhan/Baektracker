@@ -19,7 +19,7 @@ public class TestController {
     @GetMapping("/job")
     public ResponseEntity<Void> testWeeklyResultJob(@RequestParam LocalDate date) {
         LocalDate fromDate = date.minusDays(6);
-        System.out.printf("test: %s - %s", date, fromDate);
+        System.out.printf("test: %s - %s", fromDate, date);
         weeklyResultService.updateWeeklyResults(fromDate, date);
         return ResponseEntity.noContent().build();
     }

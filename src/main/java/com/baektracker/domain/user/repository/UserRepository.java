@@ -18,11 +18,9 @@ public interface UserRepository extends JpaRepository<User, Long> {
                            u.password,
                            u.level,
                            u.lastRead,
-                           u.streak,
-                           count(wr.state)
+                           u.streak
                     )
                 from User u
-                left join WeeklyResult wr on u.id=wr.user.id and wr.state=3
                 group by u.id
                 order by u.level desc
             """)

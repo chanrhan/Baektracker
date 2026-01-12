@@ -1,4 +1,4 @@
-package com.baektracker.domain.weekly_result.job;
+package com.baektracker.domain.weekly_result.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
@@ -15,7 +15,6 @@ import com.baektracker.domain.user.repository.UserRepository;
 import com.baektracker.domain.weekly_result.code.WeeklyResultState;
 import com.baektracker.domain.weekly_result.model.WeeklyResult;
 import com.baektracker.domain.weekly_result.repository.WeeklyResultRepository;
-import com.baektracker.domain.weekly_result.service.WeeklyResultService;
 import com.baektracker.mapper.WeeklyResultMapper;
 import java.time.LocalDate;
 import java.util.List;
@@ -81,7 +80,7 @@ class WeeklyResultServiceTest {
         // given
         LocalDate from = LocalDate.of(2026, 1, 1);
         LocalDate to = LocalDate.of(2026, 1, 7);
-        String yearWeek = DateUtil.toYearWeek(to);
+        String yearWeek = DateUtil.toYearWeek(from);
 
         User u1 = User.builder().id(1L).build();
 
@@ -127,7 +126,7 @@ class WeeklyResultServiceTest {
         // given
         LocalDate from = LocalDate.of(2026, 1, 1);
         LocalDate to = LocalDate.of(2026, 1, 7);
-        String yearWeek = DateUtil.toYearWeek(to);
+        String yearWeek = DateUtil.toYearWeek(from);
 
         User u1 = User.builder().id(1L).build();
 
@@ -202,7 +201,7 @@ class WeeklyResultServiceTest {
         // given
         LocalDate from = LocalDate.of(2026, 1, 1);
         LocalDate to = LocalDate.of(2026, 1, 7);
-        String yearWeek = DateUtil.toYearWeek(to);
+        String yearWeek = DateUtil.toYearWeek(from);
 
         User u1 = User.builder().id(1L).build();
 

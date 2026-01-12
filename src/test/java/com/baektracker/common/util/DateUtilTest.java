@@ -1,5 +1,7 @@
 package com.baektracker.common.util;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.time.LocalDate;
 import org.junit.jupiter.api.Test;
 
@@ -10,7 +12,7 @@ public class DateUtilTest {
         LocalDate date = LocalDate.of(2025, 12, 29);
 
         String yearWeek = DateUtil.toYearWeek(date);
-        System.out.println(yearWeek);
+        assertThat(yearWeek).isEqualTo("2025-53");
     }
 
 }

@@ -1,6 +1,6 @@
 package com.baektracker.domain.user.controller;
 
-import com.baektracker.domain.user.dto.UserProfile;
+import com.baektracker.domain.user.dto.UserInfo;
 import com.baektracker.domain.user.dto.request.UpdatePasswordRequestDto;
 import com.baektracker.domain.user.service.UserService;
 import java.util.List;
@@ -22,7 +22,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("")
-    public ResponseEntity<List<UserProfile>> getAllUsers() {
+    public ResponseEntity<List<UserInfo>> getAllUsers() {
         return ResponseEntity.ok(userService.getUsers());
     }
 

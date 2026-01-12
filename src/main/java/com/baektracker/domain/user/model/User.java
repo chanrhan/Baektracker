@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -38,6 +39,10 @@ public class User {
     @ColumnDefault("0")
     @Column(name = "streak", nullable = false)
     private Integer streak;
+
+    @Setter
+    @Column(name = "level", nullable = true)
+    private Integer level;
 
     @ColumnDefault("-1")
     @Column(name = "last_read", nullable = false)

@@ -54,6 +54,10 @@ public class User {
         this.lastRead = lastRead;
     }
 
+    public void updateLastReadTime(LocalDateTime lastReadTime) {
+        this.lastReadTime = lastReadTime;
+    }
+
     public void setStreak(int streak) {
         this.streak = streak;
     }

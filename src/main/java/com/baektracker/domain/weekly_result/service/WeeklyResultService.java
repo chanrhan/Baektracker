@@ -109,7 +109,7 @@ public class WeeklyResultService {
         }
 
         if (date.getDayOfWeek().equals(DayOfWeek.SATURDAY) || date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
-            throw CustomException.of(ApiResponseCode.PASS_NOT_ALLOWED, "주간 패스는 평일에만 사용할 수 있습니다.");
+            throw CustomException.of(ApiResponseCode.WEEK_PASS_NOT_ALLOWED);
         }
 
         WeeklyResultState state = dto.activate() ? WeeklyResultState.WeekPass : WeeklyResultState.None;
@@ -117,10 +117,9 @@ public class WeeklyResultService {
     }
 
     public void insertInitialWeeklyResults(LocalDate date) {
-        String yearWeek = DateUtil.toYearWeek(date);
         List<User> users = userRepository.findAll();
         List<WeeklyResult> weeklyResults = users.stream()
-                .map(user -> WeeklyResult.from(yearWeek, user))
+                .map(user -> WeeklyResult.from(date, user))
                 .toList();
         weeklyResultRepository.saveAll(weeklyResults);
     }

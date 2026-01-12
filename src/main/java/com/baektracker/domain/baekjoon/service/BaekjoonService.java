@@ -12,6 +12,7 @@ import com.baektracker.global.code.ApiResponseCode;
 import com.baektracker.global.exception.CustomException;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,8 +38,6 @@ public class BaekjoonService {
     public void loadBaekjoonProblemStatus() {
         List<User> users = userRepository.findAll();
         for (User user : users) {
-            int count = 0;
-
             List<SolvedProblem> scrappedProblems = new ArrayList<>();
             int top = -1;
             do {
@@ -60,9 +59,8 @@ public class BaekjoonService {
                 System.out.printf("qwe (%s) scrapped : %d, last-read: %d\n", user.getUsername(),
                         scrappedProblems.size(), updatedLastRead);
                 user.updateLastRead(updatedLastRead);
+                user.updateLastReadTime(LocalDateTime.now());
                 solvedProblemRepository.saveAll(scrappedProblems);
-//                solvedProblemRepository.flush();
-//                userRepository.flush();
             }
         }
     }

@@ -23,6 +23,12 @@ dependencies {
     implementation libs.org.mybatis.spring.boot.mybatis.spring.boot.starter
     runtimeOnly libs.org.springframework.boot.spring.boot.devtools
 
+    // Test
+    testImplementation libs.org.junit.jupiter.junit.jupiter
+    testImplementation libs.org.mockito.mockito.junit.jupiter
+    testImplementation libs.org.assertj.assertj.core
+
+
     // JPA
     implementation libs.org.springframework.boot.spring.boot.starter.data.jpa
 
@@ -75,6 +81,10 @@ tasks.withType(JavaCompile) {
 
 tasks.withType(Javadoc) {
     options.encoding = 'UTF-8'
+}
+
+tasks.test {
+    useJUnitPlatform()
 }
 
 def frontendDir = "$projectDir/src/main/frontend"

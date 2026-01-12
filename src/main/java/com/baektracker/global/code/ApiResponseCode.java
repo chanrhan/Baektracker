@@ -25,7 +25,7 @@ public enum ApiResponseCode {
     INVALID_FILE(HttpStatus.BAD_REQUEST, "유효하지 않은 파일입니다."),
     INVALID_FILE_NAME(HttpStatus.BAD_REQUEST, "유효하지 않은 파일명입니다."),
     INVALID_PASSWORD(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
-    PASS_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "월 ~ 금요일에만 주간 패스를 활성화할 수 있습니다."),
+    WEEK_PASS_NOT_ALLOWED(HttpStatus.BAD_REQUEST, "월 ~ 금요일에만 주간 패스를 활성화할 수 있습니다."),
 
     /**
      * 401 Unauthorized (인증 필요)

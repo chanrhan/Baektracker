@@ -5,8 +5,8 @@ public record UserInfo(
         String username,
         String nickname,
         String password,
+        Integer level,
         Integer lastRead,
-        Integer streak,
-        Long weekPassCount
+        Integer streak
 ) {
 }

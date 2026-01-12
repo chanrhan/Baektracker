@@ -213,21 +213,21 @@ export function UserProgress({fromDate, toDate}) {
                         return (
                             <div key={i} className={cm(styles.userProgressCard, `${score >= 60 && styles.completed}`)}>
                                 <div className={styles.userProgressAccent}
-                                     style={{backgroundColor: DesignUtils.getTierColor(user.tier)}}
+                                     style={{backgroundColor: DesignUtils.getTierColor(user.level)}}
                                 />
                                 <div className={styles.userProgressHeader}>
                                     <div className={styles.userProgressInfo}>
                                         <span
-                                            className={cm(styles.tierIcon, `${DesignUtils.getTierIconClass(user.tier)}`)}></span>
+                                            className={cm(styles.tierIcon, `${DesignUtils.getTierIconClass(user.level)}`)}></span>
                                         {/*<TierIcon tier={user.tier} size="small"/>*/}
                                         <span className={styles.userProgressName}>
                                             {user.nickname} {isWeekPass ?
                                             <span className={styles.pass_text}>이번주 패스</span> : ''}
-                                            {user.weekPassCount > 0 && (
-                                                <span className={styles.pass_text}>
-                                                    🛡️{user.weekPassCount}
-                                                </span>
-                                            )}
+                                            {/*{user.weekPassCount > 0 && (*/}
+                                            {/*    <span className={styles.pass_text}>*/}
+                                            {/*        🛡️{user.weekPassCount}*/}
+                                            {/*    </span>*/}
+                                            {/*)}*/}
                                         </span>
                                         <div className={styles.userProgressMenuContainer} data-dropdown={user.id}>
                                             <button

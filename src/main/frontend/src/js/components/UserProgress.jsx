@@ -223,11 +223,11 @@ export function UserProgress({fromDate, toDate}) {
                                         <span className={styles.userProgressName}>
                                             {user.nickname} {isWeekPass ?
                                             <span className={styles.pass_text}>이번주 패스</span> : ''}
-                                            {user.weekPassCount > 0 && (
-                                                <span className={styles.pass_text}>
-                                                    🛡️{user.weekPassCount}
-                                                </span>
-                                            )}
+                                            {/*{user.weekPassCount > 0 && (*/}
+                                            {/*    <span className={styles.pass_text}>*/}
+                                            {/*        🛡️{user.weekPassCount}*/}
+                                            {/*    </span>*/}
+                                            {/*)}*/}
                                         </span>
                                         <div className={styles.userProgressMenuContainer} data-dropdown={user.id}>
                                             <button

@@ -1,3 +1,5 @@
+# 해당 쿼리를 실행하려는 날짜 기준, 이전 주까지의 스트릭을 갱신
+# 이번 주의 주간 결과는 포함 안함
 set @start_date := (select date_sub(curdate(), interval weekday(curdate()) day));
 
 update users u

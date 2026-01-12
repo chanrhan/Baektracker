@@ -39,4 +39,4 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build (includes React build)
-        run: ./gradlew clean bootJar --no-daemon
+        run: ./gradlew clean build --no-daemon

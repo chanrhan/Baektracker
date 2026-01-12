@@ -19,6 +19,7 @@ import com.baektracker.domain.weekly_result.repository.WeeklyResultRepository;
 import com.baektracker.global.code.ApiResponseCode;
 import com.baektracker.global.exception.CustomException;
 import com.baektracker.mapper.WeeklyResultMapper;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -97,7 +98,8 @@ public class WeeklyResultService {
 
     @Transactional
     public void updateWeekPass(WeekPassRequestDto dto) {
-        String yearWeek = DateUtil.toYearWeek(dto.date());
+        LocalDate date = dto.date();
+        String yearWeek = DateUtil.toYearWeek(date);
         WeeklyResult weeklyResult = weeklyResultRepository.findWeeklyResultByYearWeekAndUser_Id(yearWeek, dto.id())
                 .orElseThrow();
         User user = weeklyResult.getUser();
@@ -106,24 +108,27 @@ public class WeeklyResultService {
             throw CustomException.of(ApiResponseCode.INVALID_PASSWORD);
         }
 
+        if (date.getDayOfWeek().equals(DayOfWeek.SATURDAY) || date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+            throw CustomException.of(ApiResponseCode.WEEK_PASS_NOT_ALLOWED);
+        }
+
         WeeklyResultState state = dto.activate() ? WeeklyResultState.WeekPass : WeeklyResultState.None;
         weeklyResult.setState(state);
     }
 
     public void insertInitialWeeklyResults(LocalDate date) {
-        String yearWeek = DateUtil.toYearWeek(date);
         List<User> users = userRepository.findAll();
         List<WeeklyResult> weeklyResults = users.stream()
-                .map(user -> WeeklyResult.from(yearWeek, user))
+                .map(user -> WeeklyResult.from(date, user))
                 .toList();
         weeklyResultRepository.saveAll(weeklyResults);
     }
 
     @Transactional
     public void updateWeeklyResults(LocalDate fromDate, LocalDate toDate) {
-        String yearWeek = DateUtil.toYearWeek(toDate);
+        String yearWeek = DateUtil.toYearWeek(fromDate);
         List<WeeklyResult> weeklyResults = weeklyResultRepository.findWeeklyResultByYearWeek(yearWeek);
-        List<SolvedProblem> solvedProblems = solvedProblemQueryRepository.fetchWeeklyUserScores(fromDate, toDate);
+        List<SolvedProblem> solvedProblems = solvedProblemQueryRepository.getSolvedCorrectProblems(fromDate, toDate);
 
         Map<Long, Integer> userScoreMap = solvedProblems.stream()
                 .collect(Collectors.groupingBy(
@@ -132,13 +137,15 @@ public class WeeklyResultService {
                 ));
 
         for (WeeklyResult weeklyResult : weeklyResults) {
-            int score = userScoreMap.get(weeklyResult.getUserId());
+            int score = userScoreMap.getOrDefault(weeklyResult.getUserId(), 0);
+            int fine = 0;
             weeklyResult.setScore(score);
             if (weeklyResult.getState() == WeeklyResultState.None) {
                 WeeklyResultState state = getWeeklyResultState(score);
                 weeklyResult.setState(state);
-                weeklyResult.setFine(getFineAmount(state));
+                fine = getFineAmount(state);
             }
+            weeklyResult.setFine(fine);
         }
     }
 

@@ -7,18 +7,21 @@
         set @start_date := (select date_sub(#{date}, interval weekday(#{date}) day));
 
         select u.id,
-        (with recursive base as (select @start_date as dt,
-        0 as cnt
-        union all
-        select date_sub(dt, interval 1 week) as dt,
-        IF(ws.state = 1, cnt + 1, cnt) as cnt
-        from base
-        left outer join weekly_results ws
-        on date_format(dt, '%Y-%u') = ws.year_week and ws.id = u.id
-        where ws.state = 1
-        or ws.state = 3)
-        select max(cnt)
-        from base) as streak
+               (with recursive base as (select @start_date as dt,
+                                               0           as cnt,
+                                               0           as state
+                                        union all
+                                        select date_sub(dt, interval 1 week)        as dt,
+                                               IF(ws.state in (1, 3), cnt + 1, cnt) as cnt,
+                                               ws.state                             as state
+                                        from base
+                                                 left outer join weekly_results ws
+                                                                 on ws.year_week =
+                                                                    date_format(date_sub(dt, interval 1 week), '%Y-%u') and
+                                                                    ws.user_id = u.id
+                                        where ws.state in (1, 3))
+                select max(cnt)
+                from base) as streak
         from users u
     </select>
 </mapper>

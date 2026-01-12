@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 public class SolvedProblemQueryRepository {
     private final JPAQueryFactory queryFactory;
 
-    public List<SolvedProblem> fetchWeeklyUserScores(LocalDate beforeDate, LocalDate afterDate) {
+    public List<SolvedProblem> getSolvedCorrectProblems(LocalDate beforeDate, LocalDate afterDate) {
         QSolvedProblem sp = QSolvedProblem.solvedProblem;
         QSolvedProblem sp2 = new QSolvedProblem("sp2");
 

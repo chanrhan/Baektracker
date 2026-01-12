@@ -1,5 +1,6 @@
 package com.baektracker.domain.weekly_result.model;
 
+import com.baektracker.common.util.DateUtil;
 import com.baektracker.domain.user.model.User;
 import com.baektracker.domain.weekly_result.code.WeeklyResultState;
 import com.baektracker.domain.weekly_result.converter.WeeklyResultStatusConverter;
@@ -17,13 +18,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "weekly_results")
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString
 public class WeeklyResult {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,18 +73,14 @@ public class WeeklyResult {
         this.state = state;
     }
 
-    public static WeeklyResult from(String yearWeek, User user) {
+    public static WeeklyResult from(LocalDate date, User user) {
         return WeeklyResult.builder()
-                .yearWeek(yearWeek)
+                .weekDt(date)
+                .yearWeek(DateUtil.toYearWeek(date))
                 .score(0)
                 .state(WeeklyResultState.None)
                 .fine(0)
                 .user(user)
                 .build();
-    }
-
-    @Override
-    public String toString() {
-        return String.format("(name: %s, week_dt: %s, score: %s, fine: %s\n", user.getNickname(), weekDt, score, fine);
     }
 }

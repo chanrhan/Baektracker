@@ -25,6 +25,7 @@ export function UserProgress({fromDate, toDate}) {
 
     useEffect(() => {
         getAllUsers()
+        initLoad();
     }, []);
 
     useEffect(() => {
@@ -32,21 +33,22 @@ export function UserProgress({fromDate, toDate}) {
     }, [fromDate, toDate]);
 
     const getAllUsers = () => {
-        setIsLoadingBaekjoon(true)
+        // setIsLoadingBaekjoon(true)
         userApi.getUsers().then(({data}) => {
             if (data) {
                 setUsers(data);
             }
-            initLoad();
+            getWeeklyUsersProgress()
         })
     }
 
     const initLoad = () => {
-
+        setIsLoadingBaekjoon(true)
         problemApi.loadBaekjoon().then(({data}) => {
-            setIsLoadingBaekjoon(false)
             if (data) {
                 getWeeklyUsersProgress()
+            } else {
+                setIsLoadingBaekjoon(false)
             }
         }).catch(() => {
             setIsLoadingBaekjoon(false)
@@ -62,6 +64,7 @@ export function UserProgress({fromDate, toDate}) {
                 }
                 setProblems(ob);
             }
+            setIsLoadingBaekjoon(false)
         })
     }
     const getProgressPercentage = (current, target) => {
@@ -197,9 +200,17 @@ export function UserProgress({fromDate, toDate}) {
         )
     }
 
+    const reload = () => {
+        initLoad()
+    }
+
     return (
         <section className={styles.progressSection}>
-            <h2 className={styles.sectionTitle}>개별 진행 현황</h2>
+            <div className={styles.titleGroup}>
+                <h2 className={styles.sectionTitle}>개별 진행 현황</h2>
+                <span className={cm(styles.reloadIcon, `${isLoadingBaekjoon && styles.loading}`)}
+                      onClick={reload}></span>
+            </div>
             <div className={styles.userProgressContainer}>
                 {isLoadingBaekjoon ? (
                     users && users.map((user, i) => renderSkeletonCard(i))

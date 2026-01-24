@@ -9,7 +9,6 @@ import com.baektracker.domain.user.model.User;
 import com.baektracker.domain.user.repository.UserRepository;
 import com.baektracker.domain.weekly_result.code.WeeklyResultState;
 import com.baektracker.domain.weekly_result.dto.UserFine;
-import com.baektracker.domain.weekly_result.dto.UserStreak;
 import com.baektracker.domain.weekly_result.dto.response.MonthFineStatusResponse;
 import com.baektracker.domain.weekly_result.dto.response.MonthFineStatusResponse.InnerUserMonthFineItem;
 import com.baektracker.domain.weekly_result.dto.response.TotalFineStatusResponse;
@@ -149,22 +148,23 @@ public class WeeklyResultService {
         }
     }
 
-    @Transactional
+    @Transactional(transactionManager = "mybatisTxManager")
     public void updateUserStreaks(LocalDate fromDate) {
-        List<User> users = userRepository.findAll();
-        List<UserStreak> streaks = weeklyResultMapper.getStreaks(fromDate);
-        Map<Long, Integer> userStreakMap = streaks.stream()
-                .collect(Collectors.toMap(
-                        UserStreak::id,
-                        UserStreak::streak
-                ));
-        for (User user : users) {
-            if (!userStreakMap.containsKey(user.getId())) {
-                continue;
-            }
-            int streak = userStreakMap.get(user.getId());
-            user.setStreak(streak);
-        }
+        weeklyResultMapper.updateStreaks(fromDate);
+//        List<User> users = userRepository.findAll();
+//        List<UserStreak> streaks = weeklyResultMapper.updateStreaks(fromDate);
+//        Map<Long, Integer> userStreakMap = streaks.stream()
+//                .collect(Collectors.toMap(
+//                        UserStreak::id,
+//                        UserStreak::streak
+//                ));
+//        for (User user : users) {
+//            if (!userStreakMap.containsKey(user.getId())) {
+//                continue;
+//            }
+//            int streak = userStreakMap.get(user.getId());
+//            user.setStreak(streak);
+//        }
     }
 
     private WeeklyResultState getWeeklyResultState(int score) {

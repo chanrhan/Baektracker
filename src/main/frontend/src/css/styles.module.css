@@ -65,6 +65,37 @@
     min-height: 600px;
 }
 
+.progressSection .titleGroup {
+    display: flex;
+}
+
+.progressSection .titleGroup .reloadIcon {
+    margin-left: 14px;
+    width: 26px;
+    height: 26px;
+    background: url(../images/relaod_blue_icon.png) no-repeat center / 100%;
+    opacity: 0.3;
+    cursor: pointer;
+}
+
+.progressSection .titleGroup .reloadIcon.loading {
+    opacity: 1;
+    animation: loadingAnim 1s linear infinite;
+}
+
+@keyframes loadingAnim {
+    0% {
+        rotate: 0deg;
+    }
+    100% {
+        rotate: 360deg;
+    }
+}
+
+.progressSection .titleGroup .reloadIcon:hover {
+    opacity: 1;
+}
+
 .progressSection .sectionTitle {
     font-size: 18px;
     font-weight: 600;

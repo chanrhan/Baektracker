@@ -35,7 +35,8 @@ public class BaekjoonService {
     private static final String Baekjoon_Problem_Status_Page_URL = "https://www.acmicpc.net/status";
 
     @Transactional
-    public void loadBaekjoonProblemStatus() {
+    public int loadBaekjoonProblemStatus() {
+        int count = 0;
         List<User> users = userRepository.findAll();
         for (User user : users) {
             List<SolvedProblem> scrappedProblems = new ArrayList<>();
@@ -56,13 +57,15 @@ public class BaekjoonService {
 
             if (!scrappedProblems.isEmpty()) {
                 int updatedLastRead = scrappedProblems.get(0).getSubmitId();
-                System.out.printf("qwe (%s) scrapped : %d, last-read: %d\n", user.getUsername(),
-                        scrappedProblems.size(), updatedLastRead);
+//                System.out.printf("qwe (%s) scrapped : %d, last-read: %d\n", user.getUsername(),
+//                        scrappedProblems.size(), updatedLastRead);
                 user.updateLastRead(updatedLastRead);
                 user.updateLastReadTime(LocalDateTime.now());
                 solvedProblemRepository.saveAll(scrappedProblems);
+                count = scrappedProblems.size();
             }
         }
+        return count;
     }
 
     private List<SolvedProblem> scrapProblemPage(User user, int top, int lastReadIndex)

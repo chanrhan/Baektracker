@@ -3,7 +3,7 @@ server:
   ssl:
     enabled: true
     key-store-type: JKS
-    key-store: file:${SSL_KEY_PATH}
+    key-store: ${SSL_KEY_PATH}
     key-store-password: ${SSL_KEY_PASSWORD}
 
 spring:

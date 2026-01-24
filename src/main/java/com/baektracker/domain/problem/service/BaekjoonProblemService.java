@@ -13,6 +13,7 @@ import com.baektracker.domain.problem.model.BaekjoonProblem;
 import com.baektracker.domain.problem.model.SolvedProblem;
 import com.baektracker.domain.problem.queryRepository.SolvedProblemQueryRepository;
 import com.baektracker.domain.problem.repository.ProblemRepository;
+import com.baektracker.domain.problem.repository.SolvedProblemRepository;
 import com.baektracker.domain.user.model.User;
 import com.baektracker.domain.user.repository.UserRepository;
 import com.baektracker.domain.weekly_result.code.WeeklyResultState;
@@ -41,6 +42,7 @@ public class BaekjoonProblemService {
     private final ProblemRepository problemRepository;
     private final ProblemMapper problemMapper;
     private final SolvedProblemQueryRepository solvedProblemQueryRepository;
+    private final SolvedProblemRepository solvedProblemRepository;
     private final UserRepository userRepository;
     private final WeeklyResultRepository weeklyResultRepository;
 
@@ -63,7 +65,7 @@ public class BaekjoonProblemService {
 
     public Optional<ProblemInfo> getProblemInfo(int problemId) {
         SolvedAcProblem problem = solvedAcService.getProblemInfo(problemId);
-        System.out.printf("qwe get problem (%d) : %s\n", problemId, problem.titleKo());
+//        System.out.printf("qwe get problem (%d) : %s\n", problemId, problem.titleKo());
         return Optional.of(ProblemInfo.from(problem));
     }
 
@@ -73,6 +75,8 @@ public class BaekjoonProblemService {
         LocalDate toDate = fromDate.plusDays(6);
         List<User> users = userRepository.findAll();
         List<SolvedProblem> solvedProblems = solvedProblemQueryRepository.fetchUserProgresses(fromDate, toDate);
+        List<SolvedProblem> coSolvedUsers = solvedProblemRepository.findSolvedProblemByResultId(
+                SolvedAcResultType.CORRECT.getStatus());
         String yearWeek = DateUtil.toYearWeek(fromDate);
         List<WeeklyResult> weeklyResults = weeklyResultRepository.findWeeklyResultByYearWeek(yearWeek);
 
@@ -86,7 +90,7 @@ public class BaekjoonProblemService {
                         this::isWeekPass
                 ));
 
-        Map<Integer, List<String>> coSolverMap = solvedProblems.stream()
+        Map<Integer, List<String>> coSolverMap = coSolvedUsers.stream()
                 .collect(Collectors.groupingBy(
                         SolvedProblem::getProblemId,
                         Collectors.mapping(SolvedProblem::getUserNickname, Collectors.toList())

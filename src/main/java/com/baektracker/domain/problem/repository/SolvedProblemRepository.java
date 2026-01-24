@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SolvedProblemRepository extends JpaRepository<SolvedProblem, Long> {
     List<SolvedProblem> findSolvedProblemsByTryDtBetween(LocalDate tryDtAfter, LocalDate tryDtBefore);
+
+    List<SolvedProblem> findSolvedProblemByResultId(Integer resultId);
 }

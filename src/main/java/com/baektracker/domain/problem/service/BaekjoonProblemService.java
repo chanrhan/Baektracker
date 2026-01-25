@@ -75,7 +75,7 @@ public class BaekjoonProblemService {
         LocalDate toDate = fromDate.plusDays(6);
         List<User> users = userRepository.findAll();
         List<SolvedProblem> solvedProblems = solvedProblemQueryRepository.fetchUserProgresses(fromDate, toDate);
-        List<SolvedProblem> coSolvedUsers = solvedProblemRepository.findSolvedProblemByResultId(
+        List<SolvedProblem> coSolvedUsers = solvedProblemRepository.findDistinctByResultId(
                 SolvedAcResultType.CORRECT.getStatus());
         String yearWeek = DateUtil.toYearWeek(fromDate);
         List<WeeklyResult> weeklyResults = weeklyResultRepository.findWeeklyResultByYearWeek(yearWeek);

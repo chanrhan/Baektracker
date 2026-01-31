@@ -1,4 +1,4 @@
-package com.baektracker.domain.weekly_result.job;
+package com.baektracker.global.job;
 
 import com.baektracker.domain.baekjoon.service.BaekjoonService;
 import com.baektracker.domain.weekly_result.service.WeeklyResultService;
@@ -21,8 +21,6 @@ public class RecordWeeklyResultJob implements Job {
 
     @Override
     public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
-        log.info("[Job] Weekly Job is processing!");
-
         LocalDate thisWeekDate = LocalDate.now();
         LocalDate fromDate = thisWeekDate.minusDays(6);
         if (thisWeekDate.getDayOfWeek() != DayOfWeek.SUNDAY) {

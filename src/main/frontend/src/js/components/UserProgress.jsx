@@ -7,6 +7,7 @@ import {useApi} from "../api/useApi";
 import useModal from "../setup/hook/useModal";
 import {ModalType} from "../setup/modal/ModalType";
 import {DateUtils} from "../setup/utils/DateUtils";
+import {useTooltipHandlers} from "../setup/utils/TooltipUtils";
 
 export function UserProgress({fromDate, toDate}) {
     const modal = useModal()
@@ -25,28 +26,36 @@ export function UserProgress({fromDate, toDate}) {
 
     useEffect(() => {
         getAllUsers()
+        initLoad();
     }, []);
 
     useEffect(() => {
         getWeeklyUsersProgress();
     }, [fromDate, toDate]);
 
+    const tooltip = useTooltipHandlers(<div>
+        <span style={{
+            fontWeight: '600'
+        }}>사용자의 레이팅입니다.</span>
+    </div>)
+
     const getAllUsers = () => {
-        setIsLoadingBaekjoon(true)
+        // setIsLoadingBaekjoon(true)
         userApi.getUsers().then(({data}) => {
             if (data) {
                 setUsers(data);
             }
-            initLoad();
+            getWeeklyUsersProgress()
         })
     }
 
     const initLoad = () => {
-
+        setIsLoadingBaekjoon(true)
         problemApi.loadBaekjoon().then(({data}) => {
-            setIsLoadingBaekjoon(false)
             if (data) {
                 getWeeklyUsersProgress()
+            } else {
+                setIsLoadingBaekjoon(false)
             }
         }).catch(() => {
             setIsLoadingBaekjoon(false)
@@ -62,6 +71,7 @@ export function UserProgress({fromDate, toDate}) {
                 }
                 setProblems(ob);
             }
+            setIsLoadingBaekjoon(false)
         })
     }
     const getProgressPercentage = (current, target) => {
@@ -197,9 +207,17 @@ export function UserProgress({fromDate, toDate}) {
         )
     }
 
+    const reload = () => {
+        initLoad()
+    }
+
     return (
         <section className={styles.progressSection}>
-            <h2 className={styles.sectionTitle}>개별 진행 현황</h2>
+            <div className={styles.titleGroup}>
+                <h2 className={styles.sectionTitle}>개별 진행 현황</h2>
+                <span className={cm(styles.reloadIcon, `${isLoadingBaekjoon && styles.loading}`)}
+                      onClick={reload}></span>
+            </div>
             <div className={styles.userProgressContainer}>
                 {isLoadingBaekjoon ? (
                     users && users.map((user, i) => renderSkeletonCard(i))
@@ -213,21 +231,21 @@ export function UserProgress({fromDate, toDate}) {
                         return (
                             <div key={i} className={cm(styles.userProgressCard, `${score >= 60 && styles.completed}`)}>
                                 <div className={styles.userProgressAccent}
-                                     style={{backgroundColor: DesignUtils.getTierColor(user.tier)}}
+                                     style={{backgroundColor: DesignUtils.getTierColor(user.level)}}
                                 />
                                 <div className={styles.userProgressHeader}>
                                     <div className={styles.userProgressInfo}>
                                         <span
-                                            className={cm(styles.tierIcon, `${DesignUtils.getTierIconClass(user.tier)}`)}></span>
+                                            className={cm(styles.tierIcon, `${DesignUtils.getTierIconClass(user.level)}`)}></span>
                                         {/*<TierIcon tier={user.tier} size="small"/>*/}
                                         <span className={styles.userProgressName}>
-                                            {user.nickname} {isWeekPass ?
-                                            <span className={styles.pass_text}>이번주 패스</span> : ''}
-                                            {/*{user.weekPassCount > 0 && (*/}
-                                            {/*    <span className={styles.pass_text}>*/}
-                                            {/*        🛡️{user.weekPassCount}*/}
-                                            {/*    </span>*/}
-                                            {/*)}*/}
+                                            {user.nickname}
+                                            <span className={styles.rating_text} style={{
+                                                color: DesignUtils.getRatingColor(user.level)
+                                            }} onMouseEnter={tooltip.onMouseEnter}
+                                                  onMouseLeave={tooltip.onMouseLeave}>{user.rating}</span>
+                                            {isWeekPass ?
+                                                <span className={styles.pass_text}>PASS</span> : ''}
                                         </span>
                                         <div className={styles.userProgressMenuContainer} data-dropdown={user.id}>
                                             <button

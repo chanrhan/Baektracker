@@ -12,6 +12,7 @@ import com.baektracker.global.code.ApiResponseCode;
 import com.baektracker.global.exception.CustomException;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,11 +35,10 @@ public class BaekjoonService {
     private static final String Baekjoon_Problem_Status_Page_URL = "https://www.acmicpc.net/status";
 
     @Transactional
-    public void loadBaekjoonProblemStatus() {
+    public int loadBaekjoonProblemStatus() {
+        int count = 0;
         List<User> users = userRepository.findAll();
         for (User user : users) {
-            int count = 0;
-
             List<SolvedProblem> scrappedProblems = new ArrayList<>();
             int top = -1;
             do {
@@ -57,14 +57,15 @@ public class BaekjoonService {
 
             if (!scrappedProblems.isEmpty()) {
                 int updatedLastRead = scrappedProblems.get(0).getSubmitId();
-                System.out.printf("qwe (%s) scrapped : %d, last-read: %d\n", user.getUsername(),
-                        scrappedProblems.size(), updatedLastRead);
+//                System.out.printf("qwe (%s) scrapped : %d, last-read: %d\n", user.getUsername(),
+//                        scrappedProblems.size(), updatedLastRead);
                 user.updateLastRead(updatedLastRead);
+                user.updateLastReadTime(LocalDateTime.now());
                 solvedProblemRepository.saveAll(scrappedProblems);
-//                solvedProblemRepository.flush();
-//                userRepository.flush();
+                count += scrappedProblems.size();
             }
         }
+        return count;
     }
 
     private List<SolvedProblem> scrapProblemPage(User user, int top, int lastReadIndex)

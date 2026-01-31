@@ -11,6 +11,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.ColumnDefault;
 
@@ -39,6 +40,14 @@ public class User {
     @Column(name = "streak", nullable = false)
     private Integer streak;
 
+    @Setter
+    @Column(name = "level", nullable = true)
+    private Integer level;
+
+    @Setter
+    @Column(name = "rating")
+    private Integer rating;
+
     @ColumnDefault("-1")
     @Column(name = "last_read", nullable = false)
     private Integer lastRead;
@@ -52,6 +61,10 @@ public class User {
 
     public void updateLastRead(Integer lastRead) {
         this.lastRead = lastRead;
+    }
+
+    public void updateLastReadTime(LocalDateTime lastReadTime) {
+        this.lastReadTime = lastReadTime;
     }
 
     public void setStreak(int streak) {

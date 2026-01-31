@@ -154,7 +154,7 @@ export const DateUtils = {
 
         if (orgMonth === 12 && (days) >= (totalDays - orgDate)) {
             date.setFullYear(date.getFullYear() + 1);
-            date.setMonth(1);
+            date.setMonth(0);
             date.setDate((days) - (totalDays - orgDate));
         } else {
             date.setDate(orgDate + (days));

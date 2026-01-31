@@ -1,6 +1,7 @@
 package com.baektracker.global.config;
 
-import com.baektracker.domain.weekly_result.job.RecordWeeklyResultJob;
+import com.baektracker.global.job.RecordUserLevelJob;
+import com.baektracker.global.job.RecordWeeklyResultJob;
 import jakarta.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,10 +23,12 @@ public class JobConfig {
 
     @PostConstruct // '의존성 주입이 완료 된 후 실행되는 메소드'를 지정하는 어노테이션
     public void run() {
-        JobDetail codingStudyWeeklyJob = getJobDetail(RecordWeeklyResultJob.class, new HashMap());
+        JobDetail recordWeeklyResultJob = getJobDetail(RecordWeeklyResultJob.class, new HashMap());
+        JobDetail userLevelJob = getJobDetail(RecordUserLevelJob.class, new HashMap());
 
         try {
-            scheduler.scheduleJob(codingStudyWeeklyJob, getCronTrigger("0 59 23 ? * SUN")); // 매주 일요일 23:59
+            scheduler.scheduleJob(recordWeeklyResultJob, getCronTrigger("0 59 23 ? * SUN")); // 매주 일요일 23:59
+            scheduler.scheduleJob(userLevelJob, getCronTrigger("0 1 0 ? * *")); // 매일 23:59
         } catch (SchedulerException e) {
             throw new RuntimeException(e);
         }
@@ -41,13 +44,13 @@ public class JobConfig {
     // L : 일에서 사용하면 마지막 일, 요일에서는 마지막 요일(토요일)
     // W : 가장 가까운 평일 (예) 15W는 15일에서 가장 가까운 평일 (월 ~ 금)을 찾음
     // # : 몇째주의 무슨 요일을 표현 (예) 3#2 : 2번째주 수요일
-    public Trigger getCronTrigger(String scheduleExp) {
+    private Trigger getCronTrigger(String scheduleExp) {
         return TriggerBuilder.newTrigger()
                 .withSchedule(CronScheduleBuilder.cronSchedule(scheduleExp))
                 .startNow().build();
     }
 
-    public JobDetail getJobDetail(Class job, Map params) {
+    private JobDetail getJobDetail(Class job, Map params) {
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.putAll(params);
         return JobBuilder.newJob(job).usingJobData(jobDataMap).build();

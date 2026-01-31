@@ -44,6 +44,10 @@ public class User {
     @Column(name = "level", nullable = true)
     private Integer level;
 
+    @Setter
+    @Column(name = "rating")
+    private Integer rating;
+
     @ColumnDefault("-1")
     @Column(name = "last_read", nullable = false)
     private Integer lastRead;

@@ -478,6 +478,12 @@
     padding: 1px 5px;
 }
 
+.userProgressName .rating_text {
+    margin: 0 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
 .userProgressName .pass_text {
     font-size: 16px;
     font-weight: 600;

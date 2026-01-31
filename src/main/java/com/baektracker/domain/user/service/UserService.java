@@ -48,6 +48,7 @@ public class UserService {
 
             try {
                 user.setLevel(solvedAcUser.items().get(0).tier());
+                user.setRating(solvedAcUser.items().get(0).rating());
             } catch (NullPointerException e) {
                 e.printStackTrace();
                 continue;

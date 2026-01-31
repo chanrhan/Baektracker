@@ -62,7 +62,7 @@ public class BaekjoonService {
                 user.updateLastRead(updatedLastRead);
                 user.updateLastReadTime(LocalDateTime.now());
                 solvedProblemRepository.saveAll(scrappedProblems);
-                count = scrappedProblems.size();
+                count += scrappedProblems.size();
             }
         }
         return count;

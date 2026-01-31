@@ -17,12 +17,13 @@ public interface UserRepository extends JpaRepository<User, Long> {
                            u.nickname,
                            u.password,
                            u.level,
+                           u.rating,
                            u.lastRead,
                            u.streak
                     )
                 from User u
                 group by u.id
-                order by u.level desc
+                order by u.rating desc
             """)
     List<UserInfo> getUserInfo();
 }

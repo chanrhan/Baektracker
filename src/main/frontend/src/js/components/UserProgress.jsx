@@ -7,6 +7,7 @@ import {useApi} from "../api/useApi";
 import useModal from "../setup/hook/useModal";
 import {ModalType} from "../setup/modal/ModalType";
 import {DateUtils} from "../setup/utils/DateUtils";
+import {useTooltipHandlers} from "../setup/utils/TooltipUtils";
 
 export function UserProgress({fromDate, toDate}) {
     const modal = useModal()
@@ -31,6 +32,12 @@ export function UserProgress({fromDate, toDate}) {
     useEffect(() => {
         getWeeklyUsersProgress();
     }, [fromDate, toDate]);
+
+    const tooltip = useTooltipHandlers(<div>
+        <span style={{
+            fontWeight: '600'
+        }}>사용자의 레이팅입니다.</span>
+    </div>)
 
     const getAllUsers = () => {
         // setIsLoadingBaekjoon(true)
@@ -232,13 +239,13 @@ export function UserProgress({fromDate, toDate}) {
                                             className={cm(styles.tierIcon, `${DesignUtils.getTierIconClass(user.level)}`)}></span>
                                         {/*<TierIcon tier={user.tier} size="small"/>*/}
                                         <span className={styles.userProgressName}>
-                                            {user.nickname} {isWeekPass ?
-                                            <span className={styles.pass_text}>이번주 패스</span> : ''}
-                                            {/*{user.weekPassCount > 0 && (*/}
-                                            {/*    <span className={styles.pass_text}>*/}
-                                            {/*        🛡️{user.weekPassCount}*/}
-                                            {/*    </span>*/}
-                                            {/*)}*/}
+                                            {user.nickname}
+                                            <span className={styles.rating_text} style={{
+                                                color: DesignUtils.getRatingColor(user.level)
+                                            }} onMouseEnter={tooltip.onMouseEnter}
+                                                  onMouseLeave={tooltip.onMouseLeave}>{user.rating}</span>
+                                            {isWeekPass ?
+                                                <span className={styles.pass_text}>PASS</span> : ''}
                                         </span>
                                         <div className={styles.userProgressMenuContainer} data-dropdown={user.id}>
                                             <button

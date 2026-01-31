@@ -6,6 +6,7 @@ public record UserInfo(
         String nickname,
         String password,
         Integer level,
+        Integer rating,
         Integer lastRead,
         Integer streak
 ) {

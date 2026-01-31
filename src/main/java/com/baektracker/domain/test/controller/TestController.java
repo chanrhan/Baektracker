@@ -26,7 +26,7 @@ public class TestController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/job/user-level")
+    @GetMapping("/job/user-info/update")
     public ResponseEntity<Void> testUserLevelJob() {
         userService.updateUserInfoFromSolvedAc();
         return ResponseEntity.noContent().build();

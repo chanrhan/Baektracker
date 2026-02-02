@@ -5,7 +5,7 @@ import java.time.LocalDate;
 public record WeekPassRequestDto(
         LocalDate date,
         Long id,
-        String password,
+//        String password,
         Boolean activate
 ) {
 }

@@ -101,11 +101,11 @@ public class WeeklyResultService {
         String yearWeek = DateUtil.toYearWeek(date);
         WeeklyResult weeklyResult = weeklyResultRepository.findWeeklyResultByYearWeekAndUser_Id(yearWeek, dto.id())
                 .orElseThrow();
-        User user = weeklyResult.getUser();
+//        User user = weeklyResult.getUser();
 
-        if (!passwordEncoder.matches(dto.password(), user.getPassword())) {
-            throw CustomException.of(ApiResponseCode.INVALID_PASSWORD);
-        }
+//        if (!passwordEncoder.matches(dto.password(), user.getPassword())) {
+//            throw CustomException.of(ApiResponseCode.INVALID_PASSWORD);
+//        }
 
         if (date.getDayOfWeek().equals(DayOfWeek.SATURDAY) || date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
             throw CustomException.of(ApiResponseCode.WEEK_PASS_NOT_ALLOWED);

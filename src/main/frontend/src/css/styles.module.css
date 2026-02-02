@@ -439,6 +439,11 @@
     background: rgba(143, 255, 137, 0.03);
 }
 
+.userProgressCard.passed {
+    border: 0.12rem solid #7bc2e8;
+    background: rgba(72, 187, 232, 0.09);
+}
+
 .userProgressCard:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }

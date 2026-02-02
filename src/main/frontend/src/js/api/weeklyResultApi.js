@@ -3,12 +3,11 @@ import {AxiosApi} from "../setup/api/ApiCommon";
 function weeklyResultApi() {
     const axiosApi = AxiosApi();
     return {
-        updateWeekPass: async (id, state, pwd) => {
+        updateWeekPass: async (id, state) => {
             return axiosApi.post(`/api/v1/weekly-result/pass`, {
                 id: id,
                 date: new Date(),
-                password: pwd,
-                activate: state === 1
+                activate: state
             });
         },
         getTotalFine: async () => {

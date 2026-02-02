@@ -17,16 +17,25 @@ export function GrantPassMenuModal(props) {
             setError(true);
             return;
         }
-        weeklyResultApi.updateWeekPass(props.id, state, password).then(({status}) => {
+        weeklyResultApi.updateWeekPass(props.id, state).then(({status}) => {
             if (status === 302 || status === 200) {
+                modal.openModal(ModalType.SNACKBAR.Info, {
+                    msg: "패스를 변경하였습니다."
+                })
                 if (props.onSubmit) {
                     props.onSubmit();
                 }
                 modal.closeModal(ModalType.MENU.Grant_Pass);
             } else {
+                modal.openModal(ModalType.SNACKBAR.Warn, {
+                    msg: "오류가 발생했습니다. 관리자에게 문의하세요."
+                })
                 setError(true);
             }
         }).catch(() => {
+            modal.openModal(ModalType.SNACKBAR.Warn, {
+                msg: "오류가 발생했습니다. 관리자에게 문의하세요."
+            })
             setError(true);
         })
     }

@@ -2,6 +2,7 @@ package com.baektracker.domain.problem.service;
 
 import com.baektracker.common.util.DateUtil;
 import com.baektracker.domain.problem.code.SolvedAcResultType;
+import com.baektracker.domain.problem.dto.CoSolver;
 import com.baektracker.domain.problem.dto.SolvedAcProblem;
 import com.baektracker.domain.problem.dto.SolvedAcProblems;
 import com.baektracker.domain.problem.dto.SolvedProblemDetail;
@@ -75,12 +76,12 @@ public class BaekjoonProblemService {
         LocalDate toDate = fromDate.plusDays(6);
         List<User> users = userRepository.findAll();
         List<SolvedProblem> solvedProblems = solvedProblemQueryRepository.fetchUserProgresses(fromDate, toDate);
-        List<SolvedProblem> coSolvedUsers = solvedProblemRepository.findDistinctByResultId(
+        List<CoSolver> coSolvedUsers = solvedProblemRepository.findDistinctByResultId(
                 SolvedAcResultType.CORRECT.getStatus());
         String yearWeek = DateUtil.toYearWeek(fromDate);
         List<WeeklyResult> weeklyResults = weeklyResultRepository.findWeeklyResultByYearWeek(yearWeek);
 
-        if (users.isEmpty() || solvedProblems.isEmpty()) {
+        if (users.isEmpty()) {
             return WeeklyUsersProgressResponse.from(progresses);
         }
         Map<Long, List<SolvedProblem>> userMap = new HashMap<>();
@@ -92,8 +93,8 @@ public class BaekjoonProblemService {
 
         Map<Integer, List<String>> coSolverMap = coSolvedUsers.stream()
                 .collect(Collectors.groupingBy(
-                        SolvedProblem::getProblemId,
-                        Collectors.mapping(SolvedProblem::getUserNickname, Collectors.toList())
+                        CoSolver::problemId,
+                        Collectors.mapping(CoSolver::nickname, Collectors.toList())
                 ));
         for (SolvedProblem solvedProblem : solvedProblems) {
             Long userId = solvedProblem.getUser().getId();

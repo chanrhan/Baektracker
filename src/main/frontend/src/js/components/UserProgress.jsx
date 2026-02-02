@@ -64,6 +64,7 @@ export function UserProgress({fromDate, toDate}) {
 
     const getWeeklyUsersProgress = () => {
         problemApi.getWeeklyUsersProgress(fromDate).then(({status, data}) => {
+            console.table(data)
             const ob = {};
             if (data && data.items) {
                 for (const detail of data.items) {
@@ -96,53 +97,53 @@ export function UserProgress({fromDate, toDate}) {
         }
     }
 
-    const getElementPosition = (element) => {
-        if (!element) return null
-        const rect = element.getBoundingClientRect()
-        return {
-            top: window.pageYOffset + rect.top,
-            left: window.pageXOffset + rect.left
-        }
-    }
+    // const getElementPosition = (element) => {
+    //     if (!element) return null
+    //     const rect = element.getBoundingClientRect()
+    //     return {
+    //         top: window.pageYOffset + rect.top,
+    //         left: window.pageXOffset + rect.left
+    //     }
+    // }
 
-    const openGrantPassModal = (e, id) => {
-        e.stopPropagation()
-        const threeDotsButton = threeDotsRefs.current[id]
-        if (threeDotsButton) {
-            const pos = getElementPosition(threeDotsButton)
-            if (pos) {
-                modal.openModal(ModalType.MENU.Grant_Pass, {
-                    id: id,
-                    top: pos.top + threeDotsButton.offsetHeight + 4,
-                    left: pos.left,
-                    width: threeDotsButton.offsetWidth,
-                    height: threeDotsButton.offsetHeight,
-                    onSubmit: () => {
-                        getWeeklyUsersProgress()
-                    }
-                })
-            }
-        }
-        setOpenDropdownId(null)
-    }
+    // const openGrantPassModal = (e, id) => {
+    //     e.stopPropagation()
+    //     const threeDotsButton = threeDotsRefs.current[id]
+    //     if (threeDotsButton) {
+    //         const pos = getElementPosition(threeDotsButton)
+    //         if (pos) {
+    //             modal.openModal(ModalType.MENU.Grant_Pass, {
+    //                 id: id,
+    //                 top: pos.top + threeDotsButton.offsetHeight + 4,
+    //                 left: pos.left,
+    //                 width: threeDotsButton.offsetWidth,
+    //                 height: threeDotsButton.offsetHeight,
+    //                 onSubmit: () => {
+    //                     getWeeklyUsersProgress()
+    //                 }
+    //             })
+    //         }
+    //     }
+    //     setOpenDropdownId(null)
+    // }
 
-    const openUpdatePasswordModal = (e, id) => {
-        e.stopPropagation()
-        const threeDotsButton = threeDotsRefs.current[id]
-        if (threeDotsButton) {
-            const pos = getElementPosition(threeDotsButton)
-            if (pos) {
-                modal.openModal(ModalType.MENU.Update_Password, {
-                    id: id,
-                    top: pos.top + threeDotsButton.offsetHeight + 4,
-                    left: pos.left,
-                    width: threeDotsButton.offsetWidth,
-                    height: threeDotsButton.offsetHeight
-                })
-            }
-        }
-        setOpenDropdownId(null)
-    }
+    // const openUpdatePasswordModal = (e, id) => {
+    //     e.stopPropagation()
+    //     const threeDotsButton = threeDotsRefs.current[id]
+    //     if (threeDotsButton) {
+    //         const pos = getElementPosition(threeDotsButton)
+    //         if (pos) {
+    //             modal.openModal(ModalType.MENU.Update_Password, {
+    //                 id: id,
+    //                 top: pos.top + threeDotsButton.offsetHeight + 4,
+    //                 left: pos.left,
+    //                 width: threeDotsButton.offsetWidth,
+    //                 height: threeDotsButton.offsetHeight
+    //             })
+    //         }
+    //     }
+    //     setOpenDropdownId(null)
+    // }
 
     const handleThreeDotsClick = (e, userId) => {
         e.stopPropagation()
@@ -211,6 +212,27 @@ export function UserProgress({fromDate, toDate}) {
         initLoad()
     }
 
+    const setPass = (id, state) => {
+        const newState = !(state === true);
+        weeklyResultApi.updateWeekPass(id, newState).then(({status}) => {
+            if (status === 302 || status === 200) {
+                modal.openModal(ModalType.SNACKBAR.Info, {
+                    msg: "패스를 변경하였습니다."
+                })
+                setOpenDropdownId(null)
+                getWeeklyUsersProgress()
+            } else {
+                modal.openModal(ModalType.SNACKBAR.Warn, {
+                    msg: "오류가 발생했습니다. 관리자에게 문의하세요."
+                })
+            }
+        }).catch(() => {
+            modal.openModal(ModalType.SNACKBAR.Warn, {
+                msg: "오류가 발생했습니다. 관리자에게 문의하세요."
+            })
+        })
+    }
+
     return (
         <section className={styles.progressSection}>
             <div className={styles.titleGroup}>
@@ -229,7 +251,8 @@ export function UserProgress({fromDate, toDate}) {
 
                         const problemList = userProgress?.problems;
                         return (
-                            <div key={i} className={cm(styles.userProgressCard, `${score >= 60 && styles.completed}`)}>
+                            <div key={i}
+                                 className={cm(styles.userProgressCard, `${score >= 60 && styles.completed}`, `${isWeekPass && styles.passed}`)}>
                                 <div className={styles.userProgressAccent}
                                      style={{backgroundColor: DesignUtils.getTierColor(user.level)}}
                                 />
@@ -264,18 +287,18 @@ export function UserProgress({fromDate, toDate}) {
                                                         DateUtils.isBetweenToday(fromDate, toDate) &&
                                                         <button
                                                             className={styles.userProgressDropdownItem}
-                                                            onClick={(e) => openGrantPassModal(e, user.id)}
+                                                            onClick={(e) => setPass(user.id, isWeekPass)}
                                                         >
                                                             주간 패스
                                                         </button>
                                                     }
 
-                                                    <button
-                                                        className={styles.userProgressDropdownItem}
-                                                        onClick={(e) => openUpdatePasswordModal(e, user.id)}
-                                                    >
-                                                        비밀번호 수정
-                                                    </button>
+                                                    {/*<button*/}
+                                                    {/*    className={styles.userProgressDropdownItem}*/}
+                                                    {/*    onClick={(e) => openUpdatePasswordModal(e, user.id)}*/}
+                                                    {/*>*/}
+                                                    {/*    비밀번호 수정*/}
+                                                    {/*</button>*/}
                                                 </div>
                                             )}
                                         </div>

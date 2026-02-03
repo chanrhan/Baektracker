@@ -16,6 +16,7 @@ public interface SolvedProblemRepository extends JpaRepository<SolvedProblem, Lo
                 sp.user.nickname
             )
             from SolvedProblem sp
+            where sp.resultId=:resultId
             """)
-    List<CoSolver> findDistinctByResultId(Integer resultId);
+    List<CoSolver> getCoSolverInfo(Integer resultId);
 }

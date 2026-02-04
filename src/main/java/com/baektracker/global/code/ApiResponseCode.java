@@ -70,6 +70,7 @@ public enum ApiResponseCode {
     TOKEN_PARSE_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "토큰 파싱 중 오류가 발생했습니다."),
     BAEKJOON_PAGE_SCRAP_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "백준 페이지 스크랩 중 오류가 발생했습니다."),
     SOLVED_AC_PROBLEM_SEARCH_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "[Solved-ac] 문제 정보를 가져오는 중 오류가 발생했습니다"),
+    SOLVED_AC_USER_INFO_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "[Solved-ac] 사용자 정보를 가져오는 중 오류가 발생했습니다"),
     SOLVED_AC_NOT_FOUND_USER(HttpStatus.INTERNAL_SERVER_ERROR, "[Solved-ac] 사용자 정보를 찾을 수 없습니다.");
 
     private final HttpStatus httpStatus;

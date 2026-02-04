@@ -485,8 +485,24 @@
 
 .userProgressName .rating_text {
     margin: 0 6px;
-    font-size: 14px;
+    font-size: 16px;
     cursor: pointer;
+}
+
+.userProgressName .increase_icon {
+    margin-left: 4px;
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 10px solid #1e90ff; /* 파란색 */
+}
+
+.userProgressName .increased_rating_text {
+    margin: 0 3px 0 2px;
+    font-size: 13px;
+    cursor: pointer;
+    color: #484848;
 }
 
 .userProgressName .pass_text {

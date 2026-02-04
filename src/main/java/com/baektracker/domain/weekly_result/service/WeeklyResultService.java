@@ -138,6 +138,7 @@ public class WeeklyResultService {
         for (WeeklyResult weeklyResult : weeklyResults) {
             int score = userScoreMap.getOrDefault(weeklyResult.getUserId(), 0);
             int fine = 0;
+            weeklyResult.setLastRating(weeklyResult.getUser().getRating());
             weeklyResult.setScore(score);
             if (weeklyResult.getState() == WeeklyResultState.None) {
                 WeeklyResultState state = getWeeklyResultState(score);

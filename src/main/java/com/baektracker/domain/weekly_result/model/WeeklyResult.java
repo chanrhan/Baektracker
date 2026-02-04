@@ -53,6 +53,9 @@ public class WeeklyResult {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "last_rating")
+    private Integer lastRating;
+
     public Long getUserId() {
         return user.getId();
     }

@@ -248,6 +248,7 @@ export function UserProgress({fromDate, toDate}) {
                         const userProgress = problems[user.id];
                         const score = userProgress ? userProgress.score : 0;
                         const isWeekPass = userProgress?.isWeekPass ?? false
+                        const increasedRating = userProgress.increasedRating > 0 ? userProgress.increasedRating : null;
 
                         const problemList = userProgress?.problems;
                         return (
@@ -266,7 +267,16 @@ export function UserProgress({fromDate, toDate}) {
                                             <span className={styles.rating_text} style={{
                                                 color: DesignUtils.getRatingColor(user.level)
                                             }} onMouseEnter={tooltip.onMouseEnter}
-                                                  onMouseLeave={tooltip.onMouseLeave}>{user.rating}</span>
+                                                  onMouseLeave={tooltip.onMouseLeave}>{user.rating}
+                                                {
+                                                    increasedRating && <>
+                                                        <span className={styles.increase_icon}></span>
+                                                        <span
+                                                            className={styles.increased_rating_text}>{increasedRating}</span>
+                                                    </>
+                                                }
+
+                                            </span>
                                             {isWeekPass ?
                                                 <span className={styles.pass_text}>PASS</span> : ''}
                                         </span>

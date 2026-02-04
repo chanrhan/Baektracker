@@ -6,6 +6,7 @@ public record WeeklyUserProgress(
         Long userId,
         Integer score,
         Boolean isWeekPass,
+        Integer increasedRating,
         List<SolvedProblemDetail> problems
 ) {
 

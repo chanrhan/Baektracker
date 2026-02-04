@@ -31,4 +31,11 @@ public class TestController {
         userService.updateUserInfoFromSolvedAc();
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/job/streak")
+    public ResponseEntity<Void> testUpdateStreak(@RequestParam LocalDate date) {
+        weeklyResultService.updateUserStreaks(date);
+        return ResponseEntity.noContent().build();
+    }
+
 }

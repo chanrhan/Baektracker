@@ -115,6 +115,7 @@ public class WeeklyResultService {
         weeklyResult.setState(state);
     }
 
+    @Transactional
     public void insertInitialWeeklyResults(LocalDate date) {
         List<User> users = userRepository.findAll();
         List<WeeklyResult> weeklyResults = users.stream()
@@ -138,7 +139,7 @@ public class WeeklyResultService {
         for (WeeklyResult weeklyResult : weeklyResults) {
             int score = userScoreMap.getOrDefault(weeklyResult.getUserId(), 0);
             int fine = 0;
-            weeklyResult.setLastRating(weeklyResult.getUser().getRating());
+//            weeklyResult.setLastRating(weeklyResult.getUser().getRating());
             weeklyResult.setScore(score);
             if (weeklyResult.getState() == WeeklyResultState.None) {
                 WeeklyResultState state = getWeeklyResultState(score);

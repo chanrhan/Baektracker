@@ -37,6 +37,6 @@ public class RecordWeeklyResultJob implements Job {
         weeklyResultService.insertInitialWeeklyResults(nextWeekDate);
 
         // 각 사용자별 스트릭 갱신
-        weeklyResultService.updateUserStreaks(fromDate);
+        weeklyResultService.updateUserStreaks(nextWeekDate);
     }
 }

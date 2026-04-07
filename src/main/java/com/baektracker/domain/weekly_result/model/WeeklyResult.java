@@ -53,6 +53,9 @@ public class WeeklyResult {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Column(name = "last_rating")
+    private Integer lastRating;
+
     public Long getUserId() {
         return user.getId();
     }
@@ -80,6 +83,7 @@ public class WeeklyResult {
                 .score(0)
                 .state(WeeklyResultState.None)
                 .fine(0)
+                .lastRating(user.getRating())
                 .user(user)
                 .build();
     }

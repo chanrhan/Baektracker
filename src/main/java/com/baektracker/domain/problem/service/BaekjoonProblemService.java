@@ -85,10 +85,10 @@ public class BaekjoonProblemService {
             return WeeklyUsersProgressResponse.from(progresses);
         }
         Map<Long, List<SolvedProblem>> userMap = new HashMap<>();
-        Map<Long, Boolean> weekPassMap = weeklyResults.stream()
+        Map<Long, WeeklyResult> weekPassMap = weeklyResults.stream()
                 .collect(Collectors.toMap(
                         WeeklyResult::getUserId,
-                        this::isWeekPass
+                        (v) -> v
                 ));
 
         Map<Integer, List<String>> coSolverMap = coSolvedUsers.stream()
@@ -106,13 +106,14 @@ public class BaekjoonProblemService {
             userMap.put(userId, list);
         }
         for (User user : users) {
+            WeeklyResult wr = weekPassMap.get(user.getId());
             boolean isWeekPass = false;
             if (weekPassMap.containsKey(user.getId())) {
-                isWeekPass = weekPassMap.get(user.getId());
+                isWeekPass = isWeekPass(wr);
             }
             List<SolvedProblem> userProblems = userMap.get(user.getId());
             if (userProblems == null || userProblems.isEmpty()) {
-                progresses.add(new WeeklyUserProgress(user.getId(), 0, isWeekPass, null));
+                progresses.add(new WeeklyUserProgress(user.getId(), 0, isWeekPass, 0, null));
                 continue;
             }
             List<SolvedProblemDetail> details = userProblems.stream()
@@ -126,7 +127,8 @@ public class BaekjoonProblemService {
                     .map(this::mapProblemToScore)
                     .reduce(Integer::sum)
                     .orElse(0);
-            progresses.add(new WeeklyUserProgress(user.getId(), score, isWeekPass, details));
+            int increasedRating = user.getRating() - wr.getLastRating();
+            progresses.add(new WeeklyUserProgress(user.getId(), score, isWeekPass, increasedRating, details));
         }
         return WeeklyUsersProgressResponse.from(progresses);
     }

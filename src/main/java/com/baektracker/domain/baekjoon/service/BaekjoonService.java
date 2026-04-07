@@ -8,6 +8,7 @@ import com.baektracker.domain.problem.repository.SolvedProblemRepository;
 import com.baektracker.domain.problem.service.BaekjoonProblemService;
 import com.baektracker.domain.user.model.User;
 import com.baektracker.domain.user.repository.UserRepository;
+import com.baektracker.domain.user.service.UserService;
 import com.baektracker.global.code.ApiResponseCode;
 import com.baektracker.global.exception.CustomException;
 import java.io.IOException;
@@ -29,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class BaekjoonService {
     private final BaekjoonProblemService problemService;
+    private final UserService userService;
     private final SolvedProblemRepository solvedProblemRepository;
     private final UserRepository userRepository;
     private static final String gRecaptchaResponse = "03AFcWeA5mQSaepuaaR7U57_-xDPkMdoyyCHIw-GzIjiJwJ7dc85B0DUuLfj25b1CsGB_9zUOTXZ4P6eAbCq-ySOvJt1hLaCt_lXXzQPclXypdWyy4cOHmb9AmWrneWc6oDQ2eeGlWyg_ziSQlaLJgZDHAIE2T1h5NG5PXasZgvRv8q7bsOqv_tI4YqnjDJW0qyeDb-NveASxddrqUYRB0jKb2je7g-OBRafdGjNgwrhWP8Wgw7i_twMZjYdS2VOhkQtUwu2N88qbcNlt9sboHFKBHEDkcIE2cfDQ5dB7s7lYH5H1CJPGmqqNxAiF6A-ssV5z0Cpd8tg-d_clgwVDC-QsKZ6RQLJmAG0h5_IIXH-CsVoFeTTcodslWXcTJofA7eKN5OhGo8oOTjYUs7kjvhDJi4if6_ohi4oriDa1R_vm_R9mCH3bxSlXTWXBEkf37n6_PiVwfVYk5oucLgDORbhGllQ_7DEZr3wF3NGqlcL5y9ITpNH-cWJYpPA6ZA-_a_Pq_WbDgr5DTbwsN5j258djDcdD_vB4bElyaKWS812nNLFYTyFTyssfLiTE13w5k0qpm2L-gAbrOrJaxdIOZj6WMhKiLmm4K0pEZ-hEDNNQZ_UU835Ia95ArXHm5gl9ruzvF8PZBm4kKsosP3y3eRuSdT0NBALJ4eRGbxp56RPmMjMkqR7_19moOIgqN0p-q2cSRatqj9kH7qKeYNh7a39aE7kPSuX5XVIBVekrqKwPlAOdb2ueFS6iC5qa0xq9a4epJRhZfLZKI0-t6H6fdupuEQY54co-bEK0ypEMxYSS7VKNHMiwqsJfR0aH2P9V4TLIZlIpzHILioY9SzOwDMM6N26B_zpXh_etnVSG4Qya0HTVNC-45a_DVe4La9RM5oDKCzfyGhF1FUfFX-Zm9z7Ye7Fp-Z9r6hKDT_I7o4WlQC_OSVUCveuYFkeH5sEbxzJ6G6hVXgI0A-RZBHwKxdBH1MG1UizNWdw\n";
@@ -63,6 +65,13 @@ public class BaekjoonService {
                 user.updateLastReadTime(LocalDateTime.now());
                 solvedProblemRepository.saveAll(scrappedProblems);
                 count += scrappedProblems.size();
+
+                long correctCount = scrappedProblems.stream()
+                        .filter(v -> v.getResultId().equals(4)).count();
+                if (correctCount > 0) {
+                    userService.updateUserInfoFromSolvedAc(user);
+                }
+
             }
         }
         return count;

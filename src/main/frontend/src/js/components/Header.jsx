@@ -26,7 +26,7 @@ export function Header({fromDate, toDate, setFromDate, setToDate}) {
         })
     }
 
-    const setWeekDates = (date: Date) => {
+    const setWeekDates = (date) => {
         const fd = DateUtils.getFirstDateOfWeek(date);
         const td = DateUtils.getLastDateOfWeek(date);
         setFromDate(DateUtils.dateToStringYYMMdd(fd))
@@ -93,21 +93,21 @@ export function Header({fromDate, toDate, setFromDate, setToDate}) {
     )
 }
 
-// FineInfo 컴포넌트
-const FineInfo = ({totalFine, onShowReceipt, className}) => {
-    const formatCurrency = (amount) => {
-        return new Intl.NumberFormat("ko-KR").format(amount)
-    }
-
-    return (
-        <div className={`${styles.fineInfoContainer} ${className || ""}`}>
-            <div className={styles.fineInfoAmount}>
-                <span className={styles.fineInfoLabel}>누적 벌금</span>
-                <span className={styles.fineInfoAmountText}>₩{formatCurrency(totalFine)}</span>
-            </div>
-            <button className={styles.fineInfoReceiptButton} onClick={onShowReceipt}>
-                영수증 보기
-            </button>
-        </div>
-    )
-}
+// // FineInfo 컴포넌트
+// const FineInfo = ({totalFine, onShowReceipt, className}) => {
+//     const formatCurrency = (amount) => {
+//         return new Intl.NumberFormat("ko-KR").format(amount)
+//     }
+//
+//     return (
+//         <div className={`${styles.fineInfoContainer} ${className || ""}`}>
+//             <div className={styles.fineInfoAmount}>
+//                 <span className={styles.fineInfoLabel}>누적 벌금</span>
+//                 <span className={styles.fineInfoAmountText}>₩{formatCurrency(totalFine)}</span>
+//             </div>
+//             <button className={styles.fineInfoReceiptButton} onClick={onShowReceipt}>
+//                 영수증 보기
+//             </button>
+//         </div>
+//     )
+// }

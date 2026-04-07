@@ -7,15 +7,18 @@ import {ScrollUtils} from "../utils/ScrollUtils";
 Usage
 ex) <LayerModal {...props} maxWidth={1045} top={45}>
  */
-export const LayerModal = ({modalRef, scrollable, children, top, left, width, backgroundColor,
-                               height, windowBlocked, minWidth, maxWidth, minHeight, maxHeight, paddingBottom}) => {
+export const LayerModal = ({
+                               modalRef, scrollable, children, top, left, width, backgroundColor,
+                               height, windowBlocked, minWidth, maxWidth, minHeight, maxHeight, paddingBottom
+                           }) => {
     const [fadeIn, setFadeIn] = useState(false);
 
     const scrollRef = useRef(null)
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         let prevScrollY = null;
-        if(!scrollable){
+        if (!scrollable) {
             prevScrollY = ScrollUtils.preventScroll(scrollRef.current.body);
         }
         const timer = setTimeout(() => {
@@ -23,7 +26,7 @@ export const LayerModal = ({modalRef, scrollable, children, top, left, width, ba
         }, 100)
 
         return () => {
-            if(prevScrollY){
+            if (prevScrollY) {
                 ScrollUtils.allowScroll(scrollRef.current.body, prevScrollY)
             }
             prevScrollY = null;
@@ -34,10 +37,10 @@ export const LayerModal = ({modalRef, scrollable, children, top, left, width, ba
 
     useEffect(() => {
         let prevScrollY = null;
-        if(windowBlocked){
+        if (windowBlocked) {
             prevScrollY = ScrollUtils.preventScroll(document.body);
         }
-        return ()=>{
+        return () => {
             ScrollUtils.allowScroll(document.body, prevScrollY)
         }
     }, []);

@@ -44,15 +44,19 @@ public class UserService {
     public void updateUserInfoFromSolvedAc() {
         List<User> users = userRepository.findAll();
         for (User user : users) {
-            SolvedAcUser solvedAcUser = solvedAcService.searchUser(user.getUsername());
+            updateUserInfoFromSolvedAc(user);
+        }
+    }
 
-            try {
-                user.setLevel(solvedAcUser.items().get(0).tier());
-                user.setRating(solvedAcUser.items().get(0).rating());
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-                continue;
-            }
+    @Transactional
+    public void updateUserInfoFromSolvedAc(User user) {
+        SolvedAcUser solvedAcUser = solvedAcService.searchUser(user.getUsername());
+
+        try {
+            user.setLevel(solvedAcUser.items().get(0).tier());
+            user.setRating(solvedAcUser.items().get(0).rating());
+        } catch (NullPointerException e) {
+            throw CustomException.of(ApiResponseCode.SOLVED_AC_USER_INFO_ERROR, "username: " + user.getUsername());
         }
     }
 

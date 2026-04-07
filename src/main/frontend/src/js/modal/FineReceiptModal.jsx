@@ -19,10 +19,12 @@ export function FineReceiptModal(props) {
     const [totalSum, setTotalSum] = useState(0)
     const [fold, setFold] = useState(true)
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         getTotalFine()
     }, []);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         getMonthFine()
         // getWeeklyResult();

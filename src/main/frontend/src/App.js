@@ -1,5 +1,4 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {Helmet} from "react-helmet-async";
 import ModalContainer from "./js/setup/modal/ModalContainer";
@@ -9,28 +8,28 @@ import {Route, Routes} from "react-router-dom";
 import MainPage from "./js/components/MainPage";
 
 function App() {
-  // 전역 툴팁 함수들 등록
-  React.useEffect(() => {
-    registerGlobalTooltip();
-  }, []);
+    // 전역 툴팁 함수들 등록
+    React.useEffect(() => {
+        registerGlobalTooltip();
+    }, []);
 
-  return (
-    <div className="App">
-      <Helmet>
-        <title>Baektracker</title>
-        <meta name='viewport' content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
-      </Helmet>
-      <ModalContainer/>
-      <TooltipContainer/>
-      <Routes>
-        <Route path='/'>
-            <Route path='' element={<MainPage/>}>
+    return (
+        <div className="App">
+            <Helmet>
+                <title>Baektracker</title>
+                <meta name='viewport' content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+            </Helmet>
+            <ModalContainer/>
+            <TooltipContainer/>
+            <Routes>
+                <Route path='/'>
+                    <Route path='' element={<MainPage/>}>
 
-            </Route>
-        </Route>
-      </Routes>
-    </div>
-  );
+                    </Route>
+                </Route>
+            </Routes>
+        </div>
+    );
 }
 
 export default App;

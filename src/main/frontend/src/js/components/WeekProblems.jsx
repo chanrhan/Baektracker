@@ -16,6 +16,7 @@ export function WeekProblems({fromDate, toDate}) {
 
     const [weeklyProblemInputs, setWeeklyProblemInputs] = useState([-1, -1, -1])
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         getWeeklyProblems();
     }, [fromDate, toDate]);

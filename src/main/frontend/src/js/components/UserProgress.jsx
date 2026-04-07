@@ -24,11 +24,13 @@ export function UserProgress({fromDate, toDate}) {
     const threeDotsRefs = useRef({})
     const longPressTimer = useRef(null)
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         getAllUsers()
         initLoad();
     }, []);
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     useEffect(() => {
         getWeeklyUsersProgress();
     }, [fromDate, toDate]);

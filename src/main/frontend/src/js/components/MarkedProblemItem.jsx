@@ -29,7 +29,7 @@ export function MarkedProblemItem({problem, index}) {
             window.open(`https://www.acmicpc.net/problem/${problem.problemId}`, "_blank")
         }}
              className={cm(`${styles.userProgressProblemItem} ${problem.solved ? styles.userProgressSolved : styles.userProgressUnsolved}`,
-                 `${problem.is_shared_problem == 1 && styles.is_shared_problem}`)}
+                 `${problem.is_shared_problem === 1 && styles.is_shared_problem}`)}
              onMouseEnter={tooltip.onMouseEnter}
              onMouseLeave={tooltip.onMouseLeave}
         >

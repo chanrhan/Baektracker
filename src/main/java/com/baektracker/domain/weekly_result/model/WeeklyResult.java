@@ -81,7 +81,7 @@ public class WeeklyResult {
                 .weekDt(date)
                 .yearWeek(DateUtil.toYearWeek(date))
                 .score(0)
-                .state(WeeklyResultState.None)
+                .state(user.getPass() ? WeeklyResultState.WeekPass : WeeklyResultState.None)
                 .fine(0)
                 .lastRating(user.getRating())
                 .user(user)

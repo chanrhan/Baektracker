@@ -63,6 +63,8 @@ public class BaekjoonService {
 //                        scrappedProblems.size(), updatedLastRead);
                 user.updateLastRead(updatedLastRead);
                 user.updateLastReadTime(LocalDateTime.now());
+                user.updatePass(false);
+
                 solvedProblemRepository.saveAll(scrappedProblems);
                 count += scrappedProblems.size();
 

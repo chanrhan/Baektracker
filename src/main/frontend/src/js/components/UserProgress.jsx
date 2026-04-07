@@ -216,13 +216,15 @@ export function UserProgress({fromDate, toDate}) {
 
     const setPass = (id, state) => {
         const newState = !(state === true);
+        const msg = newState ? '패스가 활성화되었습니다. 문제 하나를 해결하기 전까지 패스가 자동으로 유지됩니다.' : '패스가 비활성화되었습니다.'
         weeklyResultApi.updateWeekPass(id, newState).then(({status}) => {
             if (status === 302 || status === 200) {
                 modal.openModal(ModalType.SNACKBAR.Info, {
-                    msg: "패스를 변경하였습니다."
+                    msg: msg
                 })
                 setOpenDropdownId(null)
-                getWeeklyUsersProgress()
+                getAllUsers()
+                // getWeeklyUsersProgress()
             } else {
                 modal.openModal(ModalType.SNACKBAR.Warn, {
                     msg: "오류가 발생했습니다. 관리자에게 문의하세요."
@@ -249,7 +251,10 @@ export function UserProgress({fromDate, toDate}) {
                     users && users.map((user, i) => {
                         const userProgress = problems[user.id];
                         const score = userProgress ? userProgress.score : 0;
-                        const isWeekPass = userProgress?.isWeekPass ?? false
+                        let isWeekPass = userProgress?.isWeekPass ?? false
+                        if (DateUtils.isBetweenToday(fromDate, toDate)) {
+                            isWeekPass = user.pass;
+                        }
                         const increasedRating = userProgress.increasedRating > 0 ? userProgress.increasedRating : null;
 
                         const problemList = userProgress?.problems;
@@ -265,7 +270,7 @@ export function UserProgress({fromDate, toDate}) {
                                             className={cm(styles.tierIcon, `${DesignUtils.getTierIconClass(user.level)}`)}></span>
                                         {/*<TierIcon tier={user.tier} size="small"/>*/}
                                         <span className={styles.userProgressName}>
-                                            {user.nickname}
+                                            <span className={user.pass && styles.passed}>{user.nickname}</span>
                                             <span className={styles.rating_text} style={{
                                                 color: DesignUtils.getRatingColor(user.level)
                                             }} onMouseEnter={tooltip.onMouseEnter}
@@ -301,7 +306,7 @@ export function UserProgress({fromDate, toDate}) {
                                                             className={styles.userProgressDropdownItem}
                                                             onClick={(e) => setPass(user.id, isWeekPass)}
                                                         >
-                                                            주간 패스
+                                                            패스 {user.pass ? '비활성화' : '활성화'}
                                                         </button>
                                                     }
 

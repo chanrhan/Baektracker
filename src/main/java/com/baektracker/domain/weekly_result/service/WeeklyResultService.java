@@ -15,10 +15,7 @@ import com.baektracker.domain.weekly_result.dto.response.TotalFineStatusResponse
 import com.baektracker.domain.weekly_result.dto.response.TotalFineStatusResponse.InnerUserFineItem;
 import com.baektracker.domain.weekly_result.model.WeeklyResult;
 import com.baektracker.domain.weekly_result.repository.WeeklyResultRepository;
-import com.baektracker.global.code.ApiResponseCode;
-import com.baektracker.global.exception.CustomException;
 import com.baektracker.mapper.WeeklyResultMapper;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -97,22 +94,8 @@ public class WeeklyResultService {
 
     @Transactional
     public void updateWeekPass(WeekPassRequestDto dto) {
-        LocalDate date = dto.date();
-        String yearWeek = DateUtil.toYearWeek(date);
-        WeeklyResult weeklyResult = weeklyResultRepository.findWeeklyResultByYearWeekAndUser_Id(yearWeek, dto.id())
-                .orElseThrow();
-//        User user = weeklyResult.getUser();
-
-//        if (!passwordEncoder.matches(dto.password(), user.getPassword())) {
-//            throw CustomException.of(ApiResponseCode.INVALID_PASSWORD);
-//        }
-
-        if (date.getDayOfWeek().equals(DayOfWeek.SATURDAY) || date.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
-            throw CustomException.of(ApiResponseCode.WEEK_PASS_NOT_ALLOWED);
-        }
-
-        WeeklyResultState state = dto.activate() ? WeeklyResultState.WeekPass : WeeklyResultState.None;
-        weeklyResult.setState(state);
+        User user = userRepository.getUserById(dto.id());
+        user.updatePass(dto.activate());
     }
 
     @Transactional
@@ -141,11 +124,14 @@ public class WeeklyResultService {
             int fine = 0;
 //            weeklyResult.setLastRating(weeklyResult.getUser().getRating());
             weeklyResult.setScore(score);
-            if (weeklyResult.getState() == WeeklyResultState.None) {
+            if (weeklyResult.getUser().getPass()) {
+                weeklyResult.setState(WeeklyResultState.WeekPass);
+            } else {
                 WeeklyResultState state = getWeeklyResultState(score);
                 weeklyResult.setState(state);
                 fine = getFineAmount(state);
             }
+
             weeklyResult.setFine(fine);
         }
     }

@@ -8,6 +8,7 @@ public record UserInfo(
         Integer level,
         Integer rating,
         Integer lastRead,
-        Integer streak
+        Integer streak,
+        Boolean pass
 ) {
 }

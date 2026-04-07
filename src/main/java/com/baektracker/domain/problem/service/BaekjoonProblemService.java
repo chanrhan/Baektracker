@@ -108,7 +108,7 @@ public class BaekjoonProblemService {
         for (User user : users) {
             WeeklyResult wr = weekPassMap.get(user.getId());
             boolean isWeekPass = false;
-            if (weekPassMap.containsKey(user.getId())) {
+            if (wr != null && weekPassMap.containsKey(user.getId())) {
                 isWeekPass = isWeekPass(wr);
             }
             List<SolvedProblem> userProblems = userMap.get(user.getId());
@@ -127,7 +127,10 @@ public class BaekjoonProblemService {
                     .map(this::mapProblemToScore)
                     .reduce(Integer::sum)
                     .orElse(0);
-            int increasedRating = user.getRating() - wr.getLastRating();
+            int increasedRating = user.getRating();
+            if (wr != null) {
+                increasedRating -= wr.getLastRating();
+            }
             progresses.add(new WeeklyUserProgress(user.getId(), score, isWeekPass, increasedRating, details));
         }
         return WeeklyUsersProgressResponse.from(progresses);

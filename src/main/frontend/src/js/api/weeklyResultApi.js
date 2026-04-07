@@ -6,7 +6,6 @@ function weeklyResultApi() {
         updateWeekPass: async (id, state) => {
             return axiosApi.post(`/api/v1/weekly-result/pass`, {
                 id: id,
-                date: new Date(),
                 activate: state
             });
         },

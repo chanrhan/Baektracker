@@ -483,6 +483,11 @@
     padding: 1px 5px;
 }
 
+.userProgressName .passed {
+    color: #4d99ff;
+    font-weight: 700;
+}
+
 .userProgressName .rating_text {
     margin: 0 6px;
     font-size: 16px;

@@ -55,6 +55,9 @@ public class User {
     @Column(name = "last_read_time", nullable = true)
     private LocalDateTime lastReadTime;
 
+    @Column(name = "pass", nullable = true)
+    private Boolean pass;
+
     public void updatePassword(String encodedPassword) {
         this.password = encodedPassword;
     }
@@ -65,6 +68,10 @@ public class User {
 
     public void updateLastReadTime(LocalDateTime lastReadTime) {
         this.lastReadTime = lastReadTime;
+    }
+
+    public void updatePass(Boolean pass) {
+        this.pass = pass;
     }
 
     public void setStreak(int streak) {

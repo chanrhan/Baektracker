@@ -1,3 +1,5 @@
+>> 백준 사이트 중단으로 인해 해당 서비스도 종료되었습니다.
+
 # Baektracker
 
 > 백준(BOJ) 문제 풀이 현황과 스터디 벌금을 실시간으로 조회하는 웹 서비스
@@ -107,8 +109,6 @@ PORT=20000
 DB_URL=jdbc:mysql://...
 MYSQL_USERNAME=
 MYSQL_PASSWORD=
-SSL_KEY_PATH=
-SSL_KEY_PASSWORD=
 ```
 
 ### 로컬 실행
